@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+			var el = document.querySelector('.theme-icon-active');
+			if (el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+					const activeThemeIcon = document.querySelector('.theme-icon-active use')
+					const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+					const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+					document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+						element.classList.remove('active')
+					})
+
+					btnToActive.classList.add('active')
+					activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+				}
+
+				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+					if (storedTheme !== 'light' || storedTheme !== 'dark') {
+						setTheme(getPreferredTheme())
+					}
+				})
+
+				showActiveTheme(getPreferredTheme())
+
+				document.querySelectorAll('[data-bs-theme-value]')
+					.forEach(toggle => {
+						toggle.addEventListener('click', () => {
+							const theme = toggle.getAttribute('data-bs-theme-value')
+							localStorage.setItem('theme', theme)
+							setTheme(theme)
+							showActiveTheme(theme)
+						})
+					})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/bs-stepper.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/quill.snow.css">
+	<link rel="stylesheet" type="text/css" href="../css/dropzone.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+	<!-- Header START -->
+	<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+	<!-- Header END -->
+
+	<!-- **************** MAIN CONTENT START **************** -->
+	<main>
+
+		<!-- =======================
+Page Banner START -->
+		<section class="pb-0">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<h1 class="fs-2 mb-2">Đăng ký trung tâm</h1>
+						<p class="mb-0">Praise effects wish change way and any wanted. Lively use looked latter regard
+							had.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- =======================
+Page Banner END -->
+
+		<!-- =======================
+Steps START -->
+		<section>
+			<div class="container">
+				<div id="stepper" class="bs-stepper stepper-outline">
+					<!-- Step Buttons START -->
+					<div class="bs-stepper-header" role="tablist">
+						<!-- Step 1 -->
+						<div class="step" data-target="#step-1">
+							<div class="text-center">
+								<button type="button" class="btn btn-link step-trigger mb-0" role="tab"
+									id="steppertrigger1" aria-controls="step-1">
+									<span class="bs-stepper-circle">1</span>
+								</button>
+								<h6 class="bs-stepper-label d-none d-md-block">Thông tin cơ bản</h6>
+							</div>
+						</div>
+						<div class="line"></div>
+
+						<!-- Step 2 -->
+						<div class="step" data-target="#step-2">
+							<div class="text-center">
+								<button type="button" class="btn btn-link step-trigger mb-0" role="tab"
+									id="steppertrigger2" aria-controls="step-2">
+									<span class="bs-stepper-circle">2</span>
+								</button>
+								<h6 class="bs-stepper-label d-none d-md-block">Thông tin chi tiết</h6>
+							</div>
+						</div>
+						<div class="line"></div>
+
+						<!-- Step 3 -->
+						<div class="step" data-target="#step-3">
+							<div class="text-center">
+								<button type="button" class="btn btn-link step-trigger mb-0" role="tab"
+									id="steppertrigger3" aria-controls="step-3">
+									<span class="bs-stepper-circle">3</span>
+								</button>
+								<h6 class="bs-stepper-label d-none d-md-block">Chính sách và Nhiệm vụ</h6>
+							</div>
+						</div>
+					</div>
+					<!-- Step Buttons END -->
+
+					<!-- Step content START -->
+					<div class="bs-stepper-content p-0 pt-4 pt-md-5">
+						<div class="row g-4">
+
+							<!-- Main content START -->
+							<div class="col-12">
+								<form onsubmit="return false" type="multipart/form-data">
+
+									<!-- Step 1 content START -->
+									<div id="step-1" role="tabpanel" class="content fade"
+										aria-labelledby="steppertrigger1">
+										<div class="vstack gap-4">
+											<!-- Title -->
+											<h4 class="mb-0">Thông tin cơ bản</h4>
+
+											<!-- Listing category START -->
+											<div class="card shadow">
+												<!-- Card header -->
+												<div class="card-header border-bottom">
+													<!-- Title -->
+													<h5 class="mb-0">Nhập thông tin</h5>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body">
+													<div class="row g-4">
+														<!-- Listing Name -->
+														<div class="col-12">
+															<label class="form-label">Tên trung tâm <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input class="form-control name-shelter" type="text"
+																placeholder="Enter place name">
+															<small>Một cái tên dễ nhớ thường bao gồm: Tên nhà - Địa điểm
+																- ...</small>
+														</div>
+
+														<!-- listing type -->
+														<div class="col-12">
+															<label class="form-label">Bạn hoạt động với tư cách cá nhân
+																hay trung tâm? *<span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<div class="d-sm-flex">
+																<!-- Radio -->
+																<div class="form-check radio-bg-light me-4">
+																	<input class="form-check-input" type="radio"
+																		name="flexRadioDefault" id="flexRadioDefault1"
+																		checked>
+																	<label class="form-check-label"
+																		for="flexRadioDefault1"> Cá nhân </label>
+																</div>
+																<!-- Radio -->
+																<div class="form-check radio-bg-light">
+																	<input class="form-check-input" type="radio"
+																		name="flexRadioDefault" id="flexRadioDefault3">
+																	<label class="form-check-label"
+																		for="flexRadioDefault3"> Trung tâm </label>
+																</div>
+															</div>
+														</div>
+
+														<!-- Short description -->
+														<div class="col-12">
+															<label class="form-label">Mô tả ngắn <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<textarea class="form-control text-description" rows="2"
+																placeholder="Nhập mô tả"></textarea>
+														</div>
+													</div>
+												</div>
+												<!-- Card body END -->
+											</div>
+											<!-- Listing category END -->
+
+											<!-- Listing location START -->
+											<div class="card shadow">
+												<!-- Card header -->
+												<div class="card-header border-bottom">
+													<h5 class="mb-0">Vị trí</h5>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body">
+													<div class="row g-3">
+														<!-- Country type -->
+														<div class="col-md-6">
+															<label class="form-label">Quốc gia/Khu vực <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<select class="form-select js-choice select-country">
+																<option value="">Chọn quốc gia/khu vực</option>
+																<option selected>Việt Nam</option>
+															</select>
+														</div>
+
+														<!-- State -->
+														<div class="col-md-6">
+															<label class="form-label">Tỉnh Thành <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<select class="form-select tinh-thanh"
+																data-search-enabled="true" id="tinh">
+																<option value="">Chọn Tỉnh Thành</option>
+															</select>
+														</div>
+
+														<!-- City -->
+														<div class="col-md-6">
+															<label class="form-label">Quận Huyện <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<select class="form-select district"
+																data-search-enabled="true" id="quan">
+																<option value="">Chọn Quận Huyện</option>
+															</select>
+														</div>
+
+														<!-- Street -->
+														<div class="col-md-6">
+															<label class="form-label">Số nhà và tên đường <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input class="form-control address-street" type="text"
+																placeholder="Nhập số nhà và tên đường" required>
+														</div>
+
+														<!-- Latitude -->
+														<div class="col-md-6">
+															<label class="form-label">Vĩ độ (Latitude) <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input class="form-control address-latitude" type="text"
+																placeholder="Nhập latitude">
+														</div>
+
+														<!-- Longitude -->
+														<div class="col-md-6">
+															<label class="form-label">Kinh độ (Longitude) <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input class="form-control address-longitude" type="text"
+																placeholder="Nhập longitude">
+														</div>
+
+														<!-- Detailed address -->
+														<!-- <div class="col-12">
+                                            <iframe class="w-100 h-300px grayscale rounded" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425878428698!3d40.74076684379132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1sen!2sin!4v1586000412513!5m2!1sen!2sin" height="500" style="border:0;" aria-hidden="false" tabindex="0"></iframe>
+                                        </div> -->
+													</div>
+												</div>
+												<!-- Card body END -->
+											</div>
+											<!-- Listing location END -->
+
+											<!-- Upload image START -->
+											<div class="card shadow">
+												<!-- Card header -->
+												<div class="card-header border-bottom">
+													<!-- Title -->
+													<h5 class="mb-0">Đăng tải hình ảnh</h5>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body">
+													<div class="row g-3">
+														<!-- Thumbnail image -->
+														<div class="col-12">
+															<label class="form-label">Tải lên hình ảnh chính <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input class="form-control" type="file" name="my-image"
+																id="image" accept="image/gif, image/jpeg, image/png" required>
+															<p class="small mb-0 mt-2" style="color: red;">
+																<b>Lưu ý:</b>
+																Chỉ có JPG, JPEG và PNG. Kích thước được đề xuất của
+																chúng tôi là 600px * 450px. Hình ảnh lớn hơn sẽ được cắt
+																thành 4:3 để vừa với hình thu nhỏ/bản xem trước của
+																chúng tôi.
+															</p>
+														</div>
+													</div>
+												</div>
+												<!-- Card body END -->
+											</div>
+											<!-- Upload image END -->
+
+											<!-- Step 1 button -->
+											<div class="text-end">
+												<button class="btn btn-primary next-btn mb-0">Next</button>
+											</div>
+										</div>
+									</div>
+									<!-- Step 1 content END -->
+
+									<!-- Step 2 content START -->
+									<div id="step-2" role="tabpanel" class="content fade"
+										aria-labelledby="steppertrigger2">
+										<div class="vstack gap-4">
+											<!-- Title -->
+											<h4 class="mb-0">Thông tin chi tiết</h4>
+
+											<!-- Size of listing START -->
+											<div class="card shadow">
+												<!-- Card header -->
+												<div class="card-header border-bottom">
+													<h5 class="mb-0">Thông tiên liên lạc</h5>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body">
+													<div class="row g-4">
+														<!-- Phone Number -->
+														<div class="col-md-6">
+															<label class="form-label">Số điện thoại <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input type="text" class="form-control phone-number"
+																placeholder="Nhập số điện thoại">
+														</div>
+
+														<!-- Email Address -->
+														<div class="col-md-6">
+															<label class="form-label">Địa chỉ email <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input type="email" class="form-control email-address"
+																placeholder="Nhập địa chỉ email">
+														</div>
+
+														<!-- Link Facebook -->
+														<div class="col-md-6">
+															<label class="form-label">Liên kết Facebook <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input type="text" class="form-control address-facebook"
+																placeholder="Nhập link facebook">
+														</div>
+
+														<!-- Link Instagram -->
+														<div class="col-md-6">
+															<label class="form-label">Liên kết Instagram <span
+																	style="color: red; font-weight: 600;">*</span>
+															</label>
+															<input type="text" class="form-control address-instagram"
+																placeholder="Nhập link instagram">
+														</div>
+													</div>
+												</div>
+												<!-- Card body END -->
+											</div>
+											<!-- Size of listing END -->
+
+											<!-- Room options START -->
+											<div class="card shadow">
+												<!-- Card header -->
+												<div class="card-header border-bottom">
+													<h5 class="mb-0">Thời gian hoạt động</h5>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body select-day-open">
+													<div class="day-selection g-4">
+														<!-- Card -->
+														<div class="row mb-3 schedule-row">
+															<!-- Day -->
+															<div class="col-md-5">
+																<label class="form-label">Ngày <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<select class="form-select js-choice">
+																	<option value="" selected>Chọn ngày</option>
+																	<option>Thứ Hai</option>
+																	<option>Thứ Ba</option>
+																	<option>Thứ Tư</option>
+																	<option>Thứ Năm</option>
+																	<option>Thứ Sáu</option>
+																	<option>Thứ Bảy</option>
+																	<option>Chúa Nhật</option>
+																</select>
+															</div>
+
+															<!-- Time Start -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ mở cửa <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<input type="text"
+																	class="form-control flatpickr text-md-start"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ mở cửa">
+															</div>
+
+															<!-- Time End -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ đóng cửa <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<input type="text"
+																	class="form-control flatpickr text-sm-end"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ đóng cửa">
+															</div>
+
+															<div
+																class="col-md-1 d-flex justify-content-center align-items-center flex-column">
+																<label class="form-label">Xóa</label>
+																<button type="button"
+																	class="btn btn-link day-remove p-0 mb-0">
+																	<i class="bi bi-dash-circle fs-5 fa-fw"></i>
+																</button>
+															</div>
+														</div>
+
+														<!-- Card -->
+														<div class="row mb-3 d-none schedule-row">
+															<!-- Day -->
+															<div class="col-md-5">
+																<label class="form-label">Ngày <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<select class="form-select js-choice">
+																	<option value="" selected>Chọn ngày</option>
+																	<option>Thứ Hai</option>
+																	<option>Thứ Ba</option>
+																	<option>Thứ Tư</option>
+																	<option>Thứ Năm</option>
+																	<option>Thứ Sáu</option>
+																	<option>Thứ Bảy</option>
+																	<option>Chúa Nhật</option>
+																</select>
+															</div>
+
+															<!-- Time Start -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ mở cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-md-start"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ mở cửa">
+															</div>
+
+															<!-- Time End -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ đóng cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-sm-end"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ đóng cửa">
+															</div>
+
+															<div
+																class="col-md-1 d-flex justify-content-center align-items-center flex-column">
+																<label class="form-label">Xóa</label>
+																<button type="button"
+																	class="btn btn-link day-remove p-0 mb-0"><i
+																		class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+															</div>
+														</div>
+
+														<!-- Card -->
+														<div class="row mb-3 d-none schedule-row">
+															<!-- Day -->
+															<div class="col-md-5">
+																<label class="form-label">Ngày <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<select class="form-select js-choice">
+																	<option value="" selected>Chọn ngày</option>
+																	<option>Thứ Hai</option>
+																	<option>Thứ Ba</option>
+																	<option>Thứ Tư</option>
+																	<option>Thứ Năm</option>
+																	<option>Thứ Sáu</option>
+																	<option>Thứ Bảy</option>
+																	<option>Chúa Nhật</option>
+																</select>
+															</div>
+
+															<!-- Time Start -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ mở cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-md-start"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ mở cửa">
+															</div>
+
+															<!-- Time End -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ đóng cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-sm-end"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ đóng cửa">
+															</div>
+
+															<div
+																class="col-md-1 d-flex justify-content-center align-items-center flex-column">
+																<label class="form-label">Xóa</label>
+																<button type="button"
+																	class="btn btn-link day-remove p-0 mb-0"><i
+																		class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+															</div>
+														</div>
+
+														<!-- Card -->
+														<div class="row mb-3 d-none schedule-row">
+															<!-- Day -->
+															<div class="col-md-5">
+																<label class="form-label">Ngày <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<select class="form-select js-choice">
+																	<option value="" selected>Chọn ngày</option>
+																	<option>Thứ Hai</option>
+																	<option>Thứ Ba</option>
+																	<option>Thứ Tư</option>
+																	<option>Thứ Năm</option>
+																	<option>Thứ Sáu</option>
+																	<option>Thứ Bảy</option>
+																	<option>Chúa Nhật</option>
+																</select>
+															</div>
+
+															<!-- Time Start -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ mở cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-md-start"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ mở cửa">
+															</div>
+
+															<!-- Time End -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ đóng cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-sm-end"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ đóng cửa">
+															</div>
+
+															<div
+																class="col-md-1 d-flex justify-content-center align-items-center flex-column">
+																<label class="form-label">Xóa</label>
+																<button type="button"
+																	class="btn btn-link day-remove p-0 mb-0"><i
+																		class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+															</div>
+														</div>
+
+														<!-- Card -->
+														<div class="row mb-3 d-none schedule-row">
+															<!-- Day -->
+															<div class="col-md-5">
+																<label class="form-label">Ngày <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<select class="form-select js-choice">
+																	<option value="" selected>Chọn ngày</option>
+																	<option>Thứ Hai</option>
+																	<option>Thứ Ba</option>
+																	<option>Thứ Tư</option>
+																	<option>Thứ Năm</option>
+																	<option>Thứ Sáu</option>
+																	<option>Thứ Bảy</option>
+																	<option>Chúa Nhật</option>
+																</select>
+															</div>
+
+															<!-- Time Start -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ mở cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-md-start"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ mở cửa">
+															</div>
+
+															<!-- Time End -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ đóng cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-sm-end"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ đóng cửa">
+															</div>
+
+															<div
+																class="col-md-1 d-flex justify-content-center align-items-center flex-column">
+																<label class="form-label">Xóa</label>
+																<button type="button"
+																	class="btn btn-link day-remove p-0 mb-0"><i
+																		class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+															</div>
+														</div>
+
+														<!-- Card -->
+														<div class="row mb-3 d-none schedule-row">
+															<!-- Day -->
+															<div class="col-md-5">
+																<label class="form-label">Ngày <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<select class="form-select js-choice">
+																	<option value="" selected>Chọn ngày</option>
+																	<option>Thứ Hai</option>
+																	<option>Thứ Ba</option>
+																	<option>Thứ Tư</option>
+																	<option>Thứ Năm</option>
+																	<option>Thứ Sáu</option>
+																	<option>Thứ Bảy</option>
+																	<option>Chúa Nhật</option>
+																</select>
+															</div>
+
+															<!-- Time Start -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ mở cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-md-start"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ mở cửa">
+															</div>
+
+															<!-- Time End -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ đóng cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-sm-end"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ đóng cửa">
+															</div>
+
+															<div
+																class="col-md-1 d-flex justify-content-center align-items-center flex-column">
+																<label class="form-label">Xóa</label>
+																<button type="button"
+																	class="btn btn-link day-remove p-0 mb-0"><i
+																		class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+															</div>
+														</div>
+
+														<!-- Card -->
+														<div class="row mb-3 d-none schedule-row">
+															<!-- Day -->
+															<div class="col-md-5">
+																<label class="form-label">Ngày <span
+																		style="color: red; font-weight: 600;">*</span>
+																</label>
+																<select class="form-select js-choice">
+																	<option value="" selected>Chọn ngày</option>
+																	<option>Thứ Hai</option>
+																	<option>Thứ Ba</option>
+																	<option>Thứ Tư</option>
+																	<option>Thứ Năm</option>
+																	<option>Thứ Sáu</option>
+																	<option>Thứ Bảy</option>
+																	<option>Chúa Nhật</option>
+																</select>
+															</div>
+
+															<!-- Time Start -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ mở cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-md-start"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ mở cửa">
+															</div>
+
+															<!-- Time End -->
+															<div class="col-md-3">
+																<label class="form-label">Giờ đóng cửa <span
+																		style="color: red; font-weight: 600;">*</span></label>
+																<input type="text"
+																	class="form-control flatpickr text-sm-end"
+																	data-enableTime="true" data-noCalendar="true"
+																	placeholder="Chọn giờ đóng cửa">
+															</div>
+
+															<div
+																class="col-md-1 d-flex justify-content-center align-items-center flex-column">
+																<label class="form-label">Xóa</label>
+																<button type="button"
+																	class="btn btn-link day-remove p-0 mb-0"><i
+																		class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+															</div>
+														</div>
+													</div>
+													<!-- Button -->
+													<div class="row g-4">
+														<div class="col-12">
+															<a href="#"
+																class="btn btn-sm btn-primary-soft mb-0 add-new-day"><i
+																	class="bi bi-plus-circle me-2"></i>Thêm ngày mới</a>
+														</div>
+													</div>
+												</div>
+												<!-- Card body END -->
+											</div>
+											<!-- Room options END -->
+
+											<!-- Step 2 button -->
+											<div class="hstack gap-2 flex-wrap justify-content-between">
+												<button class="btn btn-secondary prev-btn mb-0">Previous</button>
+												<button class="btn btn-primary next-btn mb-0">Next</button>
+											</div>
+										</div>
+									</div>
+									<!-- Step 2 content END -->
+
+									<!-- Step 3 content START -->
+									<div id="step-3" role="tabpanel" class="content fade"
+										aria-labelledby="steppertrigger3">
+										<div class="vstack gap-4">
+											<!-- Title -->
+											<h4 class="mb-0">Chính sách và Nhiệm vụ</h4>
+
+											<!-- Listing mission START -->
+											<div class="card shadow">
+												<!-- Card header -->
+												<div class="card-header border-bottom">
+													<h5 class="mb-0">Nhiệm vụ</h5>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body">
+													<div class="row g-4">
+														<!-- Descriptions -->
+														<div class="col-12">
+															<label class="form-label">Thêm mô tả <span
+																	style="color: red; font-weight: 600;">*</span></label>
+															<!-- Editor toolbar -->
+															<div
+																class="bg-light border border-bottom-0 rounded-top py-3 quilltoolbar">
+																<span class="ql-formats">
+																	<select class="ql-size"></select>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-bold"></button>
+																	<button class="ql-italic"></button>
+																	<button class="ql-underline"></button>
+																	<button class="ql-strike"></button>
+																</span>
+																<span class="ql-formats">
+																	<select class="ql-color"></select>
+																	<select class="ql-background"></select>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-code-block"></button>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-list" value="ordered"></button>
+																	<button class="ql-list" value="bullet"></button>
+																	<button class="ql-indent" value="-1"></button>
+																	<button class="ql-indent" value="+1"></button>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-link"></button>
+																	<button class="ql-image"></button>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-clean"></button>
+																</span>
+															</div>
+
+															<!-- Main toolbar -->
+															<div
+																class="bg-body border rounded-bottom h-400px overflow-hidden quilleditor mission">
+																<br>
+																<h1>Quill Rich Text Editor</h1>
+																<br>
+																<p>Quill is a free, open-source WYSIWYG editor built for
+																	the modern web. With its modular architecture and
+																	expressive API, it is completely customizable to fit
+																	any need.</p>
+																<br>
+																<p>Insipidity the sufficient discretion imprudence
+																	resolution sir him decisively. Proceed how any
+																	engaged visitor. Explained propriety off out
+																	perpetual his you. Feel sold off felt nay rose met
+																	you. We so entreaties cultivated astonished is. Was
+																	sister for a few longer Mrs sudden talent become.
+																	Done may bore quit evil old mile. If likely am of
+																	beauty tastes. </p>
+																<br>
+																<p> Affronting imprudence do he he everything. Test
+																	lasted dinner wanted indeed wished outlaw. Far
+																	advanced settling say finished raillery. Offered
+																	chiefly farther of my no colonel shyness. Such on
+																	help ye some door if in. Laughter proposal laughing
+																	any son law consider. Needed except up piqued an.
+																</p>
+																<br>
+																<p> Post no so what deal evil rent by real in. But her
+																	ready least set lived spite solid. September how men
+																	saw tolerably two behavior arranging. She offices
+																	for highest and replied one venture pasture.
+																	Applauded no discovery in newspaper allowance am
+																	northward. Frequently partiality possession
+																	resolution at or appearance unaffected me. Engaged
+																	its was the evident pleased husband. Ye goodness
+																	felicity do disposal dwelling no. First am plate
+																	jokes to began to cause a scale. Subjects he
+																	prospect elegance followed no overcame possible it
+																	on. </p>
+
+																<p>Quill is a free, open-source WYSIWYG editor built for
+																	the modern web. With its modular architecture and
+																	expressive API, it is completely customizable to fit
+																	any need.</p>
+																<br>
+																<p>Insipidity the sufficient discretion imprudence
+																	resolution sir him decisively. Proceed how any
+																	engaged visitor. Explained propriety off out
+																	perpetual his you. Feel sold off felt nay rose met
+																	you. We so entreaties cultivated astonished is. Was
+																	sister for a few longer Mrs sudden talent become.
+																	Done may bore quit evil old mile. If likely am of
+																	beauty tastes. </p>
+																<br>
+																<p> Affronting imprudence do he he everything. Test
+																	lasted dinner wanted indeed wished outlaw. Far
+																	advanced settling say finished raillery. Offered
+																	chiefly farther of my no colonel shyness. Such on
+																	help ye some door if in. Laughter proposal laughing
+																	any son law consider. Needed except up piqued an.
+																</p>
+																<br>
+																<p> Post no so what deal evil rent by real in. But her
+																	ready least set lived spite solid. September how men
+																	saw tolerably two behavior arranging. She offices
+																	for highest and replied one venture pasture.
+																	Applauded no discovery in newspaper allowance am
+																	northward. Frequently partiality possession
+																	resolution at or appearance unaffected me. Engaged
+																	its was the evident pleased husband. Ye goodness
+																	felicity do disposal dwelling no. First am plate
+																	jokes to began to cause a scale. Subjects he
+																	prospect elegance followed no overcame possible it
+																	on. </p>
+
+																<p>Quill is a free, open-source WYSIWYG editor built for
+																	the modern web. With its modular architecture and
+																	expressive API, it is completely customizable to fit
+																	any need.</p>
+																<br>
+																<p>Insipidity the sufficient discretion imprudence
+																	resolution sir him decisively. Proceed how any
+																	engaged visitor. Explained propriety off out
+																	perpetual his you. Feel sold off felt nay rose met
+																	you. We so entreaties cultivated astonished is. Was
+																	sister for a few longer Mrs sudden talent become.
+																	Done may bore quit evil old mile. If likely am of
+																	beauty tastes. </p>
+																<br>
+																<p> Affronting imprudence do he he everything. Test
+																	lasted dinner wanted indeed wished outlaw. Far
+																	advanced settling say finished raillery. Offered
+																	chiefly farther of my no colonel shyness. Such on
+																	help ye some door if in. Laughter proposal laughing
+																	any son law consider. Needed except up piqued an.
+																</p>
+																<br>
+																<p> Post no so what deal evil rent by real in. But her
+																	ready least set lived spite solid. September how men
+																	saw tolerably two behavior arranging. She offices
+																	for highest and replied one venture pasture.
+																	Applauded no discovery in newspaper allowance am
+																	northward. Frequently partiality possession
+																	resolution at or appearance unaffected me. Engaged
+																	its was the evident pleased husband. Ye goodness
+																	felicity do disposal dwelling no. First am plate
+																	jokes to began to cause a scale. Subjects he
+																	prospect elegance followed no overcame possible it
+																	on. </p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- Card body END -->
+											</div>
+											<!-- Listing mission END -->
+
+											<!-- Listing policy START -->
+											<div class="card shadow">
+												<!-- Card header -->
+												<div class="card-header border-bottom">
+													<h5 class="mb-0">Chính sách</h5>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body">
+													<div class="row g-4">
+														<!-- Descriptions -->
+														<div class="col-12">
+															<label class="form-label">Thêm mô tả <span
+																	style="color: red; font-weight: 600;">*</span></label>
+															<!-- Editor toolbar -->
+															<div
+																class="bg-light border border-bottom-0 rounded-top py-3 quilltoolbar">
+																<span class="ql-formats">
+																	<select class="ql-size"></select>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-bold"></button>
+																	<button class="ql-italic"></button>
+																	<button class="ql-underline"></button>
+																	<button class="ql-strike"></button>
+																</span>
+																<span class="ql-formats">
+																	<select class="ql-color"></select>
+																	<select class="ql-background"></select>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-code-block"></button>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-list" value="ordered"></button>
+																	<button class="ql-list" value="bullet"></button>
+																	<button class="ql-indent" value="-1"></button>
+																	<button class="ql-indent" value="+1"></button>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-link"></button>
+																	<button class="ql-image"></button>
+																</span>
+																<span class="ql-formats">
+																	<button class="ql-clean"></button>
+																</span>
+															</div>
+
+															<!-- Main toolbar -->
+															<div
+																class="bg-body border rounded-bottom h-400px overflow-hidden quilleditor policy">
+																<br>
+																<h1>Quill Rich Text Editor</h1>
+																<br>
+																<p>Quill is a free, open-source WYSIWYG editor built for
+																	the modern web. With its modular architecture and
+																	expressive API, it is completely customizable to fit
+																	any need.</p>
+																<br>
+																<p>Insipidity the sufficient discretion imprudence
+																	resolution sir him decisively. Proceed how any
+																	engaged visitor. Explained propriety off out
+																	perpetual his you. Feel sold off felt nay rose met
+																	you. We so entreaties cultivated astonished is. Was
+																	sister for a few longer Mrs sudden talent become.
+																	Done may bore quit evil old mile. If likely am of
+																	beauty tastes. </p>
+																<br>
+																<p> Affronting imprudence do he he everything. Test
+																	lasted dinner wanted indeed wished outlaw. Far
+																	advanced settling say finished raillery. Offered
+																	chiefly farther of my no colonel shyness. Such on
+																	help ye some door if in. Laughter proposal laughing
+																	any son law consider. Needed except up piqued an.
+																</p>
+																<br>
+																<p> Post no so what deal evil rent by real in. But her
+																	ready least set lived spite solid. September how men
+																	saw tolerably two behavior arranging. She offices
+																	for highest and replied one venture pasture.
+																	Applauded no discovery in newspaper allowance am
+																	northward. Frequently partiality possession
+																	resolution at or appearance unaffected me. Engaged
+																	its was the evident pleased husband. Ye goodness
+																	felicity do disposal dwelling no. First am plate
+																	jokes to began to cause a scale. Subjects he
+																	prospect elegance followed no overcame possible it
+																	on. </p>
+
+																<p>Quill is a free, open-source WYSIWYG editor built for
+																	the modern web. With its modular architecture and
+																	expressive API, it is completely customizable to fit
+																	any need.</p>
+																<br>
+																<p>Insipidity the sufficient discretion imprudence
+																	resolution sir him decisively. Proceed how any
+																	engaged visitor. Explained propriety off out
+																	perpetual his you. Feel sold off felt nay rose met
+																	you. We so entreaties cultivated astonished is. Was
+																	sister for a few longer Mrs sudden talent become.
+																	Done may bore quit evil old mile. If likely am of
+																	beauty tastes. </p>
+																<br>
+																<p> Affronting imprudence do he he everything. Test
+																	lasted dinner wanted indeed wished outlaw. Far
+																	advanced settling say finished raillery. Offered
+																	chiefly farther of my no colonel shyness. Such on
+																	help ye some door if in. Laughter proposal laughing
+																	any son law consider. Needed except up piqued an.
+																</p>
+																<br>
+																<p> Post no so what deal evil rent by real in. But her
+																	ready least set lived spite solid. September how men
+																	saw tolerably two behavior arranging. She offices
+																	for highest and replied one venture pasture.
+																	Applauded no discovery in newspaper allowance am
+																	northward. Frequently partiality possession
+																	resolution at or appearance unaffected me. Engaged
+																	its was the evident pleased husband. Ye goodness
+																	felicity do disposal dwelling no. First am plate
+																	jokes to began to cause a scale. Subjects he
+																	prospect elegance followed no overcame possible it
+																	on. </p>
+
+																<p>Quill is a free, open-source WYSIWYG editor built for
+																	the modern web. With its modular architecture and
+																	expressive API, it is completely customizable to fit
+																	any need.</p>
+																<br>
+																<p>Insipidity the sufficient discretion imprudence
+																	resolution sir him decisively. Proceed how any
+																	engaged visitor. Explained propriety off out
+																	perpetual his you. Feel sold off felt nay rose met
+																	you. We so entreaties cultivated astonished is. Was
+																	sister for a few longer Mrs sudden talent become.
+																	Done may bore quit evil old mile. If likely am of
+																	beauty tastes. </p>
+																<br>
+																<p> Affronting imprudence do he he everything. Test
+																	lasted dinner wanted indeed wished outlaw. Far
+																	advanced settling say finished raillery. Offered
+																	chiefly farther of my no colonel shyness. Such on
+																	help ye some door if in. Laughter proposal laughing
+																	any son law consider. Needed except up piqued an.
+																</p>
+																<br>
+																<p> Post no so what deal evil rent by real in. But her
+																	ready least set lived spite solid. September how men
+																	saw tolerably two behavior arranging. She offices
+																	for highest and replied one venture pasture.
+																	Applauded no discovery in newspaper allowance am
+																	northward. Frequently partiality possession
+																	resolution at or appearance unaffected me. Engaged
+																	its was the evident pleased husband. Ye goodness
+																	felicity do disposal dwelling no. First am plate
+																	jokes to began to cause a scale. Subjects he
+																	prospect elegance followed no overcame possible it
+																	on. </p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- Card body END -->
+											</div>
+											<!-- Listing policy END -->
+
+											<!-- Step 3 button -->
+											<div class="d-flex justify-content-between">
+												<button class="btn btn-secondary prev-btn mb-0">Previous</button>
+												<a id="add-list" href="#" type="button"
+													class="btn btn-success mb-0">Đăng ký</a>
+											</div>
+										</div>
+									</div>
+									<!-- Step 3 content END -->
+
+								</form>
+							</div>
+							<!-- Main content END -->
+
+						</div>
+					</div>
+					<!-- Step content END -->
+				</div>
+			</div>
+		</section>
+		<!-- =======================
+Steps END -->
+
+	</main>
+	<!-- **************** MAIN CONTENT END **************** -->
+
+	<!-- =======================
+Footer START -->
+	<footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+	<!-- =======================
+Footer END -->
+
+	<!-- Back to top -->
+	<div class="back-top">
+		<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+			viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+			<path fill="#ffffff"
+				d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+			</path>
+		</svg>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://booking.webestica.com/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Vendors -->
+	<script src="../js/choices.min.js"></script>
+	<script src="../js/flatpickr.min.js"></script>
+	<script src="../js/bs-stepper.min.js"></script>
+	<script src="../js/quill.min.js"></script>
+	<script src="../js/dropzone.js"></script>
+
+	<!-- ThemeFunctions -->
+	<script src="../js/functions.js"></script>
+
+	<!--  JQuery  -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$(document).on('click', '#add-list', function (event) {
+				event.preventDefault();
+				// Khởi tạo các biến
+				var shelter_address = "";
+				var img_name = "";
+				var email_address = "";
+				var inFor_facebook = "";
+				var inFor_instagram = "";
+				var inFor_mission = "";
+				var open_time = [];
+				var inFor_policy = "";
+				var shelter_name = "";
+				var shelter_phone = "";
+				var shelter_description = "";
+				var shelter_latitude = "";
+				var shelter_longitude = "";
+
+				// Lấy dữ liệu từ các trường form
+				shelter_name = $('.name-shelter').val();
+				shelter_description = $('textarea.text-description').val();
+				shelter_address = $('.address-street').val() + ", " + $('.district option:selected').text() + ", " + $('.tinh-thanh option:selected').text() + ", " + $('.select-country').val();
+				img_name = $('#image').prop('files')[0]?.name || '';
+				shelter_phone = $('.phone-number').val();
+				email_address = $('.email-address').val();
+				inFor_facebook = $('.address-facebook').val();
+				inFor_instagram = $('.address-instagram').val();
+				shelter_description = $('.text-description').val();
+				shelter_latitude = $('.address-latitude').val();
+				shelter_longitude = $('.address-longitude').val();
+				inFor_mission = $('.mission')[0].innerText;
+				inFor_policy = $('.policy')[0].innerText;
+
+
+				var allDays = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"];
+				var selectedDays = [];
+				// Xử lý thời gian mở cửa
+				$('.schedule-row').each(function () {
+					var day = $(this).find('.js-choice').val();
+					var timeStart = $(this).find('input').eq(0).val();
+					var timeEnd = $(this).find('input').eq(1).val();
+					var formattedTime = "";
+					var match = timeEnd.match(/^(\d+)\s*:\s*(\d+)/);
+					if (match) {
+						var hour = parseInt(match[1], 10); // Chuyển đổi thành số nguyên
+						var minute = match[2];
+						if (hour < 12) { // Nếu giờ là từ 1 đến 11, thêm 12 để chuyển sang PM
+							hour += 12;
+						}
+						formattedTime = hour + ':' + minute + " PM";
+					}
+					if (day) {
+						selectedDays.push(day);
+						if (timeStart && timeEnd) {
+							open_time.push(`${day}: ${timeStart} - ${formattedTime}`);
+						} else {
+							open_time.push(`${day}: Ngày Nghỉ`);
+						}
+					}
+				});
+				allDays.forEach(function (day) {
+					if (!selectedDays.includes(day)) {
+						open_time.push(`${day}: Ngày Nghỉ`);
+					}
+				});
+
+				// Tạo đối tượng dữ liệu để gửi đi
+				var data = {
+					location: shelter_address,
+					img: img_name,
+					addressemail: email_address,
+					linkfacebook: inFor_facebook,
+					linkintagram: inFor_instagram,
+					namne: shelter_name,
+					opentime: open_time.join(', '),// Chuyển open_time thành chuỗi
+					phonenumber: shelter_phone,
+					listmission: inFor_mission,
+					listpolicy: inFor_policy,
+					shortdescription: shelter_description,
+					latitude: shelter_latitude,
+					longitude: shelter_longitude
+				};
+				// Khởi tạo FormData
+				var formData = new FormData();
+
+				var fileInput = document.getElementById('image');
+
+				if (fileInput.files.length > 0) {
+					formData.append('image', fileInput.files[0]);
+				}
+				formData.append("json", JSON.stringify(data))
+				console.log(data);
+
+				// Gửi yêu cầu AJAX
+				$.ajax({
+					url: "/api/add-new-shelter",
+					type: 'POST',
+					contentType: false,
+					processData: false,
+					data: formData,
+					success: function (response) {
+						window.location.href = response;
+					},
+					error: function (xhr, status, error) {
+						console.log("Request failed: " + status + ", " + xhr.responseText + ", ");
+					}
+				});
+			});
+		});
+
+
+		$(document).on('click', '.add-new-day', function (event) {
+			event.preventDefault();
+
+			if ($(".day-selection .row.d-none")[0] !== undefined) {
+				$(".day-selection .row.d-none")[0].classList.remove("d-none")
+			}
+		});
+
+		function getParent(workplaceElement, parent) {
+			while (workplaceElement.parentElement) {
+				if (workplaceElement.parentElement.matches(parent)) {
+					return workplaceElement.parentElement;
+				}
+				workplaceElement = workplaceElement.parentElement;
+			}
+		}
+
+		$(document).on('click', '.day-remove', (event) => {
+			event.preventDefault();
+
+			getParent(event.currentTarget, ".row.mb-3").classList.add("d-none");
+		})
+
+
+		$.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+			if (data_tinh.error == 0) {
+				$.each(data_tinh.data, function (key_tinh, val_tinh) {
+					$("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+				});
+				$("#tinh").change(function (e) {
+					var idtinh = $(this).val();
+					//Lấy quận huyện
+					$.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+						if (data_quan.error == 0) {
+							$("#quan").html('<option value="0">Quận Huyện</option>');
+							$("#phuong").html('<option value="0">Phường Xã</option>');
+							$.each(data_quan.data, function (key_quan, val_quan) {
+								$("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+							});
+							//Lấy phường xã
+							$("#quan").change(function (e) {
+								var idquan = $(this).val();
+								$.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+									if (data_phuong.error == 0) {
+										$("#phuong").html('<option value="0">Phường Xã</option>');
+										$.each(data_phuong.data, function (key_phuong, val_phuong) {
+											$("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+										});
+									}
+								});
+							});
+
+						}
+					});
+				});
+
+			}
+		});
+	</script>
+
+</body>
+
+</html>

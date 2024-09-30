@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- =======================
+    Main banner START -->
+	<section>
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-md-10 text-center mx-auto">
+					<!-- Image -->
+					<img src="https://booking.webestica.com/assets/images/element/error.svg" class="h-lg-500px mb-4" alt="">
+					<!-- Title -->
+					<h1 class="display-1 text-primary mb-0" th:text="${exception}">404</h1>
+					<!-- Subtitle -->
+					<h2>Ồ không, đã xảy ra lỗi!</h2>
+					<!-- info -->
+					<p class="mb-4">Ở đây đã xảy ra lỗi hoặc trang này không tồn tại nữa.</p>
+					<!-- Button -->
+					<a href="/index" class="btn btn-primary mb-0">Về trang chủ</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- =======================
+    Main banner START -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<div th:insert="~{fragments/viewers/_footer :: footer}"></div>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+	<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+		 viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+		<path fill="#ffffff"
+			  d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+		</path>
+	</svg>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+</html>

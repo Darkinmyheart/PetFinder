@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/overlayscrollbars.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- Sidebar START -->
+	<nav th:insert="~{fragments/viewers/_navbar-admin :: navbar-admin}"></nav>
+	<!-- Sidebar END -->
+
+	<!-- Page content START -->
+	<div class="page-content">
+
+		<!-- Top bar START -->
+		<nav class="navbar top-bar navbar-light py-0 py-xl-3">
+			<div class="container-fluid p-0">
+				<div class="d-flex align-items-center w-100">
+
+					<!-- Logo START -->
+					<div class="d-flex align-items-center d-xl-none">
+						<a class="navbar-brand" href="index.html">
+							<img class="navbar-brand-item h-40px" src="https://booking.webestica.com/assets/images/logo-icon.svg" alt="">
+						</a>
+					</div>
+					<!-- Logo END -->
+
+					<!-- Toggler for sidebar START -->
+					<div class="navbar-expand-xl sidebar-offcanvas-menu">
+						<button class="navbar-toggler me-auto p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" aria-expanded="false" aria-label="Toggle navigation" data-bs-auto-close="outside">
+							<i class="bi bi-list text-primary fa-fw" data-bs-target="#offcanvasMenu"></i>
+						</button>
+					</div>
+					<!-- Toggler for sidebar END -->
+
+					<!-- Top bar left -->
+					<div class="navbar-expand-lg ms-auto ms-xl-0">
+						<!-- Toggler for menubar START -->
+						<button class="navbar-toggler ms-auto p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopContent" aria-controls="navbarTopContent" aria-expanded="false" aria-label="Toggle navigation">
+							<i class="bi bi-search"></i>
+						</button>
+						<!-- Toggler for menubar END -->
+
+						<!-- Topbar menu START -->
+						<div class="collapse navbar-collapse w-100 z-index-1" id="navbarTopContent">
+							<!-- Top search START -->
+							<div class="nav my-3 my-xl-0 flex-nowrap align-items-center">
+								<div class="nav-item w-100">
+									<form class="position-relative">
+										<input class="form-control bg-light pe-5" type="search" placeholder="Search" aria-label="Search">
+										<button class="bg-transparent px-2 py-0 border-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 text-primary"></i></button>
+									</form>
+								</div>
+							</div>
+							<!-- Top search END -->
+						</div>
+						<!-- Topbar menu END -->
+					</div>
+					<!-- Top bar left END -->
+
+					<!-- Top bar right START -->
+					<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+						<li th:insert="~{fragments/viewers/_header :: navbar-user-login}"></li>
+					</ul>
+					<!-- Top bar right END -->
+				</div>
+			</div>
+		</nav>
+		<!-- Top bar END -->
+
+		<!-- Page main content START -->
+		<div class="page-content-wrapper p-xxl-4">
+
+			<!-- Title -->
+			<div class="row">
+				<div class="col-12 mb-5">
+					<div class="d-sm-flex justify-content-between align-items-center">
+						<h1 class="h3 mb-2 mb-sm-0">Danh sách trung tâm</h1>
+					</div>
+				</div>
+			</div>
+
+			<!-- Tabs and search START -->
+			<div class="row g-4 justify-content-between align-items-center">
+				<div class="col-lg-5">
+					<!-- Tabs -->
+					<ul class="nav nav-pills-shadow nav-responsive">
+						<li class="nav-item">
+							<a class="nav-link mb-0 me-sm-2 active" data-bs-toggle="tab" href="#tab-1">Tên (A - Z)</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link mb-0 me-sm-2" data-bs-toggle="tab" href="#tab-2">Tên (Z - A)</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link mb-0 me-sm-2" data-bs-toggle="tab" href="#tab-3">Ngày thành lập</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-lg-6 col-xxl-5">
+					<div class="d-sm-flex gap-4 justify-content-between justify-content-lg-end">
+						<!-- Search -->
+						<div class="col-md-8">
+							<form class="rounded position-relative">
+								<input class="form-control bg-transparent" type="search" placeholder="Tìm kiếm" aria-label="Search">
+								<button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+									<i class="fas fa-search fs-6"></i>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Tabs and search END -->
+
+			<!-- Tab content START -->
+			<div class="tab-content mt-5" id="myTabContent">
+				<!-- Content item START -->
+				<div class="tab-pane fade show active" id="grid-tab-pane">
+					<!-- Rooms START -->
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xxl-5 g-4">
+						<!-- Room item -->
+						<div class="col" th:each="totalShelters : ${listTotalShelters}">
+							<div class="card shadow h-100">
+								<!-- Overlay item -->
+								<div class="position-relative">
+									<!-- Image -->
+									<img th:src="@{'/imgShelter/'+${totalShelters.shelterAvatar}}" onerror="this.onerror=null; this.src='https://booking.webestica.com/assets/images/category/hotel/4by3/02.jpg';" class="card-img-top" alt="Card image">
+								</div>
+
+								<!-- Card body START -->
+								<div class="card-body px-3">
+									<!-- Title -->
+									<h5 class="card-title mb-1"><a th:href="@{/admin/shelter-detail(id=${totalShelters.id})}" th:text="${totalShelters.shelterName}">Deluxe Pool View with Breakfast</a></h5>
+									<ul class="list-group list-group-borderless small mt-2 mb-0">
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-building fa-fw me-2"></i><span th:text="${totalShelters.users.firstName} + ' ' + ${totalShelters.users.lastName}">Dao Duc Dung</span>
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-bed fa-fw me-2"></i><span th:text="${totalShelters.getListAnimals().size()}">200</span> Thú cưng
+										</li>
+									</ul>
+								</div>
+								<!-- Card body END -->
+
+								<!-- Card footer START-->
+								<div class="card-footer pt-0">
+									<!-- Price -->
+									<div class="hstack gap-2 mb-2">
+										<h6 class="fw-normal mb-0">Ngày tạo: </h6>
+										<small th:text="${totalShelters.shelterDate}">14/12/2000</small>
+									</div>
+									<a th:href="@{/admin/shelter-detail(id=${totalShelters.id})}" class="btn btn-sm btn-primary-soft mb-0 w-100">Xem chi tiết</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Rooms END -->
+
+					<!-- Pagination START -->
+					<div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4">
+						<!-- Content -->
+						<p class="mb-sm-0 text-center text-sm-start">Đang hiển thị <span th:text="${listTotalShelters.number} * ${listTotalShelters.size} == 0 ? 1 : (${listTotalShelters.number} * ${listTotalShelters.size}) + 1">1</span> đến <span th:text="${listTotalShelters.totalElements} - (${listTotalShelters.number} * ${listTotalShelters.size} + ${listTotalShelters.size}) < 0 ? ${listTotalShelters.totalElements} : (${listTotalShelters.number} * ${listTotalShelters.size} + ${listTotalShelters.size})">10</span> trên <span th:text="${listTotalShelters.totalElements}">57</span> thành phần</p>
+						<!-- Pagination -->
+						<nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation" th:if="${listTotalShelters.totalPages} >= 2">
+							<ul class="pagination pagination-sm pagination-primary-soft mb-0">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1">Prev</a>
+								</li>
+								<li class="" th:each="pageNumber, pageIndex : ${#numbers.sequence(0, listTotalShelters.totalPages - 1)}"
+									th:class="${pageIndex.index + 1} == ${page} ? 'page-item active' : 'page-item'">
+									<a th:href="@{'/admin/shelter-list/changePage?page='+${pageIndex.index}}" th:text="${pageIndex.index + 1}" class="page-link"></a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">Next</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<!-- Pagination END -->
+				</div>
+				<!-- Content item END -->
+
+				<!-- Content item START -->
+				<div class="tab-pane fade" id="list-tab-pane">
+					<div class="card shadow">
+
+						<!-- Card body START -->
+						<div class="card-body">
+							<!-- Table head -->
+							<div class="bg-light rounded p-3 d-none d-xxl-block">
+								<div class="row row-cols-6 g-4">
+									<div class="col"><h6 class="mb-0">Room Name</h6></div>
+									<div class="col"><h6 class="mb-0">Bed Type</h6></div>
+									<div class="col"><h6 class="mb-0">Room Floor</h6></div>
+									<div class="col"><h6 class="mb-0">Amount</h6></div>
+									<div class="col"><h6 class="mb-0">Rating</h6></div>
+									<div class="col"><h6 class="mb-0">Action</h6></div>
+								</div>
+							</div>
+
+							<!-- Table data -->
+							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-6 g-2 g-sm-4 align-items-md-center border-bottom px-2 py-4">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room name:</small>
+									<div class="d-flex align-items-center">
+										<!-- Image -->
+										<div class="w-80px flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/01.jpg" class="rounded" alt="">
+										</div>
+										<!-- Title -->
+										<h6 class="mb-0 ms-2">Deluxe Pool View with Breakfast</h6>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Bed Type:</small>
+									<h6 class="mb-0 fw-normal">King Size</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room Floor:</small>
+									<h6 class="mb-0 fw-normal">Ground Floor: G5</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Amount:</small>
+									<h6 class="text-success mb-0">$1025</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Payment:</small>
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									</ul>
+								</div>
+
+								<!-- Data item -->
+								<div class="col"><a href="#" class="btn btn-sm btn-light mb-0">View</a></div>
+							</div>
+
+							<!-- Table data -->
+							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-6 g-2 g-sm-4 align-items-md-center border-bottom px-2 py-4">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room name:</small>
+									<div class="d-flex align-items-center">
+										<!-- Image -->
+										<div class="w-80px flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/02.jpg" class="rounded" alt="">
+										</div>
+										<!-- Title -->
+										<h6 class="mb-0 ms-2">Premium Room With Balcony</h6>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Bed Type:</small>
+									<h6 class="mb-0 fw-normal">Single Bed</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room Floor:</small>
+									<h6 class="mb-0 fw-normal">First Floor: F3</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Amount:</small>
+									<h6 class="text-success mb-0">$750</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Payment:</small>
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									</ul>
+								</div>
+
+								<!-- Data item -->
+								<div class="col"><a href="#" class="btn btn-sm btn-light mb-0">View</a></div>
+							</div>
+
+							<!-- Table data -->
+							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-6 g-2 g-sm-4 align-items-md-center border-bottom px-2 py-4">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room name:</small>
+									<div class="d-flex align-items-center">
+										<!-- Image -->
+										<div class="w-80px flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/03.jpg" class="rounded" alt="">
+										</div>
+										<!-- Title -->
+										<h6 class="mb-0 ms-2">Deluxe Pool View</h6>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Bed Type:</small>
+									<h6 class="mb-0 fw-normal">Family Bed</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room Floor:</small>
+									<h6 class="mb-0 fw-normal">Ground Floor: G3</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Amount:</small>
+									<h6 class="text-success mb-0">$895</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Payment:</small>
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									</ul>
+								</div>
+
+								<!-- Data item -->
+								<div class="col"><a href="#" class="btn btn-sm btn-light mb-0">View</a></div>
+							</div>
+
+							<!-- Table data -->
+							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-6 g-2 g-sm-4 align-items-md-center border-bottom px-2 py-4">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room name:</small>
+									<div class="d-flex align-items-center">
+										<!-- Image -->
+										<div class="w-80px flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/04.jpg" class="rounded" alt="">
+										</div>
+										<!-- Title -->
+										<h6 class="mb-0 ms-2">Superior Room</h6>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Bed Type:</small>
+									<h6 class="mb-0 fw-normal">King Bed</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room Floor:</small>
+									<h6 class="mb-0 fw-normal">First Floor: F5</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Amount:</small>
+									<h6 class="text-success mb-0">$750</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Payment:</small>
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									</ul>
+								</div>
+
+								<!-- Data item -->
+								<div class="col"><a href="#" class="btn btn-sm btn-light mb-0">View</a></div>
+							</div>
+
+							<!-- Table data -->
+							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-6 g-2 g-sm-4 align-items-md-center border-bottom px-2 py-4">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room name:</small>
+									<div class="d-flex align-items-center">
+										<!-- Image -->
+										<div class="w-80px flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/05.jpg" class="rounded" alt="">
+										</div>
+										<!-- Title -->
+										<h6 class="mb-0 ms-2">Studio Suite King</h6>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Bed Type:</small>
+									<h6 class="mb-0 fw-normal">Double Bed</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room Floor:</small>
+									<h6 class="mb-0 fw-normal">Fifth Floor: Ft3</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Amount:</small>
+									<h6 class="text-success mb-0">$1458</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Payment:</small>
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									</ul>
+								</div>
+
+								<!-- Data item -->
+								<div class="col"><a href="#" class="btn btn-sm btn-light mb-0">View</a></div>
+							</div>
+
+							<!-- Table data -->
+							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-6 g-2 g-sm-4 align-items-md-center border-bottom px-2 py-4">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room name:</small>
+									<div class="d-flex align-items-center">
+										<!-- Image -->
+										<div class="w-80px flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/06.jpg" class="rounded" alt="">
+										</div>
+										<!-- Title -->
+										<h6 class="mb-0 ms-2">Luxury Room with Balcony</h6>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Bed Type:</small>
+									<h6 class="mb-0 fw-normal">Family Bed</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room Floor:</small>
+									<h6 class="mb-0 fw-normal">Third Floor: T2</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Amount:</small>
+									<h6 class="text-success mb-0">$847</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Payment:</small>
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									</ul>
+								</div>
+
+								<!-- Data item -->
+								<div class="col"><a href="#" class="btn btn-sm btn-light mb-0">View</a></div>
+							</div>
+
+							<!-- Table data -->
+							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-6 g-2 g-sm-4 align-items-md-center border-bottom px-2 py-4">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room name:</small>
+									<div class="d-flex align-items-center">
+										<!-- Image -->
+										<div class="w-80px flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/07.jpg" class="rounded" alt="">
+										</div>
+										<!-- Title -->
+										<h6 class="mb-0 ms-2">Deluxe Room Twin Bed With Balcony</h6>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Bed Type:</small>
+									<h6 class="mb-0 fw-normal">Double Bed</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Room Floor:</small>
+									<h6 class="mb-0 fw-normal">Fifth Floor: Ft1</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Amount:</small>
+									<h6 class="text-success mb-0">$1650</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-xxl-none">Payment:</small>
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+									</ul>
+								</div>
+
+								<!-- Data item -->
+								<div class="col"><a href="#" class="btn btn-sm btn-light mb-0">View</a></div>
+							</div>
+						</div>
+						<!-- Card body END -->
+
+						<!-- Card footer START -->
+						<div class="card-footer pt-0">
+							<!-- Pagination and content -->
+							<div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+								<!-- Content -->
+								<p class="mb-sm-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+								<!-- Pagination -->
+								<nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
+									<ul class="pagination pagination-sm pagination-primary-soft mb-0">
+										<li class="page-item disabled">
+											<a class="page-link" href="#" tabindex="-1">Prev</a>
+										</li>
+										<li class="page-item"><a class="page-link" href="#">1</a></li>
+										<li class="page-item active"><a class="page-link" href="#">2</a></li>
+										<li class="page-item disabled"><a class="page-link" href="#">..</a></li>
+										<li class="page-item"><a class="page-link" href="#">15</a></li>
+										<li class="page-item">
+											<a class="page-link" href="#">Next</a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						<!-- Card footer END -->
+					</div>
+				</div>
+				<!-- Content item END -->
+			</div>
+			<!-- Tab content END -->
+		</div>
+		<!-- Page main content END -->
+	</div>
+	<!-- Page content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendor -->
+<script src="../js/overlayscrollbars.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+</html>

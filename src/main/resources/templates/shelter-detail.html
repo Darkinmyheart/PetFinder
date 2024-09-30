@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/splide.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/tiny-slider.css">
+	<link rel="stylesheet" type="text/css" href="../css/glightbox.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- =======================
+    Main Banner START -->
+	<section class="pt-4 pt-lg-5">
+		<div class="container position-relative">
+
+			<!-- Title and button START -->
+			<div class="row">
+				<div class="col-12">
+
+					<!-- Meta -->
+					<div class="d-md-flex justify-content-md-between">
+						<!-- Title -->
+						<div>
+							<h1 class="fs-2" th:text="${shelter.shelterName}">Beautiful Bali with Malaysia</h1>
+						</div>
+
+						<!-- Buttons -->
+						<ul class="list-inline text-end">
+							<!-- Share icon -->
+							<li class="list-inline-item dropdown">
+								<!-- Share button -->
+								<a href="#" class="btn btn-sm btn-light px-2" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fa-solid fa-fw fa-share-alt"></i>
+								</a>
+								<!-- dropdown button -->
+								<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+									<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<!-- Title and button END -->
+
+			<!-- Image gallery START -->
+			<div class="row mt-md-5">
+				<div class="col-12">
+					<!-- Primary image -->
+					<div class="splide splide-main mb-3">
+						<div class="splide__track">
+							<ul class="splide__list">
+								<li class="splide__slide rounded">
+									<img th:src="${shelter.shelterAvatar.indexOf('https://img')} >= 0 ? ${shelter.shelterAvatar} : '../images/'+${shelter.shelterAvatar}" alt="">
+									<!-- Glightbox image -->
+									<a th:href="${shelter.shelterAvatar.indexOf('https://img')} >= 0 ? ${shelter.shelterAvatar} : '../images/'+${shelter.shelterAvatar}" class="stretched-link" data-glightbox="" data-gallery="banner"></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- Secondary image -->
+					<div class="splide splide-thumb d-none" data-splide='{"rewind":true,"fixedWidth":200,"fixedHeight":120,"isNavigation":true,"gap":20,"focus":"center","pagination":false,"cover":true,"lazyLoad":"sequential","breakpoints":{"600":{"fixedWidth":150,"fixedHeight":80}}}'>
+						<div class="splide__track">
+							<ul class="splide__list">
+								<li class="splide__slide"><img th:src="${shelter.shelterAvatar.indexOf('https://img')} >= 0 ? ${shelter.shelterAvatar} : '../images/'+${shelter.shelterAvatar}" alt=""></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Image gallery END -->
+
+		</div>
+	</section>
+	<!-- =======================
+    Main Banner END -->
+
+	<!-- =======================
+    Tabs START -->
+	<section class="py-0">
+		<div class="container">
+
+			<!-- Tabs START -->
+			<div class="row">
+				<div class="col-12">
+					<!-- Outer tabs START -->
+					<ul class="nav nav-pills nav-justified nav-responsive bg-primary bg-opacity-10 rounded p-2" id="tour-pills-tab" role="tablist">
+						<!-- Tab item -->
+						<li class="nav-item" role="presentation">
+							<a th:href="@{/shelter/detail(id=${shelter.id}, active='overview')}" th:class="${active} == 'overview' ? 'nav-link active mb-0' : 'nav-link mb-0'" id="tour-pills-tab-1" data-bs-toggle="pill" data-bs-target="#tour-pills-tab1" type="button" role="tab" aria-controls="tour-pills-tab1" aria-selected="true">Tổng quan</a>
+						</li>
+						<!-- Tab item -->
+						<li class="nav-item" role="presentation">
+							<a th:href="@{/shelter/detail(id=${shelter.id}, active='animal')}" th:class="${active} == 'animal' ? 'nav-link active mb-0' : 'nav-link mb-0'" id="tour-pills-tab-2" data-bs-toggle="pill" data-bs-target="#tour-pills-tab2" type="button" role="tab" aria-controls="tour-pills-tab2" aria-selected="false">Danh sách thú cưng</a>
+						</li>
+						<!-- Tab item -->
+						<li class="nav-item" role="presentation">
+							<a th:href="@{/shelter/detail(id=${shelter.id}, active='map')}" th:class="${active} == 'map' ? 'nav-link active mb-0' : 'nav-link mb-0'" id="tour-pills-tab-3" data-bs-toggle="pill" data-bs-target="#tour-pills-tab3" type="button" role="tab" aria-controls="tour-pills-tab3" aria-selected="false">Vị trí</a>
+						</li>
+					</ul>
+					<!-- Outer tabs END -->
+				</div>
+			</div>
+			<!-- Tabs END -->
+		</div>
+	</section>
+	<!-- =======================
+    Tabs END -->
+
+	<!-- =======================
+    Tabs-content START -->
+	<section class="pt-4 pt-md-5">
+		<div class="container">
+
+			<div class="row g-4 g-md-5">
+				<!-- Tabs Content START -->
+				<div class="col-xl-8">
+					<!-- Outer tabs contents START -->
+					<div class="tab-content mb-0" id="tour-pills-tabContent">
+
+						<!-- Content item START -->
+						<div th:class="${active} == 'overview' ? 'tab-pane fade show active' : 'tab-pane fade'" id="tour-pills-tab1" role="tabpanel" aria-labelledby="tour-pills-tab-1">
+							<div class="card bg-transparent p-0">
+								<!-- Card header -->
+								<div class="card-header bg-transparent border-bottom p-0 pb-3">
+									<h3 class="mb-0">Tổng quan</h3>
+								</div>
+
+								<!-- Card body START -->
+								<div class="card-body p-0 pt-3">
+									<!-- List -->
+									<h5>Mô tả</h5>
+									<p class="mb-4" th:text="${shelter.shelterDescription}">Bali, also known as the land of gods has plenty to offer to travelers from across the globe. As it so contrasted oh estimating instrument. Size like body some one had. Are conduct viewing boy minutes warrant the expense? Tolerably behavior may admit daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in. We understand that theory is important to build a solid foundation, we understand that theory alone isn’t going to get the job done so that’s why this is packed with practical hands-on examples that you can follow step by step.</p>
+
+									<!-- List -->
+									<h5>Nhiệm vụ</h5>
+									<p class="mb-4" th:text="${shelter.shelterInfoMission}">Bali, also known as the land of gods has plenty to offer to travelers from across the globe. As it so contrasted oh estimating instrument. Size like body some one had. Are conduct viewing boy minutes warrant the expense? Tolerably behavior may admit daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in. We understand that theory is important to build a solid foundation, we understand that theory alone isn’t going to get the job done so that’s why this is packed with practical hands-on examples that you can follow step by step.</p>
+
+									<!-- List -->
+									<h5>Chính sách</h5>
+									<p class="mb-4" th:text="${shelter.shelterInfoPolicy}">Bali, also known as the land of gods has plenty to offer to travelers from across the globe. As it so contrasted oh estimating instrument. Size like body some one had. Are conduct viewing boy minutes warrant the expense? Tolerably behavior may admit daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in. We understand that theory is important to build a solid foundation, we understand that theory alone isn’t going to get the job done so that’s why this is packed with practical hands-on examples that you can follow step by step.</p>
+
+								</div>
+								<!-- Card body END -->
+							</div>
+						</div>
+						<!-- Content item END -->
+
+						<!-- Content item START -->
+						<div th:class="${active} == 'animal' ? 'tab-pane fade show active' : 'tab-pane fade'" id="tour-pills-tab2" role="tabpanel" aria-labelledby="tour-pills-tab-2">
+							<div class="card bg-transparent p-0">
+								<!-- Card header -->
+								<div class="card-header bg-transparent border-bottom p-0 pb-3 row g-4 align-items-center justify-content-between">
+									<!-- Content -->
+									<div class="col-12 col-xl-9">
+										<h5 class="mb-0">Danh sách thú cưng</h5>
+									</div>
+
+									<!-- Select option -->
+									<div class="col-xl-3">
+										<form class="form-control-bg-light">
+											<select class="form-select" id="choiceFilter">
+												<option value="All">Select Filter</option>
+												<option value="Name-Pet(A-Z)">Pet Name (A-Z)</option>
+												<option value="Date-Submitted">Date</option>
+												<option value="Top-rated">Top rated</option>
+											</select>
+										</form>
+									</div>
+								</div>
+
+								<!-- Card body START -->
+								<div class="card-body p-0 pt-3">
+									<div class="vstack gap-4">
+										<!-- Card item START -->
+										<div class="card shadow p-2" th:each="animal : ${listAnimal}">
+											<div class="row g-0">
+												<!-- Card img -->
+												<div class="col-md-5 position-relative">
+													<!-- Slider START -->
+													<div class="tiny-slider arrow-round arrow-xs arrow-dark overflow-hidden rounded-2">
+														<div class="tiny-slider-inner" data-autoplay="false" data-arrow="true" data-dots="false" data-items="1">
+															<!-- Image item -->
+															<div>
+																<img th:src="${animal.animalAvatar.indexOf('https://img')} >= 0 ? ${animal.animalAvatar} : '/imgAnimal/'+${animal.animalAvatar}" alt="Card image">
+															</div>
+														</div>
+													</div>
+													<!-- Slider END -->
+												</div>
+
+												<!-- Card body -->
+												<div class="col-md-7">
+													<div class="card-body py-md-2 d-flex flex-column h-100 position-relative">
+
+														<!-- Rating and buttons -->
+														<div class="d-flex justify-content-between align-items-center">
+															<ul class="list-inline mb-0 z-index-2">
+																<!-- Heart icon -->
+																<li class="list-inline-item">
+																	<a href="#" class="btn btn-sm btn-round btn-light"><i class="fa-solid fa-fw fa-heart"></i></a>
+																</li>
+																<!-- Share icon -->
+																<li class="list-inline-item dropdown">
+																	<!-- Share button -->
+																	<a href="#" class="btn btn-sm btn-round btn-light" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+																		<i class="fa-solid fa-fw fa-share-alt"></i>
+																	</a>
+																	<!-- dropdown button -->
+																	<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+																		<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
+																		<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
+																		<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
+																		<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
+																	</ul>
+																</li>
+															</ul>
+														</div>
+
+														<!-- Title -->
+														<h5 class="card-title mb-1"><a th:href="@{/pet-list/pet-detail(id=${animal.id})}" th:text="${animal.animalName}">Courtyard by Marriott New York </a></h5>
+														<!-- Amenities -->
+														<ul class="nav nav-divider mt-3">
+															<li class="nav-item" th:text="${breedService.transBreedTypeToVN(animal.breed.breed_type)} + ' ' + ${animal.breed.breed_name}">Labrador Retriever</li>
+															<li class="nav-item" th:text="${animalsService.transSizeToVN(animal.animalSize)}">Small</li>
+															<li class="nav-item" th:text="${animalsService.transAgeToVN(animal.animalAge)}">Kitten</li>
+															<li class="nav-item" th:text="${animalsService.transGenderToVN(animal.animalGender)}">Male</li>
+														</ul>
+
+														<!-- List -->
+														<ul class="list-group list-group-borderless small mb-0 mt-2">
+															<li class="list-group-item d-flex text-success p-0">
+																<!-- <i class="bi bi-patch-check-fill me-2"></i>Good with <span th:text="${animal.animalInfo.animalInfoHarmony}">Child</span> -->
+																<i class="bi bi-patch-check-fill me-2"></i>Thân thiện với <span class="ms-1" th:text="${animalsService.transHarmonyToVN(animal.animalInfo.animalInfoHarmony)}"> Child</span>
+															</li>
+															<li class="list-group-item d-flex text-success p-0">
+																<i class="bi bi-patch-check-fill me-2"></i>Sức khỏe tốt
+															</li>
+														</ul>
+
+														<!-- Price and Button -->
+														<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
+															<!-- Button -->
+															<div class="d-flex align-items-center">
+																<h5 class="fw-bold mb-0 me-1" th:text="${animal.animalDate}">2023-02-12</h5>
+															</div>
+															<!-- Price -->
+															<div class="mt-3 mt-sm-0">
+																<a th:href="@{/pet-list/pet-detail(id=${animal.id})}" class="btn btn-sm btn-dark mb-0 w-100">Xem chi tiết</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- Card item END -->
+
+										<!-- Pagination -->
+										<nav class="d-flex justify-content-center" aria-label="navigation" th:if="${listAnimal.totalPages} >= 2">
+											<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+												<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+												<li class="" th:each="pageNumber, pageIndex : ${#numbers.sequence(0, listAnimal.totalPages - 1)}"
+													th:class="${pageIndex.index + 1} == ${page} ? 'page-item mb-0 pageable active' : 'page-item mb-0 pageable'">
+													<a th:href="@{/shelter/detail/changePage(page=${pageIndex.index}, id=${shelter.id},active='animal')}" th:text="${pageIndex.index + 1}" class="page-link take-a-pet"></a>
+												</li>
+												<li class="page-item mb-0"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
+											</ul>
+										</nav>
+									</div>
+								</div>
+								<!-- Card body END -->
+							</div>
+						</div>
+						<!-- Content item END -->
+
+						<!-- Content item START -->
+						<div th:class="${active} == 'map' ? 'tab-pane fade show active' : 'tab-pane fade'" id="tour-pills-tab3" role="tabpanel" aria-labelledby="tour-pills-tab-3">
+							<div class="card bg-transparent p-0">
+								<!-- Card header -->
+								<div class="card-header bg-transparent border-bottom p-0 pb-3">
+									<h3 class="mb-0">Vị trí trên bản đồ</h3>
+								</div>
+
+								<!-- Map START -->
+								<iframe class="w-100 grayscale rounded"
+										th:src="'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.982566922286!2d' + ${shelter.shelterLongitude} + '!3d' + ${shelter.shelterLatitude} + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752929d80d4b63%3A0x1e60f2de8b5db013!2sGoogle!5e0!3m2!1sen!2s!4v1586000412513!5m2!1sen!2s'"
+										height="600" style="border:0;" aria-hidden="false" tabindex="0">
+								</iframe>
+							</div>
+						</div>
+						<!-- Content item END -->
+					</div>
+				</div>
+				<!-- Tabs Content END -->
+
+				<!-- Right side content START -->
+				<aside class="col-xl-4">
+					<div class="row g-4">
+						<!-- Help item START -->
+						<div class="col-md-6 col-xl-12">
+							<div class="card card-body bg-light p-4">
+								<!-- Title -->
+								<h4 class="card-title">Cần hỗ trợ?</h4>
+
+								<!-- List -->
+								<ul class="list-group list-group-borderless">
+									<li class="list-group-item py-3">
+										<h6 class="mb-0">
+											<i class="fa-solid fa-location-dot fa-fw text-primary fs-5 me-2"></i>
+											<span class="h6 fw-light me-1 mb-0">Địa chỉ: </span>
+										</h6>
+										<span class="h6 mt-2" th:text="${shelter.shelterAddress}">66/11 Tam Châu, Tam Phú, Thủ Đức, Hồ Chí Minh, Việt Nam</span>
+									</li>
+
+									<li class="list-group-item py-0"><hr class="my-0"></li><!-- Divider -->
+
+									<li class="list-group-item py-3">
+										<a href="#" class="h6 mb-0">
+											<i class="bi fa-fw bi-telephone-forward text-primary fs-5 me-2"></i>
+											<span class="fw-light me-1">Số điện thoại:</span><span th:text="${shelter.shelterPhone}">+31 123 456 789</span>
+										</a>
+									</li>
+
+									<li class="list-group-item py-0"><hr class="my-0"></li><!-- Divider -->
+
+									<li class="list-group-item py-3">
+										<h6 class="mb-0">
+											<i class="fa-regular fa-envelope fa-fw text-primary fs-5 me-2"></i>
+											<span class="h6 fw-light me-1 mb-0">Email: </span>
+										</h6>
+										<span class="h6 mt-2 ms-1" th:text="${shelter.shelterEmail}">dungddps26188@fpt.edu.vn</span>
+									</li>
+
+									<li class="list-group-item py-0"><hr class="my-0"></li><!-- Divider -->
+
+									<li class="list-group-item py-3">
+										<a th:href="@{${shelter.shelterInfoFacebook}}" class="h6 mb-0">
+											<i class="bi fa-fw bi-facebook text-primary fs-5 me-2"></i>Kết nối với chúng tôi
+										</a>
+									</li>
+
+									<li class="list-group-item py-0"><hr class="my-0"></li><!-- Divider -->
+
+									<li class="list-group-item pt-3 pb-0">
+										<a th:href="@{${shelter.shelterInfoInstagram}}" class="h6 mb-0">
+											<i class="bi fa-fw bi-instagram text-primary fs-5 me-2"></i>Kết nối với chúng tôi
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- Help item END -->
+
+						<!-- Book now item START -->
+						<div class="col-md-6 col-xl-12">
+							<div class="card shadow">
+								<!-- Card header -->
+								<div class="card-header border-bottom">
+									<h5 class="mb-0">Thời gian hoạt động</h5>
+								</div>
+
+								<!-- Card body -->
+								<div class="card-body">
+									<ul class="list-group list-group-borderless mb-0">
+										<div th:each="open : ${listOpen}">
+											<li class="list-group-item d-flex justify-content-between">
+												<span th:text="${open[0]}">Monday</span>
+												<span th:text="${open[1]}">Day off</span>
+											</li>
+
+											<li class="list-group-item py-0">
+												<hr class="my-1">
+											</li>
+										</div>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- Book now item END -->
+					</div>
+				</aside>
+				<!-- Right side content END -->
+
+			</div> <!-- Row END -->
+		</div>
+	</section>
+	<!-- =======================
+    Tabs-content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+	<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+		 viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+		<path fill="#ffffff"
+			  d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+		</path>
+	</svg>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../js/tiny-slider.js"></script>
+<script src="../js/splide.min.js"></script>
+<script src="../js/glightbox.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+</html>

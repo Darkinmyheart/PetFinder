@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+			var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/overlayscrollbars.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/apexcharts.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- Sidebar START -->
+	<nav th:insert="~{fragments/viewers/_navbar-admin :: navbar-admin}"></nav>
+	<!-- Sidebar END -->
+
+	<!-- Page content START -->
+	<div class="page-content">
+
+		<!-- Top bar START -->
+		<nav class="navbar top-bar navbar-light py-0 py-xl-3">
+			<div class="container-fluid p-0">
+				<div class="d-flex align-items-center w-100">
+
+					<!-- Logo START -->
+					<div class="d-flex align-items-center d-xl-none">
+						<a class="navbar-brand" href="/index">
+							<img class="navbar-brand-item h-40px" src="https://booking.webestica.com/assets/images/logo-icon.svg" alt="">
+						</a>
+					</div>
+					<!-- Logo END -->
+
+					<!-- Toggler for sidebar START -->
+					<div class="navbar-expand-xl sidebar-offcanvas-menu">
+						<button class="navbar-toggler me-auto p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" aria-expanded="false" aria-label="Toggle navigation" data-bs-auto-close="outside">
+							<i class="bi bi-list text-primary fa-fw" data-bs-target="#offcanvasMenu"></i>
+						</button>
+					</div>
+					<!-- Toggler for sidebar END -->
+
+					<!-- Top bar left -->
+					<div class="navbar-expand-lg ms-auto ms-xl-0">
+						<!-- Toggler for menubar START -->
+						<button class="navbar-toggler ms-auto p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopContent" aria-controls="navbarTopContent" aria-expanded="false" aria-label="Toggle navigation">
+							<i class="bi bi-search"></i>
+						</button>
+						<!-- Toggler for menubar END -->
+
+						<!-- Topbar menu START -->
+						<div class="collapse navbar-collapse w-100 z-index-1" id="navbarTopContent">
+							<!-- Top search START -->
+							<div class="nav my-3 my-xl-0 flex-nowrap align-items-center">
+								<div class="nav-item w-100">
+									<form class="position-relative">
+										<input class="form-control bg-light pe-5" type="search" placeholder="Search" aria-label="Search">
+										<button class="bg-transparent px-2 py-0 border-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 text-primary"></i></button>
+									</form>
+								</div>
+							</div>
+							<!-- Top search END -->
+						</div>
+						<!-- Topbar menu END -->
+					</div>
+					<!-- Top bar left END -->
+
+					<!-- Top bar right START -->
+					<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+						<li th:insert="~{fragments/viewers/_header :: navbar-user-login}"></li>
+					</ul>
+					<!-- Top bar right END -->
+				</div>
+			</div>
+		</nav>
+		<!-- Top bar END -->
+
+		<!-- Page main content START -->
+		<div class="page-content-wrapper p-xxl-4">
+
+			<!-- Title -->
+			<div class="row">
+				<div class="col-12 mb-4 mb-sm-5">
+					<div class="d-sm-flex justify-content-between align-items-center">
+						<h1 class="h3 mb-2 mb-sm-0">Bảng điều khiển</h1>
+						<div class="d-grid"><a href="#" class="btn btn-primary-soft mb-0"><i class="bi bi-plus-lg fa-fw"></i> Tạo trung tâm</a></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Counter boxes START -->
+			<div class="row g-4 mb-5">
+				<!-- Counter item -->
+				<div class="col-md-6 col-xxl-3">
+					<div class="card card-body bg-warning bg-opacity-10 border border-warning border-opacity-25 p-4 h-100">
+						<div class="d-flex justify-content-between align-items-center">
+							<!-- Digit -->
+							<div>
+								<h4 class="mb-0" th:text="${totalPending}">56</h4>
+								<span class="h6 fw-light mb-0">Số đơn đang chờ</span>
+							</div>
+							<!-- Icon -->
+							<div class="icon-lg rounded-circle bg-warning text-white mb-0"><i class="bi bi-hourglass-split fa-fw"></i></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Counter item -->
+				<div class="col-md-6 col-xxl-3">
+					<div class="card card-body bg-success bg-opacity-10 border border-success border-opacity-25 p-4 h-100">
+						<div class="d-flex justify-content-between align-items-center">
+							<!-- Digit -->
+							<div>
+								<h4 class="mb-0" th:text="${countDonate}">$836,789</h4>
+								<span class="h6 fw-light mb-0">Tổng số donate</span>
+							</div>
+							<!-- Icon -->
+							<div class="icon-lg rounded-circle bg-success text-white mb-0"><i class="fa-solid fa-hand-holding-dollar fa-fw"></i></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Counter item -->
+				<div class="col-md-6 col-xxl-3">
+					<div class="card card-body bg-primary bg-opacity-10 border border-primary border-opacity-25 p-4 h-100">
+						<div class="d-flex justify-content-between align-items-center">
+							<!-- Digit -->
+							<div>
+								<h4 class="mb-0" th:text="${totalShelters}">245</h4>
+								<span class="h6 fw-light mb-0">Tổng số trung tâm</span>
+							</div>
+							<!-- Icon -->
+							<div class="icon-lg rounded-circle bg-primary text-white mb-0"><i class="fa-solid fa-hotel fa-fw"></i></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Counter item -->
+				<div class="col-md-6 col-xxl-3">
+					<div class="card card-body bg-info bg-opacity-10 border border-info border-opacity-25 p-4 h-100">
+						<div class="d-flex justify-content-between align-items-center">
+							<!-- Digit -->
+							<div>
+								<h4 class="mb-0" th:text="${totalUsers}">147</h4>
+								<span class="h6 fw-light mb-0">Tổng số người dùng</span>
+							</div>
+							<!-- Icon -->
+							<div class="icon-lg rounded-circle bg-info text-white mb-0"><i class="fa-solid fa-user fa-fw"></i></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Counter boxes END -->
+
+			<!-- Hotel grid START -->
+			<div class="row g-4 mb-5">
+				<!-- Title -->
+				<div class="col-12">
+					<div class="d-flex justify-content-between">
+						<h4 class="mb-0">Dánh sách chờ</h4>
+						<a href="/admin/regist-list" class="btn btn-primary-soft mb-0">Xem toàn bộ</a>
+					</div>
+				</div>
+
+				<!-- Shelter item -->
+				<div class="col-lg-6" th:each="totalPending : ${listTotalPending}">
+					<div class="card shadow p-3">
+						<div class="row g-4">
+							<!-- Card img -->
+							<div class="col-md-3">
+								<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/10.jpg" class="rounded-2" alt="Card image">
+							</div>
+
+							<!-- Card body -->
+							<div class="col-md-9">
+								<div class="card-body position-relative d-flex flex-column p-0 h-100">
+									<!-- Title -->
+									<h5 class="card-title mb-0 me-5"><a th:href="@{/admin/shelter-detail(id=${totalPending.id})}" th:text="${totalPending.shelterName}">Pride moon Village Resort & Spa</a></h5>
+									<small><i class="bi bi-geo-alt me-2"></i><span th:text="${totalPending.shelterAddress}">31J W Spark Street, California - 24578</span></small>
+
+									<!-- Price and Button -->
+									<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
+										<!-- Price -->
+										<div class="d-flex align-items-center">
+											<h5 class="fw-bold mb-0 me-1" th:text="${totalPending.users.userName}">Đào Đức Dũng</h5>
+										</div>
+										<!-- Button -->
+										<div class="hstack gap-2 mt-3 mt-sm-0">
+											<a th:href="@{/admin/dashboard/accept-shelter(id=${totalPending.id})}" class="btn btn-sm btn-primary-soft px-2 mb-0"><i class="bi bi-check-square fa-fw"></i></a>
+											<a th:href="@{/admin/dashboard/remove-shelter(id=${totalPending.id})}" class="btn btn-sm btn-danger-soft px-2 mb-0"><i class="bi bi-slash-circle fa-fw"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Hotel grid END -->
+
+			<!-- Widget START -->
+			<div class="row g-4">
+				<!-- Booking Chart START -->
+				<div class="col-xxl-8">
+					<!-- Chart START -->
+					<div class="card shadow h-100">
+						<!-- Card header -->
+						<div class="card-header border-bottom">
+							<h5 class="card-header-title">Thu nhập trong năm</h5>
+						</div>
+
+						<!-- Card body -->
+						<div class="card-body">
+							<!-- Apex chart -->
+							<div id="apexChartTrafficStats1" class="mt-2"></div>
+						</div>
+					</div>
+					<!-- Chart END -->
+				</div>
+				<!-- Booking Chart END -->
+
+				<!-- Booking graph START -->
+				<div class="col-lg-6 col-xxl-4">
+					<div class="card shadow h-100">
+						<!-- Card header -->
+						<div class="card-header border-bottom">
+							<h5 class="card-header-title">Thống kê hoạt động</h5>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body p-3">
+							<!-- Chart -->
+							<div class="col-sm-6 mx-auto">
+								<div class="d-flex justify-content-center" id="ChartTrafficRooms1"></div>
+							</div>
+
+							<!-- Content -->
+							<ul class="list-group list-group-borderless mb-0">
+								<li class="list-group-item d-flex justify-content-between">
+									<span class="h6 fw-light mb-0"><i class="text-success fas fa-circle me-2"></i> Đồng ý</span>
+									<span class="h6 fw-light mb-0" th:text="${listRegist[0]}">73</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<span class="h6 fw-light mb-0"><i class="text-danger fas fa-circle me-2"></i> Từ chối</span>
+									<span class="h6 fw-light mb-0" th:text="${listRegist[1]}">245</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- Booking graph END -->
+
+				<!-- Shelters START -->
+				<div class="col-lg-6 col-xxl-4">
+					<div class="card shadow h-100">
+						<!-- Card header -->
+						<div class="card-header border-bottom d-flex justify-content-between align-items-center">
+							<h5 class="card-header-title">Trung tâm</h5>
+							<a href="/admin/shelter-list" class="btn btn-link p-0 mb-0">Xem thêm</a>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body">
+							<!-- Shelters item START -->
+							<div th:each="totalShelters : ${listTotalShelters}">
+								<div class="d-flex justify-content-between align-items-center">
+									<!-- Image and info -->
+									<div class="d-sm-flex align-items-center mb-1 mb-sm-0">
+										<!-- Avatar -->
+										<div class="flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/04.jpg" class="rounded h-60px" alt="">
+										</div>
+										<!-- Info -->
+										<div class="ms-sm-3 mt-2 mt-sm-0">
+											<h6 class="mb-1" th:text="${totalShelters.shelterName}">Deluxe Pool View with Breakfast</h6>
+											<ul class="nav nav-divider">
+												<li class="nav-item" th:text="${totalShelters.shelterDate}">18 Nov to 22 Nov</li>
+											</ul>
+										</div>
+									</div>
+									<!-- Button -->
+									<a th:href="@{/admin/shelter-detail(id=${totalShelters.id})}" class="btn btn-sm btn-light flex-shrink-0 mb-0 ms-3">Xem</a>
+								</div>
+								<!-- Shelters item END -->
+
+								<hr><!-- Divider -->
+							</div>
+						</div>
+						<!-- Card body END -->
+					</div>
+				</div>
+				<!-- Shelters END -->
+
+				<!-- Users START -->
+				<div class="col-lg-6 col-xxl-4">
+					<div class="card shadow h-100">
+						<!-- Card header -->
+						<div class="card-header border-bottom d-flex justify-content-between align-items-center p-3">
+							<h5 class="card-header-title">Người dùng</h5>
+							<a href="/admin/user-list" class="btn btn-link p-0 mb-0">Xem thêm</a>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body p-3">
+							<div th:each="totalUsers : ${listTotalUsers}">
+								<!-- Arrival item -->
+								<div class="d-flex justify-content-between align-items-center">
+									<!-- Avatar and info -->
+									<div class="d-sm-flex align-items-center mb-1 mb-sm-0">
+										<!-- Avatar -->
+										<div class="avatar avatar-md flex-shrink-0">
+											<img class="avatar-img rounded-circle" th:src="'/imgProfile/'+${totalUsers.avatar}" onerror="this.onerror =null;this.src='/imgProfile/defaulAvatar.jpg'" alt="avatar">
+										</div>
+										<!-- Info -->
+										<div class="ms-sm-2 mt-2 mt-sm-0">
+											<h6 class="mb-1" th:text="${totalUsers.firstName} + ' ' + ${totalUsers.lastName}">Lori Stevens</h6>
+											<ul class="nav nav-divider small">
+												<li class="nav-item" th:text="${totalUsers.userName}">example@gmail.com</li>
+											</ul>
+										</div>
+									</div>
+									<!-- Button -->
+									<a th:href="@{/admin/user-detail(id=${totalUsers.userName})}" class="btn btn-sm btn-light mb-0 ms-3 px-2"><i class="fa-solid fa-chevron-right fa-fw"></i></a>
+								</div>
+
+								<hr><!-- Divider -->
+							</div>
+						</div>
+						<!-- Card body END -->
+					</div>
+				</div>
+				<!-- Users END -->
+
+				<!-- Donate START -->
+				<div class="col-lg-6 col-xxl-4">
+					<div class="card shadow h-100">
+						<!-- Card header -->
+						<div class="card-header border-bottom d-flex justify-content-between align-items-center p-3">
+							<h5 class="card-header-title">Donate</h5>
+							<a href="/admin/user-donate" class="btn btn-link p-0 mb-0">Xem thêm</a>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body p-3">
+							<div th:each="spon : ${listSpon}">
+								<!-- Shelters item START -->
+								<div class="d-flex justify-content-between align-items-center">
+									<!-- Image and info -->
+									<div class="d-sm-flex align-items-center mb-1 mb-sm-0">
+										<!-- Avatar -->
+										<div class="flex-shrink-0">
+											<img src="https://booking.webestica.com/assets/images/category/hotel/4by3/08.jpg" class="rounded h-60px" alt="">
+										</div>
+										<!-- Info -->
+										<div class="ms-sm-3 mt-2 mt-sm-0">
+											<h6 class="mb-1" th:text="${spon.users.firstName} + ' ' + ${spon.users.lastName}">Hyoga Gochiro</h6>
+											<div class="d-flex align-items-center">
+												<small class="mb-0 text-warning fw-bold" th:text="${spon.sponsGift} + ' VND'">10$</small>
+												<ul class="list-inline smaller mb-0">
+													<li class="list-inline-item me-0 ms-1" th:text="${spon.sponsDate}" style="margin-top: 3px;">(18 Nov to 22 Nov)</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<!-- Button -->
+									<a th:href="@{/admin/donate-detail(id=${spon.id})}" class="btn btn-sm btn-light flex-shrink-0 mb-0 ms-3">Xem</a>
+								</div>
+								<!-- Shelters item END -->
+
+								<hr><!-- Divider -->
+							</div>
+						</div>
+						<!-- Card body END -->
+					</div>
+				</div>
+				<!-- Donate END -->
+			</div>
+			<!-- Widget END -->
+
+		</div>
+		<!-- Page main content END -->
+	</div>
+	<!-- Page content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- Bootstrap JS -->
+<script src="https://booking.webestica.com/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendor -->
+<script src="../js/overlayscrollbars.min.js"></script>
+<script src="../js/apexcharts.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+<!--  JQuery  -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+	var listIncome = [[${listIncome}]];
+	var options = {
+      series: [{
+        name: 'Số lượng',
+        data: listIncome
+      }],
+      chart: {
+        type: 'line' // Chart type
+      },
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#apexChartTrafficStats1"), options);
+    chart.render();
+
+
+	var listRegist = [[${listRegist}]];
+	// Pie Chart Options
+    var options1 = {
+          series: listRegist,
+          chart: {
+          width: 380,
+          type: 'donut',
+        },
+        plotOptions: {
+          pie: {
+            startAngle: -90,
+            endAngle: 270
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        fill: {
+          type: 'gradient',
+        },
+        legend: {
+          formatter: function(val, opts) {
+            return val + " - " + opts.w.globals.series[opts.seriesIndex]
+          }
+        },
+        labels: ['Đồng ý', 'Từ chối'],
+        legend: {
+            position: 'bottom',
+            show: false
+        },
+        colors: ['#0cbc87', '#d6293e']
+    };
+
+    var chart1 = new ApexCharts(document.querySelector("#ChartTrafficRooms1"), options1);
+    chart1.render();
+</script>
+
+</body>
+</html>

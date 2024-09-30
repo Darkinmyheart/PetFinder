@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+			var el = document.querySelector('.theme-icon-active');
+			if (el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+					const activeThemeIcon = document.querySelector('.theme-icon-active use')
+					const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+					const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+					document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+						element.classList.remove('active')
+					})
+
+					btnToActive.classList.add('active')
+					activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+				}
+
+				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+					if (storedTheme !== 'light' || storedTheme !== 'dark') {
+						setTheme(getPreferredTheme())
+					}
+				})
+
+				showActiveTheme(getPreferredTheme())
+
+				document.querySelectorAll('[data-bs-theme-value]')
+					.forEach(toggle => {
+						toggle.addEventListener('click', () => {
+							const theme = toggle.getAttribute('data-bs-theme-value')
+							localStorage.setItem('theme', theme)
+							setTheme(theme)
+							showActiveTheme(theme)
+						})
+					})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/bs-stepper.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/quill.snow.css">
+	<link rel="stylesheet" type="text/css" href="../css/dropzone.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+	<style>
+		.load-wrapp p {
+			padding: 0 0 20px;
+		}
+
+		.load-wrapp:last-child {
+			margin-right: 0;
+		}
+
+		.letter-holder {
+			padding: 16px;
+		}
+
+		.letter {
+			float: left;
+			font-size: 14px;
+			color: #777;
+		}
+
+		.square {
+			width: 12px;
+			height: 12px;
+			border-radius: 4px;
+			background-color: #4b9cdb;
+		}
+
+		.spinner {
+			position: relative;
+			width: 45px;
+			height: 45px;
+			margin: 0 auto;
+		}
+
+		.bubble-1,
+		.bubble-2 {
+			position: absolute;
+			top: 0;
+			width: 25px;
+			height: 25px;
+			border-radius: 100%;
+			background-color: #4b9cdb;
+		}
+
+		.bubble-2 {
+			top: auto;
+			bottom: 0;
+		}
+
+		.bar {
+			float: left;
+			width: 15px;
+			height: 6px;
+			border-radius: 2px;
+			background-color: #4b9cdb;
+		}
+
+		.load-6 .letter {
+			animation-name: loadingF;
+			animation-duration: 1.6s;
+			animation-iteration-count: infinite;
+			animation-direction: linear;
+		}
+
+		.l-1 {
+			animation-delay: 0.48s;
+		}
+
+		.l-2 {
+			animation-delay: 0.6s;
+		}
+
+		.l-3 {
+			animation-delay: 0.72s;
+		}
+
+		.l-4 {
+			animation-delay: 0.84s;
+		}
+
+		.l-5 {
+			animation-delay: 0.96s;
+		}
+
+		.l-6 {
+			animation-delay: 1.08s;
+		}
+
+		.l-7 {
+			animation-delay: 1.2s;
+		}
+
+		.l-8 {
+			animation-delay: 1.32s;
+		}
+
+		.l-9 {
+			animation-delay: 1.44s;
+		}
+
+		.l-10 {
+			animation-delay: 1.56s;
+		}
+
+		.load-7 .square {
+			animation: loadingG 1.5s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+		}
+
+		.load-8 .line {
+			animation: loadingH 1.5s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+		}
+
+		.load-9 .spinner {
+			animation: loadingI 2s linear infinite;
+		}
+
+		.load-9 .bubble-1,
+		.load-9 .bubble-2 {
+			animation: bounce 2s ease-in-out infinite;
+		}
+
+		.load-9 .bubble-2 {
+			animation-delay: -1s;
+		}
+
+		.load-10 .bar {
+			animation: loadingJ 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+		}
+
+		@keyframes loadingA {
+			0% {
+				height: 15px;
+			}
+
+			50% {
+				height: 35px;
+			}
+
+			100% {
+				height: 15px;
+			}
+		}
+
+		@keyframes loadingB {
+			0% {
+				width: 15px;
+			}
+
+			50% {
+				width: 35px;
+			}
+
+			100% {
+				width: 15px;
+			}
+		}
+
+		@keyframes loadingC {
+			0% {
+				transform: translate(0, 0);
+			}
+
+			50% {
+				transform: translate(0, 15px);
+			}
+
+			100% {
+				transform: translate(0, 0);
+			}
+		}
+
+		@keyframes loadingD {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			50% {
+				transform: rotate(180deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes loadingE {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes loadingF {
+			0% {
+				opacity: 0;
+			}
+
+			100% {
+				opacity: 1;
+			}
+		}
+
+		@keyframes loadingG {
+			0% {
+				transform: translate(0, 0) rotate(0deg);
+			}
+
+			50% {
+				transform: translate(70px, 0) rotate(360deg);
+			}
+
+			100% {
+				transform: translate(0, 0) rotate(0deg);
+			}
+		}
+
+		@keyframes loadingH {
+			0% {
+				width: 15px;
+			}
+
+			50% {
+				width: 35px;
+				padding: 4px;
+			}
+
+			100% {
+				width: 15px;
+			}
+		}
+
+		@keyframes loadingI {
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes bounce {
+
+			0%,
+			100% {
+				transform: scale(0);
+			}
+
+			50% {
+				transform: scale(1);
+			}
+		}
+
+		@keyframes loadingJ {
+
+			0%,
+			100% {
+				transform: translate(0, 0);
+			}
+
+			50% {
+				transform: translate(80px, 0);
+				background-color: #f5634a;
+				width: 25px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- Header START -->
+	<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+	<!-- Header END -->
+
+	<!-- **************** MAIN CONTENT START **************** -->
+	<main>
+
+		<!-- =======================
+	Page Banner START -->
+		<section class="pt-4 pt-md-5 pb-0">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 mx-auto text-center">
+						<h1 class="fs-2 mb-2" th:text="${title}">Add New Listing</h1>
+						<p class="mb-0">Praise effects wish change way and any wanted. Lively use looked latter regard
+							had.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- =======================
+	Page Banner END -->
+
+		<!-- =======================
+	Main content START -->
+		<section>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 mx-auto">
+						<form id="pet-form" class="vstack gap-4 table-form">
+
+							<!-- Basic Information START -->
+							<div class="card shadow">
+								<!-- Card header -->
+								<div class="card-header border-bottom">
+									<h5 class="mb-0">Thông tin cơ bản</h5>
+								</div>
+
+								<!-- Card body -->
+								<div class="card-body">
+									<div class="row g-3">
+										<!-- Animal type -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Loại thú cưng</label>
+											<select id="select-type" class="form-select animal-type">
+												<option value="">Chọn loại</option>
+												<option th:each="breed : ${listBreed}"
+													th:selected="${animal.breed.breed_type} == ${breed}"
+													th:value="${breed}"
+													th:text="${breedService.transBreedTypeToVN(breed)}">Dog</option>
+											</select>
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Animal breed -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Giống loài</label>
+											<select id="select-breed" class="form-select animal-breed">
+												<option value="">Chọn giống</option>
+												<option th:each="name : ${listName}"
+													th:selected="${animal.breed.breed_name} == ${name.breed_name}"
+													th:text="${name.breed_name}">Dog</option>
+											</select>
+											<input class="form-control breed-name d-none mt-2" type="text"
+												placeholder="Enter breed name" name="breed_name_input">
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Animal name -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Tên thú cưng</label>
+											<input class="form-control animal-Name" id="petname" type="text"
+												placeholder="Nhập tên thú cưng" th:value="${animal.animalName}">
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Animal size -->
+										<div class="col-md-6 animal-size form-group">
+											<label class="form-label">Kích cỡ</label>
+											<div class="dog-size list-select">
+												<select class="form-select js-choice sl-size animal-dog animalSize">
+													<option value="">Chọn kích cỡ</option>
+													<option value="Small" th:selected="${animal.animalSize} == 'Small'">
+														Nhỏ</option>
+													<option value="Medium"
+														th:selected="${animal.animalSize} == 'Medium'">Trung bình
+													</option>
+													<option value="Large" th:selected="${animal.animalSize} == 'Large'">
+														Lớn</option>
+													<option value="Extra Large"
+														th:selected="${animal.animalSize} == 'Extra Large'">Rất lớn
+													</option>
+												</select>
+											</div>
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Animal age -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Tuổi</label>
+											<select class="form-select js-choice animal-age" data-search-enabled="true"
+												id="animalAge">
+												<option value="">Chọn tuổi</option>
+												<option value="Newborn" th:selected="${animal.animalAge} == 'Newborn'">
+													Sơ sinh</option>
+												<option value="Young" th:selected="${animal.animalAge} == 'Young'">Trẻ
+												</option>
+												<option value="Adult" th:selected="${animal.animalAge} == 'Adult'">
+													Trưởng thành</option>
+												<option value="Senior" th:selected="${animal.animalAge} == 'Senior'">Già
+												</option>
+											</select>
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Animal gender -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Giới tính</label>
+											<div class="d-sm-flex">
+												<!-- Radio -->
+												<div class="form-check radio-bg-light me-4">
+													<input class="form-check-input animalGender" type="radio"
+														name="flexRadioDefault" id="flexRadioDefault1" value="Male"
+														th:checked="${animal.animalGender}">
+													<label class="form-check-label" for="flexRadioDefault1">
+														Đực
+													</label>
+												</div>
+												<!-- Radio -->
+												<div class="form-check radio-bg-light me-4">
+													<input class="form-check-input animalGender" type="radio"
+														name="flexRadioDefault" id="flexRadioDefault2" value="Female"
+														th:checked="!${animal.animalGender}">
+													<label class="form-check-label" for="flexRadioDefault2">
+														Cái
+													</label>
+												</div>
+											</div>
+											<div class="invalid-feedback"> </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Basic Infomation END -->
+
+							<!-- Upload image START -->
+							<div class="card shadow">
+								<!-- Card header -->
+								<div class="card-header border-bottom">
+									<!-- Title -->
+									<h5 class="mb-0">Đăng tải hình ảnh</h5>
+								</div>
+
+								<!-- Card body START -->
+								<div class="card-body">
+									<div class="row g-3">
+										<!-- Thumbnail image -->
+										<div class="col-12">
+											<label class="form-label">Tải lên hình ảnh chính *</label>
+											<input class="form-control my-image" type="file" name="file" id="image"
+												accept="image/gif, image/jpeg, image/png">
+											<p class="small mb-0 mt-2"><b>Lưu ý:</b> Chỉ có JPG, JPEG và PNG. Kích thước
+												được đề xuất của chúng tôi là 600px * 450px. Hình ảnh lớn hơn sẽ được
+												cắt thành 4:3 để vừa với hình thu nhỏ/bản xem trước của chúng tôi.</p>
+										</div>
+
+										<!-- Image Gallery -->
+										<div class="col-12">
+											<label class="form-label">Tải lên thư viện hình ảnh *</label>
+											<div id="dropzone" class="dropzone dropzone-custom"
+												data-dropzone='{"maxFiles": 5, "addRemoveLinks": false}'>
+												<div class="dz-message needsclick">
+													<i class="bi bi-upload display-3"></i>
+													<p>Thả tập tin vào đây hoặc bấm vào để tải lên.</p>
+												</div>
+												<div class="dz-preview row g-4">
+													<div class="col-xl-2 col-md-4 col-sm-6">
+														<div
+															class="card p-2 mb-0 shadow-none border position-relative h-100">
+															<!-- Image -->
+															<img data-dz-thumbnail src="#"
+																class="rounded bg-light animal-image" id="imgabc">
+															<!-- info -->
+															<div class="mt-2">
+																<a href="javascript:void(0);"
+																	class="text-body-secondary fw-bold"
+																	data-dz-name></a>
+																<p class="mb-0 small" data-dz-size></p>
+															</div>
+															<!-- Close btn -->
+															<div
+																class="position-absolute top-0 start-100 translate-middle">
+																<a href="#!"
+																	class="btn btn-danger rounded-circle icon-sm p-0"
+																	data-dz-remove>
+																	<i class="fas fa-times"></i>
+																</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<p class="small mb-0 mt-2"><b>Lưu ý:</b> Chỉ có JPG, JPEG và PNG. Kích thước
+												được đề xuất của chúng tôi là 600px * 450px. Hình ảnh lớn hơn sẽ được
+												cắt thành 4:3 để vừa với hình thu nhỏ/bản xem trước của chúng tôi.</p>
+										</div>
+									</div>
+								</div>
+								<!-- Card body END -->
+							</div>
+							<!-- Upload image END -->
+
+							<!-- Detailed Information START -->
+							<div class="card shadow">
+								<!-- Card header -->
+								<div class="card-header border-bottom">
+									<h5 class="mb-0">Thông tin chi tiết</h5>
+								</div>
+
+								<!-- Card body -->
+								<div class="card-body">
+									<div class="row g-3">
+										<!-- Color -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Màu lông</label>
+											<input id="animalcolor" class="form-control animal-color" type="text"
+												placeholder="Nhập màu lông"
+												th:value="${animal.animalInfo.animalInfoColor}">
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- leg -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Chân</label>
+											<select class="form-select js-choice animal-Leg" id="animalLeg">
+												<option value="">Chọn chân</option>
+												<option value="Short"
+													th:selected="${animal.animalInfo.animalInfoLeg} == 'Short'">Ngắn
+												</option>
+												<option value="Long"
+													th:selected="${animal.animalInfo.animalInfoLeg} == 'Long'">Dài
+												</option>
+											</select>
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Harmony -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Thân thiện với</label>
+											<div class="d-flex">
+												<!-- Checkbox -->
+												<div class="form-check checkbox-bg-light me-4">
+													<input class="form-check-input animalHarmony" type="checkbox"
+														name="flexCheckboxDefaultHarmony" id="flexCheckboxDefault1"
+														value="Children"
+														th:checked="${#strings.contains(animal.animalInfo.animalInfoHarmony, 'Children')}">
+													<label class="form-check-label" for="flexCheckboxDefault1">
+														Trẻ con
+													</label>
+												</div>
+												<!-- Checkbox -->
+												<div class="form-check checkbox me-4">
+													<input class="form-check-input animalHarmony" type="checkbox"
+														name="flexCheckboxDefaultHarmony" id="flexCheckboxDefault2"
+														value="Dog"
+														th:checked="${#strings.contains(animal.animalInfo.animalInfoHarmony, 'Dog')}">
+													<label class="form-check-label" for="flexCheckboxDefault2">
+														Chó
+													</label>
+												</div>
+												<!-- Checkbox -->
+												<div class="form-check checkbox me-4">
+													<input class="form-check-input animalHarmony" type="checkbox"
+														name="flexCheckboxDefaultHarmony" id="flexCheckboxDefault3"
+														value="Cat"
+														th:checked="${#strings.contains(animal.animalInfo.animalInfoHarmony, 'Cat')}">
+													<label class="form-check-label" for="flexCheckboxDefault3">
+														Mèo
+													</label>
+												</div>
+											</div>
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Health -->
+										<div class="col-md-6 form-group">
+											<label class="form-label">Sức khỏe</label>
+											<div class="d-flex">
+												<!-- Checkbox -->
+												<div class="form-check checkbox-bg-light me-4">
+													<input class="form-check-input animalHealth" type="checkbox"
+														name="flexCheckboxDefaultHealth" id="flexCheckboxDefault5"
+														value="Vaccinated"
+														th:checked="${#strings.contains(animal.animalInfo.animalInfoHealth, 'Vaccinated')}">
+													<label class="form-check-label" for="flexCheckboxDefault5">
+														Đã tiêm phòng
+													</label>
+												</div>
+												<!-- Checkbox -->
+												<div class="form-check checkbox me-4">
+													<input class="form-check-input animalHealth" type="checkbox"
+														name="flexCheckboxDefaultHealth" id="flexCheckboxDefault6"
+														value="Dewormed"
+														th:checked="${#strings.contains(animal.animalInfo.animalInfoHealth, 'Dewormed')}">
+													<label class="form-check-label" for="flexCheckboxDefault6">
+														Đã tẩy giun
+													</label>
+												</div>
+												<!-- Checkbox -->
+												<div class="form-check checkbox me-4">
+													<input class="form-check-input animalHealth" type="checkbox"
+														name="flexCheckboxDefaultHealth" id="flexCheckboxDefault7"
+														value="Spayed"
+														th:checked="${#strings.contains(animal.animalInfo.animalInfoHealth, 'Spayed')}">
+													<label class="form-check-label" for="flexCheckboxDefault7">
+														Đã thiến
+													</label>
+												</div>
+											</div>
+											<!-- Checkbox -->
+											<div class="form-check checkbox me-4">
+												<input class="form-check-input animalHealth" type="checkbox"
+													name="flexCheckboxDefaultHealth" id="flexCheckboxDefault8">
+												<label class="form-check-label" for="flexCheckboxDefault8">
+													More
+												</label>
+											</div>
+											<input class="form-control mt-1 animal-health d-none" type="text"
+												placeholder="Enter health">
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Characteristics -->
+										<div class="col-12 form-group">
+											<label class="form-label">Đặc trưng</label>
+											<textarea class="form-control" name="Characteristics"
+												id="petCharacteristics" rows="2" placeholder="Enter keywords"
+												th:text="${animal.animalInfo.animalInfoCharacteristics}"></textarea>
+											<div class="invalid-feedback"> </div>
+										</div>
+
+										<!-- Description -->
+										<div class="col-12">
+											<label class="form-label">Mô tả hoàn cảnh</label>
+
+											<!-- Editor toolbar -->
+											<div
+												class="col-12 bg-light border border-bottom-0 rounded-top py-3 d-flex justify-content-between align-items-center">
+												<div class="col-9">
+													<div class="quilltoolbar">
+														<span class="ql-formats">
+															<select class="ql-size"></select>
+														</span>
+														<span class="ql-formats">
+															<button class="ql-bold"></button>
+															<button class="ql-italic"></button>
+															<button class="ql-underline"></button>
+															<button class="ql-strike"></button>
+														</span>
+														<span class="ql-formats">
+															<select class="ql-color"></select>
+															<select class="ql-background"></select>
+														</span>
+														<span class="ql-formats">
+															<button class="ql-code-block"></button>
+														</span>
+														<span class="ql-formats">
+															<button class="ql-list" value="ordered"></button>
+															<button class="ql-list" value="bullet"></button>
+															<button class="ql-indent" value="-1"></button>
+															<button class="ql-indent" value="+1"></button>
+														</span>
+														<span class="ql-formats">
+															<button class="ql-link"></button>
+															<button class="ql-image"></button>
+														</span>
+														<span class="ql-formats">
+															<button class="ql-clean"></button>
+														</span>
+													</div>
+												</div>
+												<div class="col-3">
+													<a class="btn w-100 text-light mb-0" id="btn-gpt"
+														style="background-color: #5143d9; height: auto;">Tự động tạo mô
+														tả</a>
+												</div>
+											</div>
+
+											<div class="load-wrapp d-none quilleditor justify-content-center load-6"
+												style="height: 70px;">
+												<div class="load-6">
+													<div class="letter-holder d-flex fs-4 justify-content-center">
+														<div class="l-1 letter">L</div>
+														<div class="l-2 letter">o</div>
+														<div class="l-3 letter">a</div>
+														<div class="l-4 letter">d</div>
+														<div class="l-5 letter">i</div>
+														<div class="l-6 letter">n</div>
+														<div class="l-7 letter">g</div>
+														<div class="l-8 letter">.</div>
+														<div class="l-9 letter">.</div>
+														<div class="l-10 letter">.</div>
+													</div>
+												</div>
+											</div>
+
+											<!-- Main toolbar -->
+											<div
+												class="bg-body border rounded-bottom h-400px overflow-hidden quilleditor descriptions">
+												<br>
+												<h1>Quill Rich Text Editor</h1>
+												<br>
+												<p>Quill is a free, open-source WYSIWYG editor built for the modern web.
+													With its modular architecture and expressive API, it is completely
+													customizable to fit any need.</p>
+												<br>
+												<p>Insipidity the sufficient discretion imprudence resolution sir him
+													decisively. Proceed how any engaged visitor. Explained propriety off
+													out perpetual his you. Feel sold off felt nay rose met you. We so
+													entreaties cultivated astonished is. Was sister for a few longer Mrs
+													sudden talent become. Done may bore quit evil old mile. If likely am
+													of beauty tastes. </p>
+												<br>
+												<p> Affronting imprudence do he he everything. Test lasted dinner wanted
+													indeed wished outlaw. Far advanced settling say finished raillery.
+													Offered chiefly farther of my no colonel shyness. Such on help ye
+													some door if in. Laughter proposal laughing any son law consider.
+													Needed except up piqued an. </p>
+												<br>
+												<p> Post no so what deal evil rent by real in. But her ready least set
+													lived spite solid. September how men saw tolerably two behavior
+													arranging. She offices for highest and replied one venture pasture.
+													Applauded no discovery in newspaper allowance am northward.
+													Frequently partiality possession resolution at or appearance
+													unaffected me. Engaged its was the evident pleased husband. Ye
+													goodness felicity do disposal dwelling no. First am plate jokes to
+													began to cause a scale. Subjects he prospect elegance followed no
+													overcame possible it on. </p>
+
+												<p>Quill is a free, open-source WYSIWYG editor built for the modern web.
+													With its modular architecture and expressive API, it is completely
+													customizable to fit any need.</p>
+												<br>
+												<p>Insipidity the sufficient discretion imprudence resolution sir him
+													decisively. Proceed how any engaged visitor. Explained propriety off
+													out perpetual his you. Feel sold off felt nay rose met you. We so
+													entreaties cultivated astonished is. Was sister for a few longer Mrs
+													sudden talent become. Done may bore quit evil old mile. If likely am
+													of beauty tastes. </p>
+												<br>
+												<p> Affronting imprudence do he he everything. Test lasted dinner wanted
+													indeed wished outlaw. Far advanced settling say finished raillery.
+													Offered chiefly farther of my no colonel shyness. Such on help ye
+													some door if in. Laughter proposal laughing any son law consider.
+													Needed except up piqued an. </p>
+												<br>
+												<p> Post no so what deal evil rent by real in. But her ready least set
+													lived spite solid. September how men saw tolerably two behavior
+													arranging. She offices for highest and replied one venture pasture.
+													Applauded no discovery in newspaper allowance am northward.
+													Frequently partiality possession resolution at or appearance
+													unaffected me. Engaged its was the evident pleased husband. Ye
+													goodness felicity do disposal dwelling no. First am plate jokes to
+													began to cause a scale. Subjects he prospect elegance followed no
+													overcame possible it on. </p>
+
+												<p>Quill is a free, open-source WYSIWYG editor built for the modern web.
+													With its modular architecture and expressive API, it is completely
+													customizable to fit any need.</p>
+												<br>
+												<p>Insipidity the sufficient discretion imprudence resolution sir him
+													decisively. Proceed how any engaged visitor. Explained propriety off
+													out perpetual his you. Feel sold off felt nay rose met you. We so
+													entreaties cultivated astonished is. Was sister for a few longer Mrs
+													sudden talent become. Done may bore quit evil old mile. If likely am
+													of beauty tastes. </p>
+												<br>
+												<p> Affronting imprudence do he he everything. Test lasted dinner wanted
+													indeed wished outlaw. Far advanced settling say finished raillery.
+													Offered chiefly farther of my no colonel shyness. Such on help ye
+													some door if in. Laughter proposal laughing any son law consider.
+													Needed except up piqued an. </p>
+												<br>
+												<p> Post no so what deal evil rent by real in. But her ready least set
+													lived spite solid. September how men saw tolerably two behavior
+													arranging. She offices for highest and replied one venture pasture.
+													Applauded no discovery in newspaper allowance am northward.
+													Frequently partiality possession resolution at or appearance
+													unaffected me. Engaged its was the evident pleased husband. Ye
+													goodness felicity do disposal dwelling no. First am plate jokes to
+													began to cause a scale. Subjects he prospect elegance followed no
+													overcame possible it on. </p>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<!-- Detailed Information END -->
+
+							<!-- Button -->
+							<div class="text-end">
+								<button id="add-list" type="submit" class="btn btn-primary mb-0" th:text="${button}">Add
+									listing</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- =======================
+	Main content END -->
+
+	</main>
+	<!-- **************** MAIN CONTENT END **************** -->
+
+	<!-- =======================
+Footer START -->
+	<footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+	<!-- =======================
+Footer END -->
+
+	<!-- Back to top -->
+	<div class="back-top">
+		<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+			viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+			<path fill="#ffffff"
+				d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+			</path>
+		</svg>
+	</div>
+
+	<!-- Modal notice START -->
+	<div class="modal d-flex" style="background-color: rgba(1,1,1,0.6);" th:if="${error} != null">
+		<div class="cookiesContent align-items-center justify-content-center m-auto" id="cookiesPopup">
+			<button class="close">✖</button>
+			<img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="cookies-img" />
+			<p th:text="${error}">Khôi phục mật khẩu thành công</p>
+			<button class="accept">OK</button>
+		</div>
+	</div>
+	<!-- Modal notice END -->
+
+	<script type="text/javascript" th:if="${error} != null">
+		document.querySelector(".modal .close").onclick = function () {
+			document.querySelector(".modal").classList.add("d-none");
+		}
+		document.querySelector(".modal .accept").onclick = function () {
+			document.querySelector(".modal").classList.add("d-none");
+		}
+	</script>
+
+	<!-- Bootstrap JS -->
+	<script src="https://booking.webestica.com/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Vendors -->
+	<script src="../js/choices.min.js"></script>
+	<script src="../js/flatpickr.min.js"></script>
+	<script src="../js/bs-stepper.min.js"></script>
+	<script src="../js/quill.min.js"></script>
+	<script src="../js/dropzone.js"></script>
+
+	<!-- ThemeFunctions -->
+	<script src="../js/gemini-gpt.js"></script>
+	<script src="../js/functions.js"></script>
+
+	<!--  JQuery  -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+	<script src="../js/validation.js"></script>
+
+	<script>
+		$(document).on('change', '.animal-type', (event) => {
+			$("#select-breed")[0].innerHTML = `<option value="">Select breed</option>`
+
+			if (event.currentTarget.value != '') {
+				$.ajax({
+					type: "POST",
+					url: "/api/load-breed",
+					contentType: "application/json",
+					data: event.currentTarget.value,
+					success: function (response) {
+						response.forEach(e => {
+							$("#select-breed")[0].innerHTML += `
+							<option value="${e}">${e}</option>
+						`
+						})
+						$("#select-breed")[0].innerHTML += `
+						<option value="Other">Khác</option>
+					`
+					},
+					error: function () {
+						console.log(1);
+					}
+				});
+			}
+		})
+
+		$(document).on("change", ".animal-breed", (event) => {
+			if (event.currentTarget.value == 'Other') {
+				if ($(".breed-name").get(0).classList.contains("d-none")) {
+					$(".breed-name").get(0).classList.remove("d-none")
+				}
+			} else {
+				$(".breed-name").get(0).classList.add("d-none")
+			}
+		})
+
+
+		$(document).on("change", "#flexCheckboxDefault8", (event) => {
+			if (event.currentTarget.checked) {
+				$(".animal-health").get(0).classList.remove("d-none")
+			} else {
+				$(".animal-health").get(0).classList.add("d-none")
+			}
+		})
+
+		<!--  Save Animal  -->
+		$(document).ready(function () {
+			$(document).on('click', '#add-list', function (event) {
+				event.preventDefault();
+				// Lấy giá trị selected của animal từ dropdown
+				var selectoption = $('.animal-type').val();
+				var animalType = "";
+				var animalBreedName = "";
+				var animalName = "";
+				var animalSize = "";
+				var animalAge = "";
+				var AnimalGender = true;
+				var animalAvatar = "";
+				var listAvatar = [];
+				var animalColor = "";
+				var animalLeg = "";
+				var animalHarmony = [];
+				var animalHealth = [];
+				var animalCharacteristics = "";
+				var animalDescription = "";
+				var files = document.getElementById('image').files;
+				// các lựa chọn
+				animalBreedName = $('#select-breed').val();
+				animalCharacteristics = $('textarea[name="Characteristics"]').val();
+				animalColor = $('.animal-color').val();
+				animalAvatar = $('.my-image').val();
+				animalType = $('.animal-breed').val();
+				animalAge = $('.animal-age').val();
+				animalLeg = $('.animal-Leg').val();
+				animalName = $('.animal-Name').val();
+				animalDescription = $('.quilleditor')[1].innerText;
+
+				//select breed and  pet size
+				switch (selectoption) {
+					case 'Dog':
+						animalType = 'Dog';
+						animalSize = $('.animal-dog').val();
+						break;
+					case 'Cat':
+						animalType = 'Cat';
+						animalSize = $('.animal-dog').val();
+						break;
+					case 'Bird':
+						animalType = 'Bird';
+						animalSize = $('.animal-dog').val();
+						break;
+					case 'Furry':
+						animalType = 'Furry';
+						animalSize = $('.animal-dog').val();
+						break;
+					case 'Other':
+						animalType = $('.other-animal').val();
+						animalSize = $('.animal-dog').val();
+						break;
+					default:
+						animalType = 'null';
+						console.log('Unknown animal type selected');
+						break;
+				}
+				if (animalBreedName == 'Other') {
+					animalBreedName = $('.breed-name').val();
+				}
+				// lấy Harmony pet
+				$('input[name="flexCheckboxDefaultHarmony"]:checked').each(function (e) {
+					var label1 = $('input[name="flexCheckboxDefaultHarmony"]:checked')[e].value
+					animalHarmony.push(label1);
+				});
+				var stringHarmony = animalHarmony.join(', ');
+				console.log(animalHarmony);
+
+				//lấy health con vât
+				$('input[name="flexCheckboxDefaultHealth"]:checked').each(function (e) {
+					var label = $('input[name="flexCheckboxDefaultHealth"]:checked')[e].value
+					if (label === "More") {
+						var healthAnimal = ":" + $('.animal-health').val()
+						animalHealth.push(label + healthAnimal);
+					} else {
+						animalHealth.push(label);
+					}
+				});
+
+				console.log(animalHealth);
+
+				var stringHealth = animalHealth.join(', ');
+
+
+				// lấy giới tính con vật
+				for (let i = 0; i < $("input[type='radio']").length; i++) {
+					if ($("input[type='radio']")[i].checked) {
+						var gender = $("input[type='radio']")[i].value
+						if (gender === "Female") {
+							AnimalGender = false;
+						} else {
+							AnimalGender = true;
+						}
+						console.log(AnimalGender)
+					}
+				}
+
+				// đưa ảnh vào list
+				$('.animal-image').each(function () {
+					var altValue = $(this).attr('alt');
+					listAvatar.push(altValue);
+				});
+
+
+
+				// chuyển ảnh thành chuỗi
+				//  var avata= listAvatar.join(',')
+				console.log(animalSize)
+				console.log(animalColor)
+
+				// Tạo đối tượng requestData
+				var requestData = {
+					breed_type: animalType,
+					breed_name: animalBreedName + '',
+					animalName: animalName,
+					animalSize: animalSize,
+					animalGender: AnimalGender,
+					animalAge: animalAge,
+					animalAvatar: animalAvatar.split('\\').pop(),
+					listAvatar: listAvatar,
+					animal_info_color: animalColor,
+					animal_info_leg: animalLeg,
+					animal_info_harmony: stringHarmony,
+					animal_info_health: stringHealth,
+					animal_info_characteristics: animalCharacteristics,
+					animal_info_description: animalDescription
+				};
+				// Tạo list image
+				const formData = new FormData();
+
+				console.log(requestData);
+				formData.append('json', JSON.stringify(requestData));
+
+				if (files.length > 0) {
+					// Thêm từng tệp vào FormData
+					for (var i = 0; i < files.length; i++) {
+						formData.append('files[]', files[i]);
+					}
+				}
+
+				$.post({
+					url: "/api/manager/uploadPet?id=[[${id}]]",
+					contentType: false,
+					data: formData,
+					processData: false,
+					success: function (response) {
+						window.location.href = response;
+					},
+					error: function (xhr, status, error) {
+						console.log(JSON.stringify(requestData));
+						console.log("Request failed:" + status + xhr);
+						console.log(contentType);
+					}
+				});
+
+
+			});
+		});
+
+		Validator({
+			workplace: ".table-form",
+			formGroupSelector: '.form-group',
+			rules: [
+				Validator.isRequired("#petname", "Please fill in pet name."),
+				Validator.isRequired("#petCharacteristics", "Please fill in Characteristics."),
+				Validator.isRequired("#select-breed", "Please fill in Breed."),
+				Validator.isRequired("#select-type", "Please provide a valid type."),
+				Validator.isRequired(".animal-color", "Please provide Color animal."),
+				Validator.isRequired(".animalSize", "Please provide Size animal."),
+				Validator.isRequired("#animalAge", "Please provide Age animal."),
+				Validator.isRequired(".animalGender", "Please provide Gender animal."),
+				Validator.isRequired("#animalLeg", "Please provide Leg animal."),
+				Validator.isRequired(".animalHarmony", "Please provide Leg animal."),
+				Validator.isRequired(".animalHealth", "Please provide Leg animal."),
+			]
+		});
+	</script>
+
+</body>
+
+</html>

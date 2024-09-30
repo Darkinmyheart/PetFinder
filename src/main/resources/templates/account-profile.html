@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Booking - Multipurpose Online Booking Theme</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Webestica.com">
+    <meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+    <!-- Dark mode -->
+    <script>
+        const storedTheme = localStorage.getItem('theme')
+
+        const getPreferredTheme = () => {
+            if (storedTheme) {
+                return storedTheme
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+
+        const setTheme = function (theme) {
+            if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+        }
+
+        setTheme(getPreferredTheme())
+
+        window.addEventListener('DOMContentLoaded', () => {
+            var el = document.querySelector('.theme-icon-active');
+            if (el != 'undefined' && el != null) {
+                const showActiveTheme = theme => {
+                    const activeThemeIcon = document.querySelector('.theme-icon-active use')
+                    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+                    const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+                    document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                        element.classList.remove('active')
+                    })
+
+                    btnToActive.classList.add('active')
+                    activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+                }
+
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                        setTheme(getPreferredTheme())
+                    }
+                })
+
+                showActiveTheme(getPreferredTheme())
+
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                            showActiveTheme(theme)
+                        })
+                    })
+
+            }
+        })
+
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/aos.css">
+    <link rel="stylesheet" type="text/css" href="../css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+
+    <style>
+        ul.valid-password {
+			width: 91%;
+			position: absolute;
+			padding: 14px 20px;
+			border: 1px solid #d2d1d3;
+			background-color: #fff;
+			z-index: 999 !important;
+			list-style-type: none;
+            li.valid {
+                color: rgb(0, 170, 45);
+                list-style: disc;
+				font-weight: 600;
+				list-style-type: none;
+            }
+			p{
+				font-weight: 600;
+				color: #000;
+			}
+            border-radius: 6px;
+        }
+
+        ul.valid-password .batbuoc li,
+        ul.valid-password .true3in4 li,
+        ul.valid-password .trueValid li {
+            padding-left: 18px;
+        }
+    </style>
+</head>
+
+<body class="dashboard">
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+    <!-- ======================= Content START -->
+    <section class="pt-3">
+        <div class="container">
+            <div class="row">
+
+                <!-- Sidebar START -->
+                <div class="col-lg-4 col-xl-3">
+                    <!-- Responsive offcanvas body START -->
+                    <div th:insert="~{fragments/viewers/_navbar-user :: navbar-user}"></div>
+                    <!-- Responsive offcanvas body END -->
+                </div>
+                <!-- Sidebar END -->
+
+                <!-- Main content START -->
+                <div class="col-lg-8 col-xl-9">
+
+                    <!-- Offcanvas menu button -->
+                    <div class="d-grid mb-0 d-lg-none w-100">
+                        <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                            <i class="fas fa-sliders-h"></i> Menu
+                        </button>
+                    </div>
+
+                    <div class="vstack gap-4">
+                        <!-- Personal info START -->
+                        <div class="card border">
+                            <!-- Card header -->
+                            <div class="card-header border-bottom">
+                                <h4 class="card-header-title">Thông tin cá nhân</h4>
+                            </div>
+
+                            <!-- Card body START -->
+                            <div class="card-body">
+                                <!-- Form START -->
+                                <form action="/account/change-info-user" enctype="multipart/form-data" method="post" class="row g-3 tab-changeProfile" th:object="${user}">
+                                    <!-- Profile photo -->
+                                    <div class="col-12">
+                                        <label class="form-label">Tải lên ảnh hồ sơ của bạn<span
+                                                class="text-danger">*</span></label>
+                                        <div class="d-flex align-items-center">
+                                            <label class="position-relative me-4" for="uploadfile-1"
+                                                   title="Replace this pic">
+                                                <!-- Avatar place holder -->
+                                                <span class="avatar avatar-xl">
+                                                        <img id="uploadfile-1-preview"
+                                                             class="avatar-img rounded-circle border border-white border-3 shadow"
+                                                             onerror="this.onerror =null;this.src='/imgProfile/defaulAvatar.jpg'"
+                                                             th:src="'/imgProfile/'+${user.avatar}"
+                                                             alt="">
+                                                    </span>
+                                            </label>
+                                            <!-- Upload button -->
+                                            <label class="btn btn-sm btn-primary-soft mb-0"
+                                                   for="uploadfile-1">Thay đổi</label>
+                                            <input id="uploadfile-1" name="profileImage" class="form-control d-none" type="file" accept="image/*">
+                                        </div>
+                                    </div>
+
+                                    <!-- First Name -->
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label">Họ<span
+                                                class="text-danger">*</span></label>
+                                        <input id="pf-firstName" th:field="*{firstName}" type="text" class="form-control" placeholder="Nhập họ của bạn">
+                                        <div class="invalid-feedback" th:text="${firstNameInValid}">  </div>
+                                    </div>
+
+                                    <!-- Last Name -->
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label">Tên<span
+                                                class="text-danger">*</span></label>
+                                        <input id="pf-lastName" th:field="*{lastName}" type="text" class="form-control" placeholder="Nhập tên của bạn">
+                                        <div class="invalid-feedback" th:text="${lastNameInValid}">  </div>
+                                    </div>
+
+                                    <!-- Mobile -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Số điện thoại</label>
+                                        <input type="text" class="form-control" th:field="*{phone}" placeholder="Nhập số điện thoại">
+                                    </div>
+
+                                    <!-- Nationality -->
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label">Vị trí<span
+                                                class="text-danger">*</span></label>
+                                        <select id="pf-location" class="form-select js-choice" name="country" data-search-enabled="true">
+                                            <option value="">Chọn vị trí</option>
+                                            <option th:selected="${user.country == 'An Giang'} ? true : false">An Giang</option>
+                                            <option th:selected="${user.country == 'Bà Rịa - Vũng Tàu'} ? true : false">Bà Rịa - Vũng Tàu</option>
+                                            <option th:selected="${user.country == 'Bắc Giang'} ? true : false">Bắc Giang</option>
+                                            <option th:selected="${user.country == 'Bắc Kạn'} ? true : false">Bắc Kạn</option>
+                                            <option th:selected="${user.country == 'Bạc Liêu'} ? true : false">Bạc Liêu</option>
+                                            <option th:selected="${user.country == 'Bắc Ninh'} ? true : false">Bắc Ninh</option>
+                                            <option th:selected="${user.country == 'Bến Tre'} ? true : false">Bến Tre</option>
+                                            <option th:selected="${user.country == 'Bình Dương'} ? true : false">Bình Dương</option>
+                                            <option th:selected="${user.country == 'Bình Định'} ? true : false">Bình Định</option>
+                                            <option th:selected="${user.country == 'Bình Phước'} ? true : false">Bình Phước</option>
+                                            <option th:selected="${user.country == 'Bình Thuận'} ? true : false">Bình Thuận</option>
+                                            <option th:selected="${user.country == 'Cà Mau'} ? true : false">Cà Mau</option>
+                                            <option th:selected="${user.country == 'Cần Thơ'} ? true : false">Cần Thơ</option>
+                                            <option th:selected="${user.country == 'Cao Bằng'} ? true : false">Cao Bằng</option>
+                                            <option th:selected="${user.country == 'Đà Nẵng'} ? true : false">Đà Nẵng</option>
+                                            <option th:selected="${user.country == 'Đắk Lắk'} ? true : false">Đắk Lắk</option>
+                                            <option th:selected="${user.country == 'Đắk Nông'} ? true : false">Đắk Nông</option>
+                                            <option th:selected="${user.country == 'Điện Biên'} ? true : false">Điện Biên</option>
+                                            <option th:selected="${user.country == 'Đồng Nai'} ? true : false">Đồng Nai</option>
+                                            <option th:selected="${user.country == 'Đồng Tháp'} ? true : false">Đồng Tháp</option>
+                                            <option th:selected="${user.country == 'Gia Lai'} ? true : false">Gia Lai</option>
+                                            <option th:selected="${user.country == 'Hà Giang'} ? true : false">Hà Giang</option>
+                                            <option th:selected="${user.country == 'Hà Nam'} ? true : false">Hà Nam</option>
+                                            <option th:selected="${user.country == 'Hà Nội'} ? true : false">Hà Nội</option>
+                                            <option th:selected="${user.country == 'Hà Tĩnh'} ? true : false">Hà Tĩnh</option>
+                                            <option th:selected="${user.country == 'Hải Dương'} ? true : false">Hải Dương</option>
+                                            <option th:selected="${user.country == 'Hải Phòng'} ? true : false">Hải Phòng</option>
+                                            <option th:selected="${user.country == 'Hậu Giang'} ? true : false">Hậu Giang</option>
+                                            <option th:selected="${user.country == 'Hồ Chí Minh'} ? true : false">Hồ Chí Minh</option>
+                                            <option th:selected="${user.country == 'Hoà Bình'} ? true : false">Hoà Bình</option>
+                                            <option th:selected="${user.country == 'Hưng Yên'} ? true : false">Hưng Yên</option>
+                                            <option th:selected="${user.country == 'Khánh Hòa'} ? true : false">Khánh Hòa</option>
+                                            <option th:selected="${user.country == 'Kiên Giang'} ? true : false">Kiên Giang</option>
+                                            <option th:selected="${user.country == 'Kon Tum'} ? true : false">Kon Tum</option>
+                                            <option th:selected="${user.country == 'Lai Châu'} ? true : false">Lai Châu</option>
+                                            <option th:selected="${user.country == 'Lâm Đồng'} ? true : false">Lâm Đồng</option>
+                                            <option th:selected="${user.country == 'Lạng Sơn'} ? true : false">Lạng Sơn</option>
+                                            <option th:selected="${user.country == 'Lào Cai'} ? true : false">Lào Cai</option>
+                                            <option th:selected="${user.country == 'Long An'} ? true : false">Long An</option>
+                                            <option th:selected="${user.country == 'Nam Định'} ? true : false">Nam Định</option>
+                                            <option th:selected="${user.country == 'Nghệ An'} ? true : false">Nghệ An</option>
+                                            <option th:selected="${user.country == 'Ninh Bình'} ? true : false">Ninh Bình</option>
+                                            <option th:selected="${user.country == 'Ninh Thuận'} ? true : false">Ninh Thuận</option>
+                                            <option th:selected="${user.country == 'Phú Thọ'} ? true : false">Phú Thọ</option>
+                                            <option th:selected="${user.country == 'Phú Yên'} ? true : false">Phú Yên</option>
+                                            <option th:selected="${user.country == 'Quảng Bình'} ? true : false">Quảng Bình</option>
+                                            <option th:selected="${user.country == 'Quảng Nam'} ? true : false">Quảng Nam</option>
+                                            <option th:selected="${user.country == 'Quảng Ngãi'} ? true : false">Quảng Ngãi</option>
+                                            <option th:selected="${user.country == 'Quảng Ninh'} ? true : false">Quảng Ninh</option>
+                                            <option th:selected="${user.country == 'Quảng Trị'} ? true : false">Quảng Trị</option>
+                                            <option th:selected="${user.country == 'Sóc Trăng'} ? true : false">Sóc Trăng</option>
+                                            <option th:selected="${user.country == 'Sơn La'} ? true : false">Sơn La</option>
+                                            <option th:selected="${user.country == 'Tây Ninh'} ? true : false">Tây Ninh</option>
+                                            <option th:selected="${user.country == 'Thái Bình'} ? true : false">Thái Bình</option>
+                                            <option th:selected="${user.country == 'Thái Nguyên'} ? true : false">Thái Nguyên</option>
+                                            <option th:selected="${user.country == 'Thanh Hóa'} ? true : false">Thanh Hóa</option>
+                                            <option th:selected="${user.country == 'Thừa Thiên Huế'} ? true : false">Thừa Thiên Huế</option>
+                                            <option th:selected="${user.country == 'Tiền Giang'} ? true : false">Tiền Giang</option>
+                                            <option th:selected="${user.country == 'Trà Vinh'} ? true : false">Trà Vinh</option>
+                                            <option th:selected="${user.country == 'Tuyên Quang'} ? true : false">Tuyên Quang</option>
+                                            <option th:selected="${user.country == 'Vĩnh Long'} ? true : false">Vĩnh Long</option>
+                                            <option th:selected="${user.country == 'Vĩnh Phúc'} ? true : false">Vĩnh Phúc</option>
+                                            <option th:selected="${user.country == 'Yên Bái'} ? true : false">Yên Bái</option>
+                                        </select>
+                                        <div class="invalid-feedback" th:text="${locationInValid}">  </div>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Địa chỉ email<span
+                                                class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" th:value="${user.userName}" placeholder="Nhập email của bạn" disabled>
+                                        <div class="invalid-feedback">  </div>
+                                    </div>
+
+                                    <!-- Address -->
+                                    <div class="col-12">
+                                        <label class="form-label">Địa chỉ</label>
+                                        <textarea class="form-control" rows="3" spellcheck="false" th:field="*{address}"></textarea>
+                                    </div>
+
+                                    <!-- Button -->
+                                    <div class="col-12 text-end">
+                                        <button type="submit" class="btn btn-primary mb-0">Lưu thay đổi</button>
+                                    </div>
+                                </form>
+                                <!-- Form END -->
+                            </div>
+                            <!-- Card body END -->
+                        </div>
+                        <!-- Personal info END -->
+
+                        <!-- Update Password START -->
+                        <div class="card border">
+                            <!-- Card header -->
+                            <div class="card-header border-bottom">
+                                <h4 class="card-header-title">Thay đổi mật khẩu</h4>
+                            </div>
+
+                            <!-- Card body START -->
+                            <form class="card-body tab-changePassword" action="/account/change-password-user" method="post">
+                                <!-- Current password -->
+                                <div class="mb-3 form-group">
+                                    <label class="form-label">Mật khẩu hiện tại</label>
+                                    <input id="pw-current" name="passOld" class="form-control" type="password" placeholder="Nhập mật khẩu hiện tại">
+                                    <div th:class="${errorMessagePasswordOld} !=null ? 'invalid-feedback d-block' : 'invalid-feedback'" th:text="${errorMessagePasswordOld}">  </div>
+                                </div>
+                                <!-- New password -->
+                                <div class="mb-3 form-group">
+                                    <label class="form-label"> Mật khẩu mới</label>
+                                    <div class="input-group">
+                                        <input id="pw-new" name="passNew" class="form-control fakepassword password position-relative" placeholder="Nhập mật khẩu mới" type="password">
+                                        <span class="input-group-text p-0 bg-transparent">
+                                                <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+                                            </span>
+                                    </div>
+                                    <ul class="valid-password d-none">
+                                        <div class="batbuoc">
+                                            <p class="" style="margin-bottom: 4px;">Mật khẩu bắt buộc</p>
+                                            <li class="length">Phải từ 8 đến 20 ký tự.</li>
+                                        </div>
+                                        <div class="true3in4 mt-2">
+                                            <p class="" style="margin-bottom: 4px;">Phải chứa ít nhất 3 trong 4 điều kiện sau:</p>
+                                            <li class="lowercase">Có ít nhất 1 ký tự thường.</li>
+                                            <li class="uppercase">Có ít nhất 1 ký tự hoa.</li>
+                                            <li class="number">Có ít nhất 1 ký số.</li>
+                                            <li class="special">Có ít nhất 1 ký tự đặc biệt.</li>
+                                        </div>
+                                        <div class="trueValid d-none">
+                                            <p class="" style="margin-bottom: 4px;">Mật khẩu hợp lệ</p>
+                                            <li class="true-valid valid">Có hiệu lực.</li>
+                                        </div>
+                                    </ul>
+                                    <div class="invalid-feedback" style="color: red;" th:text="${errorMessagePasswordNew}">  </div>
+                                </div>
+                                <!-- Confirm -->
+                                <div class="mb-3 form-group">
+                                    <label class="form-label">Nhập lại mật khẩu mới</label>
+                                    <input id="pw-cfNew" name="cfPassNew" class="form-control" type="password" placeholder="Nhập lại mật khẩu mới">
+                                    <div class="invalid-feedback" th:text="${errorMessageConfirmPassword}">  </div>
+                                </div>
+
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary mb-0">Đổi mật khẩu</button>
+                                </div>
+                            </form>
+                            <!-- Card body END -->
+                        </div>
+                        <!-- Update Password END -->
+                    </div>
+                </div>
+                <!-- Main content END -->
+
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+Content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+         viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+        <path fill="#ffffff"
+              d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+        </path>
+    </svg>
+</div>
+
+<!-- Modal notice START -->
+<div class="modal d-flex" style="background-color: rgba(1,1,1,0.6);" th:if="${messageComplete != null}">
+    <div class="cookiesContent align-items-center justify-content-center m-auto" id="cookiesPopup">
+        <button class="close">✖</button>
+        <img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="cookies-img" />
+        <p th:text="${messageComplete}">Khôi phục mật khẩu thành công</p>
+        <button class="accept">OK</button>
+    </div>
+</div>
+<!-- Modal notice END -->
+
+<script type="text/javascript" th:if="${messageComplete != null}">
+    document.querySelector(".modal .close").onclick = function () {
+        document.querySelector(".modal").classList.add("d-none");
+    }
+    document.querySelector(".modal .accept").onclick = function() {
+        document.querySelector(".modal").classList.add("d-none");
+    }
+</script>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../js/aos.js"></script>
+<script src="../js/flatpickr.min.js"></script>
+<script src="../js/choices.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+<!--  JQuery  -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Validation -->
+<script src="../js/validation.js"></script>
+
+<script>
+    document.getElementById('uploadfile-1').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('uploadfile-1-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    Validator({
+        workplace: ".tab-changeProfile",
+        formGroupSelector: '.form-group',
+        rules: [
+            Validator.isRequired("#pf-lastName", "Họ không được để trống."),
+            Validator.isRequired("#pf-firstName", "Tên không được để trống."),
+            Validator.isRequired("#pf-location", "Vị trí không được để trống."),
+        ]
+    });
+
+    Validator({
+        workplace: ".tab-changePassword",
+        formGroupSelector: '.form-group',
+        rules: [
+            Validator.isRequired("#pw-current", "Mật khẩu hiện tại không được để trống."),
+            Validator.isRequired("#pw-cfNew", "Nhập lại mật khẩu mới không được bỏ trống."),
+            Validator.isConfirm("#pw-cfNew", function() {
+                return document.querySelector("#pw-new").value
+            }, "Nhập lại mật khẩu mới không khớp")
+        ]
+    });
+</script>
+
+</body>
+
+</html>

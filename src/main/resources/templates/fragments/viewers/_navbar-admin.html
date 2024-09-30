@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <nav class="navbar sidebar navbar-expand-xl navbar-light" th:fragment="navbar-admin">
+        <!-- Navbar brand for xl START -->
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand" href="/index">
+                <img class="light-mode-item navbar-brand-item" src="../images/logo-Icon.png" alt="logo">
+                <img class="dark-mode-item navbar-brand-item" src="../images/logo-Icon.png" alt="logo">
+            </a>
+        </div>
+        <!-- Navbar brand for xl END -->
+
+        <div class="offcanvas offcanvas-start flex-row custom-scrollbar h-100" data-bs-backdrop="true" tabindex="-1" id="offcanvasSidebar">
+            <div class="offcanvas-body sidebar-content d-flex flex-column pt-4">
+
+                <!-- Sidebar menu START -->
+                <ul class="navbar-nav flex-column" id="navbar-sidebar">
+                    <!-- Menu item -->
+                    <li class="nav-item"><a href="/admin/dashboard" th:class="${statusActive} == 'dashboard' ? 'nav-link active' : 'nav-link'">Bảng điều khiển</a></li>
+
+                    <!-- Title -->
+                    <li class="nav-item ms-2 my-2">Pages</li>
+
+                    <!-- Menu item -->
+                    <li class="nav-item"> <a th:class="${statusActive} == 'shelter' ? 'nav-link active' : 'nav-link'" href="/admin/shelter-list">Trung tâm</a></li>
+
+                    <!-- Menu item -->
+                    <li class="nav-item"> <a th:class="${statusActive} == 'user' ? 'nav-link active' : 'nav-link'" href="/admin/user-list">Người dùng</a></li>
+
+                    <!-- Menu item -->
+                    <li class="nav-item"> <a th:class="${statusActive} == 'regist' ? 'nav-link active' : 'nav-link'" href="/admin/regist-list">Danh sách đăng ký</a></li>
+
+                    <!-- Menu item -->
+                    <li class="nav-item"> <a class="nav-link" href="/admin/token-shop">Cửa hàng điểm thưởng</a></li>
+
+                    <!-- Menu item -->
+                    <li class="nav-item"> <a th:class="${statusActive} == 'donate' ? 'nav-link active' : 'nav-link'" href="/admin/user-donate">Quyên góp</a></li>
+
+                    <!-- Menu item -->
+                    <li class="nav-item"> <a class="nav-link" href="/admin/setting">Cài đặt</a></li>
+                </ul>
+                <!-- Sidebar menu end -->
+
+                <!-- Sidebar footer START -->
+                <div class="d-flex align-items-center justify-content-between text-primary-hover mt-auto p-3">
+                    <a class="h6 fw-light mb-0 text-body" th:href="@{/logout}" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Sign out">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+                    </a>
+                    <a class="h6 mb-0 text-body" href="admin-settings.html" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Settings">
+                        <i class="bi bi-gear-fill"></i>
+                    </a>
+                </div>
+                <!-- Sidebar footer END -->
+
+            </div>
+        </div>
+    </nav>
+
+</body>
+</html>

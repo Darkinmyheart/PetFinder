@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Booking - Multipurpose Online Booking Theme</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Webestica.com">
+    <meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+    <!-- Dark mode -->
+    <script>
+        const storedTheme = localStorage.getItem('theme')
+
+        const getPreferredTheme = () => {
+            if (storedTheme) {
+                return storedTheme
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+
+        const setTheme = function (theme) {
+            if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+        }
+
+        setTheme(getPreferredTheme())
+
+        window.addEventListener('DOMContentLoaded', () => {
+            var el = document.querySelector('.theme-icon-active');
+            if (el != 'undefined' && el != null) {
+                const showActiveTheme = theme => {
+                    const activeThemeIcon = document.querySelector('.theme-icon-active use')
+                    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+                    const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+                    document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                        element.classList.remove('active')
+                    })
+
+                    btnToActive.classList.add('active')
+                    activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+                }
+
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                        setTheme(getPreferredTheme())
+                    }
+                })
+
+                showActiveTheme(getPreferredTheme())
+
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                            showActiveTheme(theme)
+                        })
+                    })
+
+            }
+        })
+
+    </script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/aos.css">
+    <link rel="stylesheet" type="text/css" href="../css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body class="dashboard">
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+    <!-- ======================= Content START -->
+    <section class="pt-3">
+        <div class="container">
+            <div class="row">
+
+                <!-- Sidebar START -->
+                <div class="col-lg-4 col-xl-3">
+                    <!-- Responsive offcanvas body START -->
+                    <div th:insert="~{fragments/viewers/_navbar-user :: navbar-user}"></div>
+                    <!-- Responsive offcanvas body END -->
+                </div>
+                <!-- Sidebar END -->
+
+                <!-- Main content START -->
+                <div class="col-lg-8 col-xl-9">
+                    <!-- Offcanvas menu button -->
+                    <div class="d-grid mb-0 d-lg-none w-100">
+                        <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                            <i class="fas fa-sliders-h"></i> Menu
+                        </button>
+                    </div>
+
+                    <!-- Card START -->
+                    <div class="card border">
+                        <!-- Card header -->
+                        <div class="card-header border-bottom">
+                            <h4 class="card-header-title">Xóa tài khoản</h4>
+                        </div>
+
+                        <!-- Card body START -->
+                        <div class="card-body">
+                            <h6>Trước khi bạn đi...</h6>
+                            <ul>
+                                <li>Hãy sao lưu dữ liệu của bạn <a href="#">Tại đây</a> </li>
+                                <li>Nếu bạn xóa tài khoản của mình, bạn sẽ mất tất cả dữ liệu.</li>
+                            </ul>
+                            <div class="form-check form-check-md my-4">
+                                <input class="form-check-input" type="checkbox" value="" id="deleteaccountCheck">
+                                <label class="form-check-label" for="deleteaccountCheck">Có, tôi muốn xóa tài khoản của mình</label>
+                            </div>
+                            <a href="#" class="btn btn-success-soft btn-sm mb-2 mb-sm-0">Giữ lại tài khoản của tôi</a>
+                            <a href="#" class="btn btn-danger btn-sm mb-0">Xóa tài khoản của tôi</a>
+                        </div>
+                        <!-- Card body END -->
+                    </div>
+                    <!-- Card END -->
+                </div>
+                <!-- Main content END -->
+
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+Content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+    <div class="container">
+        <!-- Row START -->
+        <div class="row g-4">
+
+            <!-- Widget 1 START -->
+            <div class="col-lg-4">
+                <!-- logo -->
+                <a href="index.html">
+                    <img class="h-40px" src="../images/logo-Icon.png" alt="logo">
+                </a>
+                <p class="mt-3 mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+1234 568 963</a> </p>
+                <p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2" style="padding-right: 2px;"></i>example@gmail.com</a></p>
+                <p class="mb-0 text-body-secondary"><a href="#" class="text-body-secondary text-primary-hover"><i class="fa-solid fa-hotel me-2"></i>Floor 4-5-6, Capital Place Building, 29 Lieu Giai Street, Ngoc Khanh Ward, Ba Dinh District, Hanoi City, Vietnam.</a> </p>
+            </div>
+            <!-- Widget 1 END -->
+
+            <!-- Widget 2 START -->
+            <div class="col-lg-8 ms-auto">
+                <div class="row g-4">
+                    <!-- Link block -->
+                    <div class="col-6 col-md-4">
+                        <h5 class="text-white mb-2 mb-md-4">Resources</h5>
+                        <ul class="nav flex-column text-primary-hover">
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">About us</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Contact us</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">News and Blog</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Help Center</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Link block -->
+                    <div class="col-6 col-md-4">
+                        <h5 class="text-white mb-2 mb-md-4">Customer Service</h5>
+                        <ul class="nav flex-column text-primary-hover">
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Adoption Guide</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Donation Instructions</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Shelter Instructions</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Privacy Policy</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Cookie</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#">Support</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Link block -->
+                    <div class="col-6 col-md-4 footer-flex-row">
+                        <h5 class="text-white mb-2 mb-md-4">Searching</h5>
+                        <ul class="nav flex-column text-primary-hover">
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-dog me-2" style="color: #ffffff;"></i>Dogs & Puppies</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-cat me-2" style="color: #ffffff;"></i>Cats & Kiitens</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-paw me-2" style="color: #ffffff;"></i>Other Animals</a></li>
+                            <li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-house me-2" style="color: #ffffff;"></i>Shelter & Rescues</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Widget 2 END -->
+
+        </div><!-- Row END -->
+
+        <!-- Tops Links -->
+        <div class="row mt-5">
+            <h5 class="mb-2 text-white">Top Links</h5>
+            <ul class="list-inline text-primary-hover lh-lg">
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Shelter & Rescue Registration</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Sitemap</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Terms of Service</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Notice at Collection</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">About us</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Contact us</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Blogs</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Services</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Privacy Policy</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Cookie Policy</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Accessibility</a></li>
+                <li class="list-inline-item"><a href="#" class="text-body-secondary">Do Not Sell Or Share My Personal Information</a></li>
+            </ul>
+        </div>
+
+        <!-- Payment and card -->
+        <div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+            <!-- Payment card -->
+            <div class="col-sm-7 col-md-6 col-lg-4">
+                <h5 class="text-white mb-2">Payment & Security</h5>
+                <ul class="list-inline mb-0 mt-3">
+                    <li class="list-inline-item"> <a href="#"><img src="https://booking.webestica.com/assets/images/element/paypal.svg" class="h-30px" alt=""></a></li>
+                    <li class="list-inline-item"> <a href="#"><img src="https://booking.webestica.com/assets/images/element/visa.svg" class="h-30px" alt=""></a></li>
+                    <li class="list-inline-item"> <a href="#"><img src="https://booking.webestica.com/assets/images/element/mastercard.svg" class="h-30px" alt=""></a></li>
+                    <li class="list-inline-item"> <a href="#"><img src="https://booking.webestica.com/assets/images/element/expresscard.svg" class="h-30px" alt=""></a></li>
+                </ul>
+            </div>
+
+            <!-- Social media icon -->
+            <div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+                <h5 class="text-white mb-2">Follow us on</h5>
+                <ul class="list-inline mb-0 mt-3">
+                    <li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+                    <li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
+                    <li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
+                    <li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <hr class="mt-4 mb-0">
+
+        <!-- Bottom footer -->
+        <div class="row">
+            <div class="container">
+                <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+                    <!-- copyright text -->
+                    <div class="text-body-secondary text-primary-hover"> Copyrights ©2023 Booking. Build by <a href="https://www.webestica.com/" class="text-body-secondary">Webestica</a>. </div>
+                    <!-- copyright links-->
+                    <div class="nav mt-2 mt-lg-0">
+                        <ul class="list-inline text-primary-hover mx-auto mb-0">
+                            <li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Privacy policy</a></li>
+                            <li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Terms and conditions</a></li>
+                            <li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Refund policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+         viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+        <path fill="#ffffff"
+              d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+        </path>
+    </svg>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../js/aos.js"></script>
+<script src="../js/flatpickr.min.js"></script>
+<script src="../js/choices.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+<!--  JQuery  -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    document.getElementById('uploadfile-1').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('uploadfile-1-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+
+</html>

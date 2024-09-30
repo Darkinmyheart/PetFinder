@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/bs-stepper.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/quill.snow.css">
+	<link rel="stylesheet" type="text/css" href="../css/dropzone.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- =======================
+	Page content START -->
+	<section class="overflow-hidden pt-0 pt-lg-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 text-center mx-auto">
+					<!-- SVG decoration START -->
+					<img src="https://booking.webestica.com/assets/images/element/congratulations.svg" class="h-300px my-4" alt="">
+					<!-- SVG decoration END -->
+
+					<!-- Title -->
+					<h1 class="fs-3">Dơn đăng ký trung tâm của bạn đã được gửi thành công. 🎉</h1>
+					<!-- Info -->
+					<p>Chúng tôi sẽ sớm xem xét đơn đăng ký của bạn. Bạn sẽ được thông báo qua email rằng đơn đăng ký của bạn đã được chấp nhận. Ngoài ra, hãy đảm bảo rằng bạn đã đọc qua và đồng ý với <a href="#">Chính Sách</a> của chúng tôi.</p>
+					<!-- Buttons -->
+					<a href="/account/signUp-shelter" class="btn btn-primary mb-5 me-1">Quay lại</a>
+					<a href="/index" class="btn btn-light mb-5">Về trang chủ</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- =======================
+	Page content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+	<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+		 viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+		<path fill="#ffffff"
+			  d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+		</path>
+	</svg>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://booking.webestica.com/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../js/choices.min.js"></script>
+<script src="../js/flatpickr.min.js"></script>
+<script src="../js/bs-stepper.min.js"></script>
+<script src="../js/quill.min.js"></script>
+<script src="../js/dropzone.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+</html>

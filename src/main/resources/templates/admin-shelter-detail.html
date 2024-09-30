@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/overlayscrollbars.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/glightbox.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- Sidebar START -->
+	<nav th:insert="~{fragments/viewers/_navbar-admin :: navbar-admin}"></nav>
+	<!-- Sidebar END -->
+
+	<!-- Page content START -->
+	<div class="page-content">
+
+		<!-- Top bar START -->
+		<nav class="navbar top-bar navbar-light py-0 py-xl-3">
+			<div class="container-fluid p-0">
+				<div class="d-flex align-items-center w-100">
+
+					<!-- Logo START -->
+					<div class="d-flex align-items-center d-xl-none">
+						<a class="navbar-brand" href="index.html">
+							<img class="navbar-brand-item h-40px" src="https://booking.webestica.com/assets/images/logo-icon.svg" alt="">
+						</a>
+					</div>
+					<!-- Logo END -->
+
+					<!-- Toggler for sidebar START -->
+					<div class="navbar-expand-xl sidebar-offcanvas-menu">
+						<button class="navbar-toggler me-auto p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" aria-expanded="false" aria-label="Toggle navigation" data-bs-auto-close="outside">
+							<i class="bi bi-list text-primary fa-fw" data-bs-target="#offcanvasMenu"></i>
+						</button>
+					</div>
+					<!-- Toggler for sidebar END -->
+
+					<!-- Top bar left -->
+					<div class="navbar-expand-lg ms-auto ms-xl-0">
+						<!-- Toggler for menubar START -->
+						<button class="navbar-toggler ms-auto p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopContent" aria-controls="navbarTopContent" aria-expanded="false" aria-label="Toggle navigation">
+							<i class="bi bi-search"></i>
+						</button>
+						<!-- Toggler for menubar END -->
+
+						<!-- Topbar menu START -->
+						<div class="collapse navbar-collapse w-100 z-index-1" id="navbarTopContent">
+							<!-- Top search START -->
+							<div class="nav my-3 my-xl-0 flex-nowrap align-items-center">
+								<div class="nav-item w-100">
+									<form class="position-relative">
+										<input class="form-control bg-light pe-5" type="search" placeholder="Search" aria-label="Search">
+										<button class="bg-transparent px-2 py-0 border-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 text-primary"></i></button>
+									</form>
+								</div>
+							</div>
+							<!-- Top search END -->
+						</div>
+						<!-- Topbar menu END -->
+					</div>
+					<!-- Top bar left END -->
+
+					<!-- Top bar right START -->
+					<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+						<li th:insert="~{fragments/viewers/_header :: navbar-user-login}"></li>
+					</ul>
+					<!-- Top bar right END -->
+				</div>
+			</div>
+		</nav>
+		<!-- Top bar END -->
+
+		<!-- Page main content START -->
+		<div class="page-content-wrapper p-xxl-4">
+
+			<!-- Title -->
+			<div class="row">
+				<div class="col-12 mb-4 mb-sm-5">
+					<div class="d-sm-flex justify-content-between align-items-center">
+						<h1 class="h3 mb-2 mb-sm-0">Premium Room With Balcony</h1>
+						<a th:href="@{/admin/shelter-detail/delete(id=${shelter.id})}" th:if="${shelter.shelterStatus} == 'Opening'" class="btn btn-danger-soft text-nowrap mb-0"><i class="fa-solid fa-circle-xmark"></i> Tắt hoạt động trung tâm</a>
+						<a th:href="@{/admin/shelter-detail/accept(id=${shelter.id})}" th:if="${shelter.shelterStatus} != 'Opening'" class="btn btn-primary-soft text-nowrap mb-0"><i class="fa-solid fa-circle-check"></i> Mở hoạt động trung tâm</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Booking detail START -->
+			<div class="row g-4 g-xl-5">
+				<!-- Image -->
+				<div class="col-xxl-6">
+					<div class="row g-2 g-sm-4">
+						<div class="col-12">
+							<a data-glightbox data-gallery="gallery" href="https://booking.webestica.com/assets/images/category/hotel/4by3/02.jpg">
+								<div class="card card-element-hover card-overlay-hover overflow-hidden">
+									<!-- Image -->
+									<img th:src="@{'/imgShelter/'+${shelter.shelterAvatar}}" onerror="this.onerror=null; this.src='https://booking.webestica.com/assets/images/category/hotel/4by3/02.jpg';" class="rounded-3" alt="">
+									<!-- Full screen button -->
+									<div class="hover-element w-100 h-100">
+										<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Content -->
+				<div class="col-xxl-6">
+					<h4><span class="fw-light">Trung tâm: </span><span th:text="${shelter.shelterName}">Courtyard by Marriott New York</span></h4>
+					<p class="fw-bold"><i class="bi bi-geo-alt me-2"></i><span th:text="${shelter.shelterAddress}">5855 W Century Blvd, Los Angeles - 90045</span></p>
+
+					<p class="mb-4">Tolerably behavior may admit daughters offending her ask own. Praise effect wishes to change way and any wanted. Lively use looked latter regard had. Does he part last</p>
+
+					<!-- Feature -->
+					<div class="row g-4">
+						<div class="col-sm-6 col-md-6">
+							<div class="d-flex align-items-center">
+								<div class="icon-lg bg-primary bg-opacity-10 text-primary rounded-2"><i class="fa-solid fa-phone"></i></div>
+								<div class="ms-2">
+									<small>Số điện thoại</small>
+									<h6 class="mb-0 mt-1" th:text="${shelter.shelterPhone}">0906786999</h6>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6 col-md-6">
+							<div class="d-flex align-items-center">
+								<div class="icon-lg bg-primary bg-opacity-10 text-primary rounded-2"><i class="fa-solid fa-envelope"></i></div>
+								<div class="ms-2">
+									<small>Email</small>
+									<h6 class="mb-0 mt-1" th:text="${shelter.shelterEmail}">0906786999</h6>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6 col-md-6">
+							<div class="d-flex align-items-center">
+								<div class="icon-lg bg-primary bg-opacity-10 text-primary rounded-2"><i class="fa-brands fa-facebook"></i></div>
+								<div class="ms-2 d-flex flex-column">
+									<small>Facebook</small>
+									<a th:href="@{${shelter.shelterInfoFacebook}}" class="h6 mb-0 mt-1">Click Me!</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6 col-md-6">
+							<div class="d-flex align-items-center">
+								<div class="icon-lg bg-primary bg-opacity-10 text-primary rounded-2"><i class="fa-brands fa-square-instagram"></i></div>
+								<div class="ms-2 d-flex flex-column">
+									<small>Instagram</small>
+									<a th:href="@{${shelter.shelterInfoInstagram}}" class="h6 mb-0 mt-1">Click Me!</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Booking info -->
+					<div class="bg-light border border-secondary border-opacity-25 p-3 rounded d-inline-block mt-4 w-100">
+						<h6 class="small">Người sỡ hữu:</h6>
+						<!-- Avatar -->
+						<div class="d-sm-flex align-items-center">
+							<!-- Avatar -->
+							<div class="avatar avatar-xs flex-shrink-0">
+								<img class="avatar-img rounded-circle" src="https://booking.webestica.com/assets/images/avatar/09.jpg" alt="avatar">
+							</div>
+							<!-- Info -->
+							<h6 class="mb-0 ms-2" th:text="${shelter.users.firstName} + ' ' + ${shelter.users.lastName}">Lori Stevens</h6>
+						</div>
+						<!-- Info -->
+						<div class="hstack gap-4 gap-md-5 flex-wrap mt-2">
+							<div>
+								<small>Ngày tạo:</small>
+								<h6 class="fw-normal mb-0" style="font-size: 15px;" th:text="${shelter.shelterDate}">18 Dec 2022</h6>
+							</div>
+							<div>
+								<small>Email:</small>
+								<h6 class="fw-normal mb-0" style="font-size: 15px;" th:text="${shelter.users.userName}">daoducdung2000@gmail.com</h6>
+							</div>
+							<div>
+								<small>Vi trí:</small>
+								<h6 class="fw-normal mb-0" style="font-size: 15px;" th:text="${shelter.users.country}">Hồ Chí Minh</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Booking detail END -->
+
+			<!-- Booking table START -->
+			<div class="card shadow mt-5">
+				<!-- Card header START -->
+				<div class="card-header border-bottom">
+					<h5 class="card-header-title">Thông tin chi tiết</h5>
+				</div>
+				<!-- Card header END -->
+
+				<!-- Card body START -->
+				<div class="card-body">
+					<!-- Traveler item START -->
+					<div class="card">
+						<!-- card body -->
+						<form class="p-0">
+							<!-- Name -->
+							<div class="mb-3">
+								<label class="form-label">Nhiệm vụ</label>
+								<textarea class="form-control" rows="3" spellcheck="false" th:text="${shelter.shelterInfoMission}">2119 N Division Ave, New Hampshire, York, United States</textarea>
+							</div>
+
+							<!-- Name -->
+							<div class="mb-3">
+								<label class="form-label">Chính sách</label>
+								<textarea class="form-control" rows="3" spellcheck="false" th:text="${shelter.shelterInfoPolicy}">2119 N Division Ave, New Hampshire, York, United States</textarea>
+							</div>
+
+							<!-- Operating -->
+							<div>
+								<label class="form-label">Thời gian hoạt động</label>
+								<div class="input-group mb-3" th:each="open : ${listOpen}">
+									<input type="text" class="form-control" th:value="${open[0]}" placeholder="Day">
+									<input type="text" class="form-control" th:value="${open[1]}" placeholder="Time">
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- Traveler item END -->
+				</div>
+				<!-- Booking table END -->
+			</div>
+			<!-- Booking table START -->
+			<div class="card shadow mt-5">
+				<!-- Card header START -->
+				<div class="card-header border-bottom">
+					<h5 class="card-header-title">Danh sách thú cưng</h5>
+				</div>
+				<!-- Card header END -->
+
+				<!-- Card body START -->
+				<div class="card-body">
+
+					<!-- Table head -->
+					<div class="bg-light rounded p-3 d-none d-lg-block">
+						<div class="row row-cols-7 g-4">
+							<div class="col"><h6 class="mb-0">Tên</h6></div>
+							<div class="col"><h6 class="mb-0">Ngày thêm</h6></div>
+							<div class="col"><h6 class="mb-0">Giống</h6></div>
+							<div class="col"><h6 class="mb-0">Tuổi</h6></div>
+							<div class="col"><h6 class="mb-0">Giới tính</h6></div>
+							<div class="col"><h6 class="mb-0">Kích cỡ</h6></div>
+							<div class="col"><h6 class="mb-0">Hành động</h6></div>
+						</div>
+					</div>
+					<!-- Table data -->
+					<div class="row row-cols-xl-7 align-items-lg-center border-bottom g-4 px-2 py-4" th:each="animal : ${listAnimal}">
+						<!-- Data item -->
+						<div class="col">
+							<small class="d-block d-lg-none">Tên:</small>
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar avatar-xs flex-shrink-0">
+									<img class="avatar-img rounded-circle" src="https://booking.webestica.com/assets/images/avatar/09.jpg" alt="avatar">
+								</div>
+								<!-- Info -->
+								<div class="ms-2">
+									<h6 class="mb-0 fw-light" th:text="${animal.animalName}">Lori Stevens</h6>
+								</div>
+							</div>
+						</div>
+
+						<!-- Data item -->
+						<div class="col">
+							<small class="d-block d-lg-none">Ngày thêm:</small>
+							<h6 class="mb-0 fw-normal" th:text="${animal.animalDate}">18 Dec 2022</h6>
+						</div>
+
+						<!-- Data item -->
+						<div class="col">
+							<small class="d-block d-lg-none">Giống:</small>
+							<h6 class="mb-0 fw-normal" th:text="${animal.breed.breed_name}">22 Dec 2022</h6>
+						</div>
+
+						<!-- Data item -->
+						<div class="col">
+							<small class="d-block d-lg-none">Tuổi:</small>
+							<h6 class="mb-0 fw-normal" th:text="${animalsService.transAgeToVN(animal.animalAge)}">04</h6>
+						</div>
+
+						<!-- Data item -->
+						<div class="col">
+							<small class="d-block d-lg-none">Giới tính:</small>
+							<h6 class="mb-0 fw-normal" th:text="${animalsService.transGenderToVN(animal.animalGender)}">$1025</h6>
+						</div>
+
+						<!-- Data item -->
+						<div class="col">
+							<small class="d-block d-lg-none">Kích cỡ:</small>
+							<h6 class="mb-0 fw-normal" th:text="${animalsService.transSizeToVN(animal.animalSize)}">Full payment</h6>
+						</div>
+
+						<!-- Data item -->
+						<div class="col">
+							<a th:href="@{/pet-list/pet-detail(id=${animal.id})}" class="btn btn-sm btn-light mb-0">Xem thêm</a>
+						</div>
+					</div>
+				</div>
+				<!-- Card body END -->
+
+				<!-- Card footer START -->
+				<div class="card-footer pt-0">
+					<!-- Pagination and content -->
+					<div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+						<!-- Content -->
+						<p class="mb-sm-0 text-center text-sm-start">Đang hiển thị <span th:text="${listAnimal.number} * ${listAnimal.size} == 0 ? 1 : (${listAnimal.number} * ${listAnimal.size}) + 1">1</span> đến <span th:text="${listAnimal.totalElements} - (${listAnimal.number} * ${listAnimal.size} + ${listAnimal.size}) < 0 ? ${listAnimal.totalElements} : (${listAnimal.number} * ${listAnimal.size} + ${listAnimal.size})">10</span> trên <span th:text="${listAnimal.totalElements}">57</span> thành phần</p>
+						<!-- Pagination -->
+						<nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation" th:if="${listAnimal.totalPages} >= 2">
+							<ul class="pagination pagination-sm pagination-primary-soft mb-0">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1">Prev</a>
+								</li>
+								<li class="" th:each="pageNumber, pageIndex : ${#numbers.sequence(0, listAnimal.totalPages - 1)}"
+									th:class="${pageIndex.index + 1} == ${page} ? 'page-item active' : 'page-item'">
+									<a th:href="@{/admin/shelter-detail/changePage(page=${pageIndex.index}, id=${shelter.id})}" th:text="${pageIndex.index + 1}" class="page-link"></a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="#">Next</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<!-- Card footer END -->
+			</div>
+			<!-- Booking table END -->
+
+		</div>
+		<!-- Page main content END -->
+	</div>
+	<!-- Page content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- Modal notice START -->
+<div class="modal modal-status d-flex" style="background-color: rgba(1,1,1,0.6);" th:if="${status} != null">
+	<div class="cookiesContent align-items-center justify-content-center m-auto" id="cookiesPopup">
+		<button class="close">✖</button>
+		<img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="cookies-img" />
+		<p th:text="${status}">Khôi phục mật khẩu thành công</p>
+		<button class="accept">OK</button>
+	</div>
+</div>
+<!-- Modal notice END -->
+
+<script type="text/javascript" th:if="${status} != null">
+	document.querySelector(".modal-status .close").onclick = function () {
+        document.querySelector(".modal-status").classList.add("d-none");
+    }
+    document.querySelector(".modal-status .accept").onclick = function() {
+        document.querySelector(".modal-status").classList.add("d-none");
+    }
+</script>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendor -->
+<script src="../js/overlayscrollbars.min.js"></script>
+<script src="../js/choices.min.js"></script>
+<script src="../js/glightbox.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+</html>

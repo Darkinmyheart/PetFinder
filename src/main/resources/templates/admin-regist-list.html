@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+	<style>
+		.card-body {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.row-cols-7 {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			gap: 16px;
+		}
+
+		.col {
+			display: flex;
+			align-items: center;
+			word-break: break-word;
+			/* Ngắt từ nếu nội dung quá dài */
+			overflow: hidden;
+			text-overflow: ellipsis;
+			/* Thêm "..." nếu nội dung bị cắt */
+		}
+
+		.badge {
+			white-space: nowrap;
+			/* Ngăn nội dung bị ngắt dòng */
+		}
+
+		.avatar-img {
+			width: 40px;
+			/* Kích thước avatar */
+			height: 40px;
+		}
+	</style>
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+			var el = document.querySelector('.theme-icon-active');
+			if (el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+					const activeThemeIcon = document.querySelector('.theme-icon-active use')
+					const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+					const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+					document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+						element.classList.remove('active')
+					})
+
+					btnToActive.classList.add('active')
+					activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+				}
+
+				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+					if (storedTheme !== 'light' || storedTheme !== 'dark') {
+						setTheme(getPreferredTheme())
+					}
+				})
+
+				showActiveTheme(getPreferredTheme())
+
+				document.querySelectorAll('[data-bs-theme-value]')
+					.forEach(toggle => {
+						toggle.addEventListener('click', () => {
+							const theme = toggle.getAttribute('data-bs-theme-value')
+							localStorage.setItem('theme', theme)
+							setTheme(theme)
+							showActiveTheme(theme)
+						})
+					})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/overlayscrollbars.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+	<!-- **************** MAIN CONTENT START **************** -->
+	<main>
+
+		<!-- Sidebar START -->
+		<nav th:insert="~{fragments/viewers/_navbar-admin :: navbar-admin}"></nav>
+		<!-- Sidebar END -->
+
+		<!-- Page content START -->
+		<div class="page-content">
+
+			<!-- Top bar START -->
+			<nav class="navbar top-bar navbar-light py-0 py-xl-3">
+				<div class="container-fluid p-0">
+					<div class="d-flex align-items-center w-100">
+
+						<!-- Logo START -->
+						<div class="d-flex align-items-center d-xl-none">
+							<a class="navbar-brand" href="index.html">
+								<img class="navbar-brand-item h-40px"
+									src="https://booking.webestica.com/assets/images/logo-icon.svg" alt="">
+							</a>
+						</div>
+						<!-- Logo END -->
+
+						<!-- Toggler for sidebar START -->
+						<div class="navbar-expand-xl sidebar-offcanvas-menu">
+							<button class="navbar-toggler me-auto p-2" type="button" data-bs-toggle="offcanvas"
+								data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar"
+								aria-expanded="false" aria-label="Toggle navigation" data-bs-auto-close="outside">
+								<i class="bi bi-list text-primary fa-fw" data-bs-target="#offcanvasMenu"></i>
+							</button>
+						</div>
+						<!-- Toggler for sidebar END -->
+
+						<!-- Top bar left -->
+						<div class="navbar-expand-lg ms-auto ms-xl-0">
+							<!-- Toggler for menubar START -->
+							<button class="navbar-toggler ms-auto p-0" type="button" data-bs-toggle="collapse"
+								data-bs-target="#navbarTopContent" aria-controls="navbarTopContent"
+								aria-expanded="false" aria-label="Toggle navigation">
+								<i class="bi bi-search"></i>
+							</button>
+							<!-- Toggler for menubar END -->
+
+							<!-- Topbar menu START -->
+							<div class="collapse navbar-collapse w-100 z-index-1" id="navbarTopContent">
+								<!-- Top search START -->
+								<div class="nav my-3 my-xl-0 flex-nowrap align-items-center">
+									<div class="nav-item w-100">
+										<form class="position-relative">
+											<input class="form-control bg-light pe-5" type="search" placeholder="Search"
+												aria-label="Search">
+											<button
+												class="bg-transparent px-2 py-0 border-0 position-absolute top-50 end-0 translate-middle-y"
+												type="submit"><i class="fas fa-search fs-6 text-primary"></i></button>
+										</form>
+									</div>
+								</div>
+								<!-- Top search END -->
+							</div>
+							<!-- Topbar menu END -->
+						</div>
+						<!-- Top bar left END -->
+
+						<!-- Top bar right START -->
+						<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+							<li th:insert="~{fragments/viewers/_header :: navbar-user-login}"></li>
+						</ul>
+						<!-- Top bar right END -->
+					</div>
+				</div>
+			</nav>
+			<!-- Top bar END -->
+
+			<!-- Page main content START -->
+			<div class="page-content-wrapper p-xxl-4">
+
+				<!-- Title -->
+				<div class="row">
+					<div class="col-12 mb-4 mb-sm-5">
+						<div class="d-sm-flex justify-content-between align-items-center">
+							<h1 class="h3 mb-3 mb-sm-0">Danh sách đăng ký</h1>
+							<div class="d-grid"><a href="#" class="btn btn-primary mb-0"><i
+										class="bi bi-filetype-pdf me-2"></i>Generate Report</a> </div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Filters START -->
+				<div class="row g-4 align-items-center">
+					<!-- Tabs -->
+					<div class="col-lg-6">
+						<ul id="status-nav" class="nav nav-pills-shadow nav-responsive">
+							<li class="nav-item">
+								<a th:class="${status} == null ? 'nav-link mb-0 active' : 'nav-link mb-0'"
+									href="/admin/regist-list">Toàn bộ</a>
+							</li>
+							<li class="nav-item">
+								<a th:class="${status} == 'Opening' ? 'nav-link mb-0 active' : 'nav-link mb-0'"
+									th:href="@{/admin/regist-list(status='Opening')}">Đồng ý</a>
+							</li>
+							<li class="nav-item">
+								<a th:class="${status} == 'Canceled' ? 'nav-link mb-0 active' : 'nav-link mb-0'"
+									th:href="@{/admin/regist-list(status='Canceled')}">Từ chối</a>
+							</li>
+							<li class="nav-item">
+								<a th:class="${status} == 'Awaiting' ? 'nav-link mb-0 active' : 'nav-link mb-0'"
+									th:href="@{/admin/regist-list(status='Awaiting')}">Đang chờ</a>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Search -->
+					<div class="col-md-6 col-lg-3">
+						<form class="rounded position-relative">
+							<input class="form-control bg-transparent" type="search" placeholder="Tìm kiếm"
+								aria-label="Search">
+							<button
+								class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset"
+								type="submit">
+								<i class="fas fa-search fs-6"></i>
+							</button>
+						</form>
+					</div>
+
+					<!-- Select -->
+					<div class="col-md-6 col-lg-3">
+						<form>
+							<select id="sort-select-user-list" class="form-select" aria-label=".form-select-sm">
+								<option value="">Sắp xếp theo</option>
+								<option value="name-asc">Từ A-Z</option>
+								<option value="name-desc">Từ Z-A</option>
+								<option value="date-asc">Ngày đăng ký gần nhất</option>
+								<option value="date-desc">Ngày đăng ký xa nhất</option>
+							</select>
+						</form>
+					</div>
+				</div>
+				<!-- Filters END -->
+
+				<!-- Guest list START -->
+				<div class="card shadow mt-5">
+					<!-- Card body START -->
+					<div class="card-body">
+						<!-- Table head -->
+						<div class="bg-light rounded p-3 d-none d-lg-block">
+							<div class="row row-cols-7 g-4">
+								<div class="col">
+									<h6 class="mb-0">Người đăng ký</h6>
+								</div>
+								<div class="col">
+									<h6 class="mb-0">Tên trung tâm</h6>
+								</div>
+								<div class="col">
+									<h6 class="mb-0">Ngày đăng ký</h6>
+								</div>
+								<div class="col">
+									<h6 class="mb-0">Trạng thái</h6>
+								</div>
+								<div class="col">
+									<h6 class="mb-0">Hành động</h6>
+								</div>
+							</div>
+						</div>
+						<div id="shelter-regist-list">
+							<!-- Table data -->
+							<div class="row row-cols-xl-7 align-items-lg-center border-bottom g-4 px-2 py-4"
+								th:each="list : ${listTotalShelters}">
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-lg-none">Người đăng ký:</small>
+									<div class="d-flex align-items-center">
+										<!-- Avatar -->
+										<div class="avatar avatar-xs flex-shrink-0">
+											<img class="avatar-img rounded-circle"
+												src="https://booking.webestica.com/assets/images/avatar/09.jpg"
+												alt="avatar">
+										</div>
+										<!-- Info -->
+										<div class="ms-2">
+											<h6 class="mb-0 fw-light" th:text="${list.users.userName}">Lori
+												Stevens</h6>
+										</div>
+									</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-lg-none">Tên trung tâm:</small>
+									<h6 class="mb-0 fw-normal" th:text="${list.shelterName}">Humane Society of Dover -
+										Stewart County</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-lg-none">Ngày đăng ký:</small>
+									<h6 class="mb-0 fw-normal" th:text="${list.shelterDate}">18 Dec 2022</h6>
+								</div>
+
+								<!-- Data item -->
+								<div class="col">
+									<small class="d-block d-lg-none">Trạng thái:</small>
+									<div class="badge bg-success bg-opacity-10 text-success"
+										th:text="${sheltersService.transStatusToVN(list.shelterStatus)}"
+										th:if="${list.shelterStatus} == 'Opening'">Opening</div>
+									<div class="badge bg-orange bg-opacity-10 text-orange"
+										th:text="${sheltersService.transStatusToVN(list.shelterStatus)}"
+										th:if="${list.shelterStatus} == 'Awaiting'">Awaiting</div>
+									<div class="badge bg-danger bg-opacity-10 text-danger"
+										th:text="${sheltersService.transStatusToVN(list.shelterStatus)}"
+										th:if="${list.shelterStatus} == 'Canceled'">Canceled</div>
+								</div>
+
+								<!-- Data item -->
+								<div class="col" th:if="${list.shelterStatus} != 'Awaiting'"><a
+										th:href="@{/admin/shelter-detail(id=${list.id})}"
+										class="btn btn-sm btn-light mb-0">Xem thêm</a></div>
+
+								<!-- Data item -->
+								<div class="col" th:if="${list.shelterStatus} == 'Awaiting'">
+									<a th:href="@{/admin/regist-list/accept-shelter(id=${list.id})}"
+										class="btn btn-sm btn-primary mb-0">Đồng ý</a>
+									<a th:href="@{/admin/regist-list/remove-shelter(id=${list.id})}"
+										class="btn btn-sm btn-danger mb-0 ms-2">Từ chối</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Card body END -->
+
+					<!-- Card footer START -->
+					<div class="card-footer pt-0">
+						<!-- Pagination and content -->
+						<div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+							<!-- Content -->
+							<p class="mb-sm-0 text-center text-sm-start">Đang hiển thị <span
+									th:text="${listTotalShelters.number} * ${listTotalShelters.size} == 0 ? 1 : (${listTotalShelters.number} * ${listTotalShelters.size}) + 1">1</span>
+								đến <span
+									th:text="${listTotalShelters.totalElements} - (${listTotalShelters.number} * ${listTotalShelters.size} + ${listTotalShelters.size}) < 0 ? ${listTotalShelters.totalElements} : (${listTotalShelters.number} * ${listTotalShelters.size} + ${listTotalShelters.size})">10</span>
+								trên <span th:text="${listTotalShelters.totalElements}">57</span> thành phần</p>
+							<!-- Pagination -->
+							<nav class="mb-sm-0 d-flex justify-content-center" aria-label="navigation"
+								th:if="${listTotalShelters.totalPages} >= 2">
+								<ul class="pagination pagination-sm pagination-primary-soft mb-0">
+									<li class="page-item disabled">
+										<a class="page-link" href="#" tabindex="-1">Prev</a>
+									</li>
+									<li class=""
+										th:each="pageNumber, pageIndex : ${#numbers.sequence(0, listTotalShelters.totalPages - 1)}"
+										th:class="${pageIndex.index + 1} == ${page} ? 'page-item active' : 'page-item'">
+										<a th:href="@{'/admin/regist-list/changePage?page='+${pageIndex.index}}"
+											th:text="${pageIndex.index + 1}" class="page-link"></a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#">Next</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+					<!-- Card footer END -->
+				</div>
+				<!-- Guest list END -->
+			</div>
+			<!-- Page main content END -->
+		</div>
+		<!-- Page content END -->
+
+	</main>
+	<!-- **************** MAIN CONTENT END **************** -->
+
+
+	<!-- Bootstrap JS -->
+	<script src="../js/bootstrap.bundle.min.js"></script>
+
+	<!-- Vendor -->
+	<script src="../js/overlayscrollbars.min.js"></script>
+	<script src="../js/choices.min.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+
+			const sortSelect = document.getElementById('sort-select-user-list');
+			const shelterregistlistContainer = document.getElementById('shelter-regist-list');
+
+			sortSelect.addEventListener('change', function () {
+				const currentUrl = new URL(window.location.href);
+				const params = new URLSearchParams(currentUrl.search);
+				const status = params.get('status') || '';
+				fetchAndUpdateShelterRegistList(this.value, status);
+
+			});
+
+			function fetchAndUpdateShelterRegistList(sortBy, status) {
+
+				fetch(`/api/registlist?sort=${sortBy}&status=${status}`)
+					.then(response => response.json())
+					.then(data => {
+						updateShelterRegistList(data);
+					})
+					.catch(error => console.error('Error fetching user data:', error));
+			}
+			function updateShelterRegistList(shelter) {
+				// Clear existing list
+				shelterregistlistContainer.innerHTML = '';
+
+				// Generate new list based on shelter-regist data
+				shelter.forEach(shelter => {
+					const shelterCard = document.createElement('div');
+					console.log(shelter);
+					shelterCard.classList.add('row', 'row-cols-xl-7', 'align-items-lg-center', 'border-bottom', 'g-4', 'px-2', 'py-4');
+					shelterCard.innerHTML = `
+					<div class="col">
+								<small class="d-block d-lg-none">Người đăng ký:</small>
+								<div class="d-flex align-items-center">
+									<!-- Avatar -->
+									<div class="avatar avatar-xs flex-shrink-0">
+										<img class="avatar-img rounded-circle"
+											src="https://booking.webestica.com/assets/images/avatar/09.jpg"
+											alt="avatar">
+									</div>
+									<!-- Info -->
+									<div class="ms-2">
+										<h6 class="mb-0 fw-light">${shelter.userName}</h6>
+									</div>
+								</div>
+							</div>
+
+							<!-- Data item -->
+							<div class="col">
+								<small class="d-block d-lg-none">Tên trung tâm:</small>
+								<h6 class="mb-0 fw-normal">${shelter.shelterName}</h6>
+							</div>
+
+							<!-- Data item -->
+							<div class="col">
+								<small class="d-block d-lg-none">Ngày đăng ký:</small>
+								<h6 class="mb-0 fw-normal" >${shelter.shelterDate}</h6>
+							</div>
+
+							<!-- Data item -->
+							<div class="col">
+								<small class="d-block d-lg-none">Trạng thái:</small>
+								<div class="badge ${shelter.shelterStatus === 'Opening' ? 'bg-success bg-opacity-10 text-success' :
+													shelter.shelterStatus === 'Awaiting' ? 'bg-orange bg-opacity-10 text-orange' :
+													shelter.shelterStatus === 'Canceled' ? 'bg-danger bg-opacity-10 text-danger' : ''}">
+                        		${shelter.shelterStatus === 'Opening' ? 'Đã đồng ý' :
+									shelter.shelterStatus === 'Awaiting' ? 'Đang chờ' :
+									shelter.shelterStatus === 'Canceled' ? 'Đã từ chối' : ''}</div>
+                    		</div>
+							<!-- Data item -->
+							<div class="col">
+								${shelter.shelterStatus !== 'Awaiting' ? `<a href="/admin/shelter-detail?id=${shelter.id}" class="btn btn-sm btn-light mb-0">Xem thêm</a>` : ''}
+								${shelter.shelterStatus === 'Awaiting' ? `
+								<a href="/admin/regist-list/accept-shelter?id=${shelter.id}" class="btn btn-sm btn-primary mb-0">Đồng ý</a>
+								<a href="/admin/regist-list/remove-shelter?id=${shelter.id}" class="btn btn-sm btn-danger mb-0 ms-2">Từ chối</a>` : ''}</div>
+                	</div>
+					`;
+					console.log(shelter)
+					shelterregistlistContainer.appendChild(shelterCard);
+				});
+
+			}
+
+		});
+
+	</script>
+	<!-- ThemeFunctions -->
+	<script src="../js/functions.js"></script>
+
+</body>
+
+</html>

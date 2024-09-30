@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet"
+		  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- =======================
+    Main Content START -->
+	<section class="pt-4 pt-md-5">
+		<div class="container">
+			<div class="row g-4">
+				<div class="col-xl-9 mx-auto">
+					<div class="vstack gap-4">
+
+						<!-- Booking summary START -->
+						<div class="card shadow">
+							<!-- Card header -->
+							<div class="card-header border-bottom p-4 d-flex justify-content-between">
+								<h1 class="mb-0 fs-3">Chi tiết Donate</h1>
+								<a href="/index" class="btn btn-primary mb-0">Về trang chủ</a>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-4">
+								<div class="row g-md-4">
+									<!-- Image -->
+									<div class="col-md-3">
+										<div class="bg-light rounded-3 px-3 py-3 mb-3 mb-md-0">
+											<img src="https://img.freepik.com/free-vector/volunteers-collecting-goods-charity-into-huge-donation-box-donating-coins-into-jar-donation-charity-donation-funds-gift-kind-concept_335657-615.jpg?ga=GA1.1.1564375792.1708571423&semt=ais_hybrid" alt="">
+										</div>
+									</div>
+
+									<!-- Card and address detail -->
+									<div class="col-md-9">
+										<!-- Title -->
+										<h5 class="card-title mb-4 mt-2 text-success">Donate <span th:text="${status}">thành công</span></h5>
+										<h6 class="card-title mb-2" th:text="${spon.users.firstName} + ' ' + ${spon.users.lastName} ">Đức Dũng</h6>
+
+										<!-- Pick up and drop address -->
+										<div class="row">
+											<div class="col-md-6">
+												<small>Email</small>
+												<p class="h6 fw-light mb-md-0" th:text="${spon.users.userName}">daoducdung2000@gmail.com</p>
+											</div>
+
+											<div class="col-md-6">
+												<small>Vị trí</small>
+												<p class="h6 fw-light mb-0" th:text="${spon.users.country}">Thành phố Hồ Chí Minh</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<ul class="list-group list-group-borderless">
+											<li class="list-group-item">Ngày giao dịch:<span class="h6 fw-normal mb-0 ms-1" th:text="${spon.sponsDate}">25 Nov 2022</span></li>
+										</ul>
+									</div>
+
+									<div class="col-md-6">
+										<ul class="list-group list-group-borderless">
+											<li class="list-group-item">Id giao dịch:<span class="h6 fw-normal mb-0 ms-1" th:text="${transactionId}">25 Nov 2022</span></li>
+										</ul>
+									</div>
+								</div>
+
+								<!-- Title -->
+								<h6 class="mb-0 mt-3">Thông tin chi tiết</h6>
+
+								<div class="row">
+									<!-- List -->
+									<div class="col-sm-5">
+										<ul class="list-group list-group-borderless mb-0">
+											<li class="list-group-item">Nơi nhận:<span class="h6 mb-0 fw-normal ms-1" th:text="${spon.shelters.id} != 0 ? 'Shelter' : 'Website'">Shelter</span></li>
+											<li th:if="${spon.shelters.id} != 0" class="list-group-item">Tên trung tâm:<span class="h6 mb-0 fw-normal ms-1" th:text="${spon.shelters.shelterName}">Hasaki</span></li>
+											<li class="list-group-item">Lời nhắn:<span class="h6 mb-0 fw-normal ms-1" th:text="${spon.sponsMessage}">Em donate để giúp cho bé cún Hưng có cuộc sống ổn hơn, mong số tiền này có để đem đến ít hạnh phúc cho bé</span></li>
+										</ul>
+									</div>
+
+									<!-- Price -->
+									<div class="col-sm-7 text-sm-end mt-3 mt-sm-auto">
+										<h6 class="mb-1 fw-normal">Tổng số tiền</h6>
+										<h3 class="mb-0 text-success" th:text="${sponsService.formatCurrency(spon.sponsGift)} + ' VND'">$458</h3>
+									</div>
+								</div>
+							</div>
+							<!-- Card body END -->
+						</div>
+						<!-- Booking summary END -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- =======================
+    Main Content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+	<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+		 viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+		<path fill="#ffffff"
+			  d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+		</path>
+	</svg>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+
+	</script>
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/choices.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+
+	<style>
+		ul.valid-password {
+            width: 100%;
+            position: absolute;
+            top: 82px;
+            padding: 14px 20px;
+            border: 1px solid #d2d1d3;
+            background-color: #fff;
+            z-index: 999 !important;
+            list-style-type: none;
+            li.valid {
+                color: rgb(0, 170, 45);
+                list-style: disc;
+                font-weight: 600;
+                list-style-type: none;
+            }
+            p{
+                font-weight: 600;
+                color: #000;
+            }
+        }
+
+        ul.valid-password .batbuoc li,
+        ul.valid-password .true3in4 li,
+        ul.valid-password .trueValid li {
+            padding-left: 18px;
+        }
+	</style>
+</head>
+
+<body>
+
+	<!-- **************** MAIN CONTENT START **************** -->
+	<main>
+
+		<!-- =======================
+	Main Content START -->
+		<section class="vh-xxl-100">
+			<div class="container h-100 d-flex px-0 px-sm-4">
+				<div class="row justify-content-center align-items-center m-auto">
+					<div class="col-12">
+						<div class="bg-mode shadow rounded-3 overflow-hidden">
+							<div class="row g-0">
+								<!-- Vector Image -->
+								<div class="col-lg-6 d-md-flex align-items-center order-2 order-lg-1">
+									<div class="p-3 p-lg-5">
+										<img src="https://booking.webestica.com/assets/images/element/signin.svg"
+											 alt="">
+									</div>
+									<!-- Divider -->
+									<div class="vr opacity-1 d-none d-lg-block"></div>
+								</div>
+
+								<!-- Information -->
+								<div class="col-lg-6 order-1">
+									<div class="p-4 p-sm-6">
+										<!-- Logo -->
+										<a href="/index">
+											<img class="h-50px mb-4" src="../images/logo-Icon.png" alt="logo">
+										</a>
+										<!-- Title -->
+										<h1 class="mb-2 h3">Tạo tài khoản mới</h1>
+										<p class="mb-0">Bạn đã có tài khoản?<a href="/sign-in"> Đăng nhập</a></p>
+
+										<!-- Form START -->
+										<form action="/check-sign-up" method="post" class="mt-4 text-start tab-singUp" th:object="${users}">
+											<div class="row g-4 mb-3">
+												<!-- First name -->
+												<div class="col-lg-6 form-group">
+													<label class="form-label">Họ</label>
+													<input type="text" class="form-control" id="su-fname" th:field="*{firstName}">
+													<div th:class="${errorMessageFirstName} == null ? 'invalid-feedback' : 'invalid-feedback d-block'" th:text="${errorMessageFirstName}">  </div>
+												</div>
+												<!-- Last name -->
+												<div class="col-lg-6 form-group">
+													<label class="form-label">Tên</label>
+													<input type="text" class="form-control" id="su-lname" th:field="*{lastName}">
+													<div th:class="${errorMessageLastName} == null ? 'invalid-feedback' : 'invalid-feedback d-block'" th:text="${errorMessageLastName}">  </div>
+												</div>
+											</div>
+											<!-- Country -->
+											<div class="mb-3 form-group">
+												<label class="form-label">Vị trí</label>
+												<div class="form-control-bg-dark form-fs-md">
+													<select id="su-country" class="form-select js-choice" data-search-enabled="true" name="country">
+														<option value="" selected>Select your country</option>
+														<option>An Giang</option>
+														<option>Bà Rịa - Vũng Tàu</option>
+														<option>Bắc Giang</option>
+														<option>Bắc Kạn</option>
+														<option>Bạc Liêu</option>
+														<option>Bắc Ninh</option>
+														<option>Bến Tre</option>
+														<option>Bình Dương</option>
+														<option>Bình Định</option>
+														<option>Bình Phước</option>
+														<option>Bình Thuận</option>
+														<option>Cà Mau</option>
+														<option>Cần Thơ</option>
+														<option>Cao Bằng</option>
+														<option>Đà Nẵng</option>
+														<option>Đắk Lắk</option>
+														<option>Đắk Nông</option>
+														<option>Điện Biên</option>
+														<option>Đồng Nai</option>
+														<option>Đồng Tháp</option>
+														<option>Gia Lai</option>
+														<option>Hà Giang</option>
+														<option>Hà Nam</option>
+														<option>Hà Nội</option>
+														<option>Hà Tĩnh</option>
+														<option>Hải Dương</option>
+														<option>Hải Phòng</option>
+														<option>Hậu Giang</option>
+														<option>Hồ Chí Minh</option>
+														<option>Hoà Bình</option>
+														<option>Hưng Yên</option>
+														<option>Khánh Hòa</option>
+														<option>Kiên Giang</option>
+														<option>Kon Tum</option>
+														<option>Lai Châu</option>
+														<option>Lâm Đồng</option>
+														<option>Lạng Sơn</option>
+														<option>Lào Cai</option>
+														<option>Long An</option>
+														<option>Nam Định</option>
+														<option>Nghệ An</option>
+														<option>Ninh Bình</option>
+														<option>Ninh Thuận</option>
+														<option>Phú Thọ</option>
+														<option>Phú Yên</option>
+														<option>Quảng Bình</option>
+														<option>Quảng Nam</option>
+														<option>Quảng Ngãi</option>
+														<option>Quảng Ninh</option>
+														<option>Quảng Trị</option>
+														<option>Sóc Trăng</option>
+														<option>Sơn La</option>
+														<option>Tây Ninh</option>
+														<option>Thái Bình</option>
+														<option>Thái Nguyên</option>
+														<option>Thanh Hóa</option>
+														<option>Thừa Thiên Huế</option>
+														<option>Tiền Giang</option>
+														<option>Trà Vinh</option>
+														<option>Tuyên Quang</option>
+														<option>Vĩnh Long</option>
+														<option>Vĩnh Phúc</option>
+														<option>Yên Bái</option>
+													</select>
+													<div th:class="${errorMessageCountry} == null ? 'invalid-feedback' : 'invalid-feedback d-block'" th:text="${errorMessageCountry}">  </div>
+												</div>
+											</div>
+											<!-- Email -->
+											<div class="mb-3 form-group">
+												<label class="form-label">Tài khoản</label>
+												<input type="email" class="form-control" id="su-email" th:field="*{userName}">
+												<div th:class="${errorMessageUserName} == null ? 'invalid-feedback' : 'invalid-feedback d-block'" th:text="${errorMessageUserName}">  </div>
+											</div>
+											<!-- Password -->
+											<div class="mb-3 position-relative form-group">
+												<label class="form-label">Mật khẩu</label>
+												<input class="form-control fakepassword password position-relative" name="password" type="password" id="su-password" th:field="*{password}"/>
+												<span
+														class="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
+														<i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+													</span>
+												<ul class="valid-password d-none">
+													<div class="batbuoc">
+														<p class="" style="margin-bottom: 4px;">Mật khẩu bắt buộc</p>
+														<li class="length">Phải từ 8 đến 20 ký tự.</li>
+													</div>
+													<div class="true3in4 mt-2">
+														<p class="" style="margin-bottom: 4px;">Phải chứa ít nhất 3 trong 4 điều kiện sau:</p>
+														<li class="lowercase">Có ít nhất 1 ký tự thường.</li>
+														<li class="uppercase">Có ít nhất 1 ký tự hoa.</li>
+														<li class="number">Có ít nhất 1 ký số.</li>
+														<li class="special">Có ít nhất 1 ký tự đặc biệt.</li>
+													</div>
+													<div class="trueValid d-none">
+														<p class="" style="margin-bottom: 4px;">Mật khẩu hợp lệ</p>
+														<li class="true-valid valid">Có hiệu lực.</li>
+													</div>
+												</ul>
+												<div th:class="${errorMessagePassword} == null ? 'invalid-feedback' : 'invalid-feedback d-block'" th:text="${errorMessagePassword}" style="color: red;">  </div>
+											</div>
+											<!-- Confirm Password -->
+											<div class="mb-3 form-group">
+												<label class="form-label">Nhập lại mật khẩu</label>
+												<input type="password" class="form-control" id="su-password-confirm" name="cfPassword">
+												<div th:class="${errorMessageConfirmPassword} == null ? 'invalid-feedback' : 'invalid-feedback d-block'" th:text="${errorMessageConfirmPassword}">  </div>
+											</div>
+											<!-- Remember me -->
+											<div class="mb-3">
+												<input type="checkbox" class="form-check-input" id="rememberCheck">
+												<label class="form-check-label" for="rememberCheck">Đăng nhập ngay khi đăng ký</label>
+											</div>
+											<!-- Button -->
+											<div><button type="submit" class="btn btn-primary w-100 mb-0">Đăng ký</button></div>
+
+											<!-- Divider -->
+											<div class="position-relative my-4">
+												<hr>
+												<p
+														class="small position-absolute top-50 start-50 translate-middle bg-mode px-1 px-sm-2">
+													Hoặc đăng nhập với</p>
+											</div>
+
+											<!-- Google and facebook button -->
+											<div class="vstack gap-3">
+												<a href="#" th:href="@{/oauth2/authorization/google}" class="btn btn-light mb-0"><i class="fab fa-fw fa-google text-google-icon me-2"></i>Đăng nhập với Google</a>
+												<a href="#" th:href="@{/oauth2/authorization/facebook}" class="btn btn-light mb-0"><i class="fab fa-fw fa-facebook-f text-facebook me-2"></i>Đăng nhập với Facebook</a>
+											</div>
+
+											<!-- Copyright -->
+											<div class="text-primary-hover text-body mt-3 text-center"> Copyrights ©2023
+												Booking. Build by <a href="#" class="text-body">Webestica</a>. </div>
+										</form>
+										<!-- Form END -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- =======================
+	Main Content END -->
+
+	</main>
+	<!-- **************** MAIN CONTENT END **************** -->
+
+	<!-- Back to top -->
+	<div class="back-top"></div>
+
+	<!-- Bootstrap JS -->
+	<script src="../js/bootstrap.bundle.min.js"></script>
+	<script src="../js/choices.min.js"></script>
+
+	<!-- ThemeFunctions -->
+	<script src="../js/functions.js"></script>
+
+	<!-- Validation -->
+	<script src="../js/validation.js"></script>
+
+	<script>
+		Validator({
+				workplace: ".tab-singUp",
+				formGroupSelector: '.form-group',
+				rules: [
+					Validator.isRequired("#su-fname", "Họ không được để trống."),
+					Validator.isRequired("#su-lname", "Tên không được để trống."),
+					Validator.isRequired("#su-country", "Vị trí không được để trống."),
+					Validator.isRequired("#su-email", "Tài khoản không được để trống."),
+					Validator.isEmail("#su-email", "Tài khoản phải theo định dạng email."),
+					Validator.isRequired("#su-password-confirm", "Nhập lại mật khẩu không được bỏ trống."),
+					Validator.isConfirm("#su-password-confirm", function() {
+						return document.querySelector("#su-password").value
+					}, "Nhập lại mật khẩu không khớp")
+				]
+			});
+	</script>
+
+</body>
+
+</html>

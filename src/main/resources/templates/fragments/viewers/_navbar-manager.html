@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div class="card rounded-3 border p-3 pb-2" th:fragment="navbar-manager">
+        <!-- Avatar and info START -->
+        <div class="d-sm-flex align-items-center">
+            <div class="avatar avatar-xl mb-2 mb-sm-0">
+                <img class="avatar-img rounded-circle" th:src="'/imgProfile/'+${user.avatar}" onerror="this.onerror =null;this.src='/imgProfile/defaulAvatar.jpg'" alt="">
+            </div>
+            <h4 class="mb-2 mb-sm-0 ms-sm-3"><span class="fw-light">Xin Chào</span> <span th:text="${user.firstName} + ' ' + ${user.lastName}">Jacqueline Miller</span></h4>
+            <a href="/manager/add-animal" class="btn btn-sm btn-primary-soft mb-0 ms-auto flex-shrink-0"><i class="bi bi-plus-lg fa-fw me-2"></i>Thêm thú cưng</a>
+        </div>
+        <!-- Avatar and info START -->
+
+        <!-- Responsive navbar toggler -->
+        <button class="btn btn-primary w-100 d-block d-xl-none mt-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#dashboardMenu" aria-controls="dashboardMenu">
+            <i class="bi bi-list"></i> Dashboard Menu
+        </button>
+
+        <!-- Nav links START -->
+        <div class="offcanvas-xl offcanvas-end mt-xl-3" tabindex="-1" id="dashboardMenu">
+            <div class="offcanvas-header border-bottom p-3">
+                <h5 class="offcanvas-title">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashboardMenu" aria-label="Close"></button>
+            </div>
+            <!-- Offcanvas body -->
+            <div class="offcanvas-body p-3 p-xl-0">
+                <!-- Nav item -->
+                <div class="navbar navbar-expand-xl">
+                    <ul class="navbar-nav navbar-offcanvas-menu">
+
+                        <li class="nav-item"> <a th:class="${statusActive} == 'dashboard' ? 'nav-link active' : 'nav-link'" href="/manager/dashboard"><i class="bi bi-house-door fa-fw me-1"></i>Bảng điều khiển</a>	</li>
+
+                        <li class="nav-item mx-2"> <a th:class="${statusActive} == 'listings' ? 'nav-link active' : 'nav-link'" href="/manager/listings"><i class="bi bi-journals fa-fw me-1"></i>Danh sách thú cưng</a> </li>
+
+                        <li class="nav-item mx-2"> <a th:class="${statusActive} == 'bookings' ? 'nav-link active' : 'nav-link'" href="/manager/bookings"><i class="bi bi-bookmark-heart fa-fw me-1"></i>Lịch sử tương tác</a> </li>
+
+                        <li class="nav-item mx-2"> <a th:class="${statusActive} == 'notify' ? 'nav-link active' : 'nav-link'" href="/manager/history"><i class="bi bi-bell fa-fw me-1"></i>Lịch sử hoạt động</a> </li>
+
+                        <li class="nav-item mx-2"> <a th:class="${statusActive} == 'settings' ? 'nav-link active' : 'nav-link'" href="/manager/settings"><i class="bi bi-gear fa-fw me-1"></i>Cài đặt</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Nav links END -->
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Booking - Multipurpose Online Booking Theme</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Webestica.com">
+    <meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+    <!-- Dark mode -->
+    <script>
+        const storedTheme = localStorage.getItem('theme')
+
+        const getPreferredTheme = () => {
+            if (storedTheme) {
+                return storedTheme
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+
+        const setTheme = function (theme) {
+            if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark')
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', theme)
+            }
+        }
+
+        setTheme(getPreferredTheme())
+
+        window.addEventListener('DOMContentLoaded', () => {
+            var el = document.querySelector('.theme-icon-active');
+            if (el != 'undefined' && el != null) {
+                const showActiveTheme = theme => {
+                    const activeThemeIcon = document.querySelector('.theme-icon-active use')
+                    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+                    const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+                    document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                        element.classList.remove('active')
+                    })
+
+                    btnToActive.classList.add('active')
+                    activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+                }
+
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                        setTheme(getPreferredTheme())
+                    }
+                })
+
+                showActiveTheme(getPreferredTheme())
+
+                document.querySelectorAll('[data-bs-theme-value]')
+                    .forEach(toggle => {
+                        toggle.addEventListener('click', () => {
+                            const theme = toggle.getAttribute('data-bs-theme-value')
+                            localStorage.setItem('theme', theme)
+                            setTheme(theme)
+                            showActiveTheme(theme)
+                        })
+                    })
+
+            }
+        })
+    </script>
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/tiny-slider.css">
+    <link rel="stylesheet" type="text/css" href="../css/glightbox.css">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Header START -->
+    <header th:insert="~{fragments/viewers/_header :: header}"></header>
+    <!-- Header END -->
+
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+
+        <!-- =======================
+Main banner START -->
+        <section class="py-0">
+            <div class="container-fluid px-0">
+                <!-- Slider START -->
+                <div class="tiny-slider arrow-round arrow-blur">
+                    <div class="tiny-slider-inner" data-autoplay="true" data-arrow="true" data-gutter="0" data-edge="0"
+                        data-dots="false" data-items="3" data-items-md="2" data-items-xs="1">
+
+                        <!-- Slider item -->
+                        <div th:each="avatar : ${animal.listAvatar}">
+                            <a class="w-100 h-100" data-glightbox data-gallery="gallery" th:href="${avatar.avatar_name}">
+                                <div class="card card-element-hover card-overlay-hover rounded-0 overflow-hidden">
+                                    <!-- Image -->
+                                    <img th:src="${animal.animalAvatar.indexOf('https://img')} >= 0 ? ${animal.animalAvatar} : '/imgAnimal/'+${animal.animalAvatar}" class="" alt="" style="height: 378px;" onerror="this.onerror=null; this.src='/imgAnimal/defaultAnimal.jpg';">
+                                    <!-- Full screen button -->
+                                    <div class="hover-element w-100 h-100">
+                                        <i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Slider item -->
+                        <div th:each="avatar : ${animal.listAvatar}">
+                            <a class="w-100 h-100" data-glightbox data-gallery="gallery" th:href="${avatar.avatar_name}">
+                                <div class="card card-element-hover card-overlay-hover rounded-0 overflow-hidden">
+                                    <!-- Image -->
+                                    <img th:src="${avatar.avatar_name}" class="" alt="" style="height: 378px;">
+                                    <!-- Full screen button -->
+                                    <div class="hover-element w-100 h-100">
+                                        <i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Slider START -->
+            </div>
+        </section>
+        <!-- =======================
+Main banner END -->
+
+        <!-- =======================
+Title and tabs START -->
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card bg-light p-0 pb-0">
+                            <!-- Card body -->
+                            <div class="card-body d-flex justify-content-between flex-wrap">
+                                <!-- Title and badge -->
+                                <div>
+                                    <!-- Badge -->
+                                    <div class="badge text-bg-dark">
+                                        <i class="fa-solid fa-spa fa-fw text-warning"></i>
+                                        <span th:text="${animal.breed.breed_name}">Husky Mix</span>
+                                    </div>
+                                    <div class="badge text-bg-dark">
+                                        <i class="bi bi-scissors fa-fw text-warning"></i>
+                                        <span th:text="${animalsService.transSizeToVN(animal.animalSize)}">Medium</span>
+                                    </div>
+                                    <div class="badge text-bg-dark">
+                                        <i class="fas fa-star fa-fw text-warning"></i>
+                                        <span th:text="${animalsService.transGenderToVN(animal.animalGender)}">Male</span>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h1 class="h3 mt-2 mb-1" th:text="${animal.animalName}">Cole</h1>
+                                    <p class="mb-2 mb-sm-0">
+                                        <i class="bi bi-geo-alt me-1 text-primary"></i>
+                                        <span th:text="${animal.Shelters.shelterAddress}">5855 W Century Blvd, Los Angeles - 90045</span>
+                                    </p>
+                                </div>
+                                <!-- Buttons -->
+                                <ul class="list-inline mb-0 list-btn-tab">
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <!-- wishlist -->
+                                        <li class="list-inline-item">
+                                            <a th:if="${like} == null" th:href="@{/pet-list/add-favorites(id=${animal.id})}" class="btn btn-sm btn-white px-2">
+                                                <i th:class="${like} != null ? 'fa-solid fa-fw fa-heart text-danger' : 'fa-solid fa-fw fa-heart'"></i>
+                                            </a>
+                                            <a th:if="${like} != null" th:href="@{/pet-list/remove-favorites(id=${animal.id})}" class="btn btn-sm btn-white px-2">
+                                                <i th:class="${like} != null ? 'fa-solid fa-fw fa-heart text-danger' : 'fa-solid fa-fw fa-heart'"></i>
+                                            </a>
+                                        </li>
+                                        <!-- Donate -->
+                                        <li class="list-inline-item">
+                                            <a th:href="@{/account/donate(idShelter=${animal.Shelters.id})}" class="btn btn-sm btn-white px-2"><i class="fa-solid fa-dollar-sign fa-lg fa-fw" style="color: #000000;"></i></a>
+                                        </li>
+                                        <!-- Share -->
+                                        <li class="list-inline-item">
+                                            <a href="#" id="view-modal" class="btn btn-sm btn-white px-2"><i class="fa-solid fa-fw fa-share-alt" style="color: #000000;"></i></a>
+                                        </li>
+                                    </div>
+                                    <!-- wishlist -->
+                                    <li class="list-inline-item d-flex justify-content-center btn-center-left">
+                                        <a href="#" class="btn btn-modal btn-primary mb-0">Nhận nuôi</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- =======================
+Title and tabs END -->
+
+        <!-- =======================
+Content START -->
+        <section class="pt-0">
+            <div class="container">
+                <!-- Tabs contents START -->
+                <div class="tab-content mb-0" id="tour-pills-tabContent">
+
+                    <!-- Content item START -->
+                    <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab-1">
+                        <div class="row g-4 g-lg-5">
+                            <!-- Left side START -->
+                            <div class="col-lg-7 col-xl-8">
+                                <!-- Card START -->
+                                <div class="card bg-transparent mb-4">
+                                    <!-- Card header -->
+                                    <div class="card-header bg-transparent border-bottom px-0 pt-0">
+                                        <h4 class="mb-0">Mô tả</h4>
+                                    </div>
+                                    <!-- Card body -->
+                                    <div class="card-body px-0 pb-0">
+                                        <p class="mb-3" th:text="${animal.animalInfo.animalInfoDescription}">zxcwd</p>
+                                    </div>
+                                </div>
+                                <!-- Card END -->
+
+                                <!-- Card START -->
+                                <div class="card bg-transparent">
+                                    <!-- Card header -->
+                                    <div class="card-header bg-transparent border-bottom px-0">
+                                        <h4 class="mb-0">Thông tin</h4>
+                                    </div>
+                                    <!-- Card body -->
+                                    <div class="card-body px-0 pb-0">
+                                        <div class="row g-4">
+                                            <!-- Activities -->
+                                            <div class="col-sm-6">
+                                                <h6>
+                                                    <i class="fa-solid fa-biking me-2"></i>
+                                                    Chi tiết
+                                                </h6>
+                                                <!-- List -->
+                                                <ul class="list-group list-group-borderless mt-2 mb-0">
+                                                    <li class="list-group-item pb-0">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i><b>Giống:</b> <span th:text="${animal.breed.breed_name}">Husky Mix</span>
+                                                    </li>
+                                                    <li class="list-group-item pb-0">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i><b>Tuổi:</b> <span th:text="${animalsService.transAgeToVN(animal.animalAge)}">Husky Mix</span>
+                                                    </li>
+                                                    <li class="list-group-item pb-0">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i><b>Kích thước:</b> <span th:text="${animalsService.transSizeToVN(animal.animalSize)}">Husky Mix</span>
+                                                    </li>
+                                                    <li class="list-group-item pb-0">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i><b>Giới tính:</b> <span th:text="${animalsService.transGenderToVN(animal.animalGender)}">Husky Mix</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                
+                                            <!-- Health -->
+                                            <div class="col-sm-6">
+                                                <h6><i class="fa-solid fa-credit-card me-2"></i>Sức khỏe</h6>
+                                                <!-- List -->
+                                                <ul class="list-group list-group-borderless mt-2 mb-0">
+                                                    <li class="list-group-item pb-0" th:each="heath : ${listHeath}">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i>
+                                                        <span th:text="${animalsService.transHeathToVN(heath)}">Vaccinated</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                
+                                            <!-- Characteristics -->
+                                            <div class="col-sm-6">
+                                                <h6><i class="fa-solid fa-concierge-bell me-2"></i>Đặc trưng</h6>
+                                                <!-- List -->
+                                                <ul class="list-group list-group-borderless mt-2 mb-0">
+                                                    <li class="list-group-item pb-0" th:each="characteristic : ${listCharacteristic}">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i>
+                                                        <span th:text="${characteristic}">Friendly</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                
+                                            <!-- Other -->
+                                            <div class="col-sm-6">
+                                                <h6><i class="bi bi-shield-fill-check me-2"></i>Chân</h6>
+                                                <!-- List -->
+                                                <ul class="list-group list-group-borderless mt-2 mb-4 mb-sm-5">
+                                                    <li class="list-group-item pb-0">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i>
+                                                        <span th:text="${animal.animalInfo.animalInfoLeg} == 'Long' ? 'Dài' : 'Ngắn'">Long</span>
+                                                    </li>
+                                                </ul>
+
+                                                <h6><i class="bi bi-shield-fill-check me-2"></i>
+                                                    Màu lông
+                                                </h6>
+                                                <!-- List -->
+                                                <ul class="list-group list-group-borderless mt-2 mb-4 mb-sm-5">
+                                                    <li class="list-group-item pb-0" th:each="color : ${listColor}">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i>
+                                                        <span th:text="${color}">White</span>
+                                                    </li>
+                                                </ul>
+                
+                                                <h6><i class="fa-solid fa-volume-up me-2"></i>Thân thiện với</h6>
+                                                <!-- List -->
+                                                <ul class="list-group list-group-borderless mt-2 mb-0">
+                                                    <li class="list-group-item pb-0" th:each="harmony : ${listHarmony}">
+                                                        <i class="fa-solid fa-check-circle text-success me-2"></i>
+                                                        <span th:text="${animalsService.transHarmonyToVN(harmony)}">Other dogs</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card END -->
+                            </div>
+                            <!-- Left side END -->
+
+                            <!-- Right side START -->
+                            <div class="col-lg-5 col-xl-4">
+                                <!-- Direction START -->
+                                <div class="card shadow mb-4">
+                                    <!-- Card header -->
+                                    <div class="card-header border-bottom">
+                                        <h5 class="mb-0">Trung tâm</h5>
+                                    </div>
+
+                                    <!-- Card body -->
+                                    <div class="card-body">
+                                        <!-- Name Shelter -->
+                                        <div class="mb-3 text-center text-primary-hover">
+                                            <a th:href="@{/shelter/detail(id=${animal.shelters.id})}" class="h5" style="color: #000000;" th:text="${animal.shelters.shelterName}">Orange County Animal Shelter </a>
+                                        </div>
+                                        <!-- Map START -->
+                                        <iframe class="w-100 grayscale rounded"
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425878428698!3d40.74076684379132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1sen!2sin!4v1586000412513!5m2!1sen!2sin"
+                                            height="200" style="border:0;" aria-hidden="false" tabindex="0">
+                                        </iframe>
+
+                                        <!-- Info -->
+                                        <ul class="list-group list-group-borderless my-3">
+                                            <!-- Address -->
+                                            <li class="list-group-item">
+                                                <a href="#" class="h6 fw-normal mb-0">
+                                                    <i class="bi fa-fw bi-geo-alt me-2"></i>
+                                                    <span th:text="${animal.shelters.shelterAddress}">5855 W Century Blvd, Los Angeles</span>
+                                                </a>
+                                            </li>
+                                            <!-- Call no -->
+                                            <li class="list-group-item">
+                                                <a href="#" class="h6 fw-normal mb-0">
+                                                    <i class="bi fa-fw bi-telephone-forward me-2"></i>
+                                                    <span th:text="${animal.shelters.shelterPhone}">+31 123 456 789</span>
+                                                </a>
+                                            </li>
+                                            <!-- Email -->
+                                            <li class="list-group-item">
+                                                <a href="#" class="h6 fw-normal mb-0">
+                                                    <i class="bi fa-fw bi-envelope me-2"></i>
+                                                    <span th:text="${animal.shelters.shelterEmail}">example@gmail.com</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Social button -->
+                                        <ul class="list-inline mb-0 mt-3">
+                                            <li class="list-inline-item">Theo dõi trên: </li>
+                                            <li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0"
+                                                    href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+                                            <li class="list-inline-item"> <a
+                                                    class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i
+                                                        class="fab fa-fw fa-instagram"></i></a> </li>
+                                            <li class="list-inline-item"> <a
+                                                    class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i
+                                                        class="fab fa-fw fa-twitter"></i></a> </li>
+                                            <li class="list-inline-item"> <a
+                                                    class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i
+                                                        class="fab fa-fw fa-linkedin-in"></i></a> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Direction END -->
+
+                                <!-- Time table START -->
+                                <div class="card shadow">
+                                    <!-- Card header -->
+                                    <div class="card-header border-bottom">
+                                        <h5 class="mb-0">Thời gian hoạt động</h5>
+                                    </div>
+
+                                    <!-- Card body -->
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-borderless mb-0">
+                                            <div th:each="open : ${listOpen}">
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    <span th:text="${open[0]}">Monday</span>
+                                                    <span th:text="${open[1]}">Day off</span>
+                                                </li>
+
+                                                <li class="list-group-item py-0">
+                                                    <hr class="my-1">
+                                                </li>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Time table END -->
+                            </div>
+                            <!-- Right side END -->
+                        </div>
+                    </div>
+                    <!-- Content item END -->
+                </div>
+                <!-- Tabs contents END -->
+            </div>
+        </section>
+        <!-- =======================
+Content END -->
+
+
+        <!-- =======================
+        Featured Hotels START -->
+        <section style="padding-top: 6px;">
+            <div class="container">
+
+                <!-- Title -->
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <h2 class="mb-0">Động vật tương tự</h2>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Hotel item -->
+                    <div class="col-sm-6 col-xl-3" th:each="animal : ${listSameAnimal}">
+                        <!-- Card START -->
+                        <div class="card card-img-scale overflow-hidden bg-transparent">
+                            <!-- Image and overlay -->
+                            <div class="card-img-scale-wrapper rounded-3">
+                                <!-- Image -->
+                                <img th:src="${animal.animalAvatar.indexOf('https://img')} >= 0 ? ${animal.animalAvatar} : '/imgAnimal/'+${animal.animalAvatar}" class="card-img" alt="hotel image" style="height: 182px" onerror="this.onerror=null; this.src='/imgAnimal/defaultAnimal.jpg';">
+                                <!-- Badge -->
+                                <div class="position-absolute bottom-0 start-0 p-3">
+                                    <div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i><span th:text="${sheltersService.extractCity(animal.shelters.shelterAddress)}">New York</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Card body -->
+                            <div class="card-body px-2">
+                                <!-- Title -->
+                                <h5 class="card-title"><a th:href="@{/pet-list/pet-detail(id=${animal.id})}" class="stretched-link" th:text="${animal.animalName}">Baga Comfort</a></h5>
+                                <!-- Price and rating -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="text-success mb-0"><span th:text="${breedService.transBreedTypeToVN(animal.breed.breed_type)} + ' ' + ${animal.breed.breed_name} + '/'">Shiba</span><small class="fw-light" th:text="${animalsService.transAgeToVN(animal.animalAge)}">/Young</small> </h6>
+                                    <h6 class="mb-0" th:text="${animalsService.transGenderToVN(animal.animalGender)}">Female</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card END -->
+                    </div>
+                </div> <!-- Row END -->
+            </div>
+        </section>
+        <!-- =======================
+        Featured Hotels END -->
+
+
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- =======================
+Footer START -->
+    <footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+    <!-- =======================
+Footer END -->
+
+    <!-- Back to top -->
+    <div class="back-top">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+            viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path fill="#ffffff"
+                d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+            </path>
+        </svg>
+    </div>
+
+    <!--  Modal Accept  -->
+    <div id="myModal" class="modal d-none align-items-center justify-content-center" style="background-color: rgba(1,1,1,0.6);">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header flex-column">
+                    <div class="icon-box" style="border: 3px solid #4CAF50">
+                        <i class="material-icons" style="color: #4CAF50;">&#xE876;</i>
+                    </div>
+                    <h4 class="modal-title w-100">Bạn có chắc với quyết định này không?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có thực sự muốn nhận nuôi thú cưng này? Quá trình này không thể được hoàn tác.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/booking-confirm(id=${animal.id})}" class="btn text-light btn-info">Đồng ý</a>
+                    <a sec:authorize="!isAuthenticated()" href="/sign-in" class="btn text-light btn-info">Đồng ý</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Share -->
+    <div class="popup">
+        <header>
+            <span style="font-size: 21px; font-weight: 600; color: black;">Share Animal</span>
+            <div class="close"><i class="uil uil-times">X</i></div>
+        </header>
+        <div class="content">
+            <p>Share this link via</p>
+            <ul class="icons">
+                <a href="https://www.facebook.com/" class="copy-link" target="_blank"><i class=" fab fa-facebook-f"></i></a>
+                <a href="https://x.com/i/flow/login" class="copy-link" target="_blank"><i class=" fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/" class="copy-link" target="_blank"><i class=" fab fa-instagram"></i></a>
+                <a href="https://www.whatsapp.com/" class="copy-link" target="_blank"><i class=" fab fa-whatsapp"></i></a>
+                <a href="https://web.telegram.org/k/" class="copy-link" target="_blank"><i class=" fab fa-telegram-plane"></i></a>
+            </ul>
+            <p>Or Send Mail</p>
+            <div class="field">
+                <i class="fa-solid fa-envelope"></i>
+                <input class="name-email" type="email">
+                <a sec:authorize="isAuthenticated()" th:href="@{/pet-list/pet-detail(id=${animal.id})}" class="btn btn-primary" id="send" style="width: 104px;  margin: 0; padding-top: 6px; padding-bottom: 6px;">Send</a>
+                <a sec:authorize="!isAuthenticated()" href="/sign-in" class="btn btn-primary" style="width: 104px;  margin: 0; padding-top: 6px; padding-bottom: 6px;">Send</a>
+            </div>
+            <div class="field">
+                <i class="fa-solid fa-copy"></i>
+                <input id="myInput" type="text" readonly>
+                <button id="my-button">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal notice START -->
+    <div class="modal modal-status d-flex" style="background-color: rgba(1,1,1,0.6);" th:if="${status} != null">
+        <div class="cookiesContent align-items-center justify-content-center m-auto" id="cookiesPopup">
+            <button class="close">✖</button>
+            <img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="cookies-img" />
+            <p>Share Pet <span th:text="${status}"> mật khẩu thành công</span></p>
+            <button class="accept">OK</button>
+        </div>
+    </div>
+    <!-- Modal notice END -->
+
+    <script type="text/javascript" th:if="${status} != null">
+        document.querySelector(".modal-status .close").onclick = function () {
+            document.querySelector(".modal-status").classList.add("d-none");
+        }
+        document.querySelector(".modal-status .accept").onclick = function() {
+            document.querySelector(".modal-status").classList.add("d-none");
+        }
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <!-- Vendors -->
+    <script src="../js/tiny-slider.js"></script>
+    <script src="../js/glightbox.js"></script>
+
+    <!-- ThemeFunctions -->
+    <script src="../js/functions.js"></script>
+
+    <!--  JQuery  -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        document.querySelector("#myModal .modal-header button").onclick = (event) => {
+            document.querySelector("#myModal").classList.remove("d-flex")
+            document.querySelector("#myModal").classList.add("d-none")
+        }
+        document.querySelector("#myModal .modal-footer .btn-secondary").onclick = (event) => {
+            document.querySelector("#myModal").classList.remove("d-flex")
+            document.querySelector("#myModal").classList.add("d-none")
+        }
+        document.querySelector(".btn-modal").onclick = (event) => {
+            document.querySelector("#myModal").classList.add("d-flex")
+            document.querySelector("#myModal").classList.remove("d-none")
+        }
+
+        const viewBtn = document.getElementById("view-modal"),
+              popup = document.querySelector(".popup"),
+              close = popup.querySelector(".close"),
+              field = popup.querySelector(".field"),
+              input = document.getElementById('myInput'),
+              copy = document.getElementById('my-button');
+
+
+        viewBtn.onclick = (event) => {
+              event.preventDefault();
+              const link = window.location.href;
+              input.value = link;
+              popup.classList.toggle("show"); // Ẩn/hiện popup khi nhấn thẻ <a>
+        }
+
+        viewBtn.onclick = (event) => {
+              event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+              popup.classList.toggle("show"); // Ẩn/hiện popup khi nhấn thẻ <a>
+        }
+
+        close.onclick = () => {
+            popup.classList.remove("show"); // Ẩn popup khi nhấn nút "close"
+        }
+
+        $('#send').click(function(e) {
+            e.preventDefault();
+            var email = $('.name-email').val();
+            var currentUrl = window.location.href;
+            var test = [[${id}]];
+
+            var postData = {
+                email: email,
+                linkshare: currentUrl,
+                id:test
+            };
+
+            fetch('/api/share-detail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData) // Chuyển đổi đối tượng thành chuỗi JSON để gửi đi
+            }).then(response => {
+                console.log(postData);
+                return response.json(); // Chuyển đổi phản hồi sang đối tượng JSON
+            })
+
+            window.location.href = `/pet-list/pet-detail?id=${test}&status=success`;
+        });
+
+        input.value=window.location.href;
+        copy.addEventListener("click", function() {
+            input.select();
+            document.execCommand("copy");
+            copy.innerText = "Copied";
+            setTimeout(function() {
+                copy.innerText = "Copy";
+            }, 3000);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+		
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/glightbox.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+<!-- =======================
+Main content START -->
+<section class="pt-4">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-xl-8 mx-auto">
+
+				<div class="card shadow">
+					<!-- Image -->
+					<img th:src="${adopt.animals.animalAvatar.indexOf('https://img')} >= 0 ? ${adopt.animals.animalAvatar} : '../images/'+${adopt.animals.animalAvatar}" class="rounded-top" alt="">
+
+					<!-- Card body -->
+					<div class="card-body text-center p-4">
+						<!-- Title -->
+						<h1 class="card-title fs-3">🎊 CHÚC MỪNG! 🎊</h1>
+						<p class="lead mb-3"><span th:text="${adopt.users.firstName} + ' ' + ${adopt.users.lastName}"></span> đã đăng ký nhận nuôi thành công</p>
+
+						<!-- Second title -->
+						<h5 class="text-primary mb-4">Tình trạng: <span th:text="${adoptService.transStatusToVN(adopt.adopt_status)}">Đang chờ xử lý</span></h5>
+
+						<!-- List -->
+						<div class="row justify-content-between text-start mb-4">
+							<div class="col-lg-5">
+								<ul class="list-group list-group-borderless">
+									<li class="list-group-item d-sm-flex justify-content-between align-items-center">
+										<span class="mb-0"><i class="bi bi-vr fa-fw me-2"></i>Tên thú cưng:</span>
+										<span class="h6 fw-normal mb-0" th:text="${adopt.animals.animalName}">Cole</span>
+									</li>
+                                    <li class="list-group-item d-sm-flex justify-content-between align-items-center">
+                                        <span class="mb-0"><i class="bi bi-wallet2 fa-fw me-2"></i>Loài:</span>
+                                        <span class="h6 fw-normal mb-0" th:text="${breedService.transBreedTypeToVN(adopt.animals.breed.breed_type)}">Chó</span>
+                                    </li>
+									<li class="list-group-item d-sm-flex justify-content-between align-items-center">
+										<span class="mb-0"><i class="bi bi-person fa-fw me-2"></i>Giống:</span>
+										<span class="h6 fw-normal mb-0" th:text="${adopt.animals.breed.breed_name}">Golden</span>
+									</li>
+                                    <li class="list-group-item d-sm-flex justify-content-between align-items-center">
+                                        <span class="mb-0"><i class="bi bi-calendar fa-fw me-2"></i>Ngày nhận:</span>
+                                        <span class="h6 fw-normal mb-0" th:text="${adopt.adoptDate}">29 July 2022</span>
+                                    </li>
+								</ul>
+							</div>
+                            
+							<div class="col-lg-5">
+                                <li class="list-group-item d-sm-flex justify-content-between align-items-center">
+                                    <span class="mb-0"><i class="bi bi-currency-dollar fa-fw me-2"></i>Kích cỡ:</span>
+                                    <span class="h6 fw-normal mb-0" th:text="${animalsService.transSizeToVN(adopt.animals.animalSize)}">Nhỏ</span>
+                                </li>
+								<ul class="list-group list-group-borderless">
+									<li class="list-group-item d-sm-flex justify-content-between align-items-center">
+										<span class="mb-0"><i class="bi bi-calendar fa-fw me-2"></i>Tuổi:</span>
+										<span class="h6 fw-normal mb-0" th:text="${animalsService.transAgeToVN(adopt.animals.animalAge)}">Trẻ</span>
+									</li>
+									<li class="list-group-item d-sm-flex justify-content-between align-items-center">
+										<span class="mb-0"><i class="bi bi-people fa-fw me-2"></i>Giới tính:</span>
+										<span class="h6 fw-normal mb-0" th:text="${animalsService.transGenderToVN(adopt.animals.animalGender)}">Nam</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<!-- Button -->
+						<div class="d-sm-flex justify-content-sm-end d-grid">
+							<!-- Share button with dropdown -->
+							<div class="dropdown me-sm-2 mb-2 mb-sm-0">
+								<a href="#" class="btn btn-light mb-0 w-100" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="bi bi-share me-2"></i>Chia sẻ
+								</a>
+								<!-- dropdown button -->
+								<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+									<li><a  class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fas fa-copy me-2"></i>Copy link</a></li>
+								</ul>
+							</div>
+							<!-- Download button -->
+							<a href="#" class="btn btn-primary mb-0"><i class="bi bi-file-pdf me-2"></i>Tải PDF</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+<!-- =======================
+Main content START -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<div th:insert="~{fragments/viewers/_footer :: footer}"></div>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+	<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12"
+		viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+		<path fill="#ffffff"
+			d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+		</path>
+	</svg>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../js/glightbox.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+</html>

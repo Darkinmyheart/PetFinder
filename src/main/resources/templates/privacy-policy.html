@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+			var el = document.querySelector('.theme-icon-active');
+			if (el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+					const activeThemeIcon = document.querySelector('.theme-icon-active use')
+					const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+					const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+					document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+						element.classList.remove('active')
+					})
+
+					btnToActive.classList.add('active')
+					activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+				}
+
+				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+					if (storedTheme !== 'light' || storedTheme !== 'dark') {
+						setTheme(getPreferredTheme())
+					}
+				})
+
+				showActiveTheme(getPreferredTheme())
+
+				document.querySelectorAll('[data-bs-theme-value]')
+					.forEach(toggle => {
+						toggle.addEventListener('click', () => {
+							const theme = toggle.getAttribute('data-bs-theme-value')
+							localStorage.setItem('theme', theme)
+							setTheme(theme)
+							showActiveTheme(theme)
+						})
+					})
+
+			}
+		})
+
+	</script>
+
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.7.2/css/all.css">
+	<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../images/favicon.ico">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet"
+		  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/tiny-slider.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky" th:insert="~{fragments/viewers/_header :: header}"></header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- =======================
+Main banner START -->
+	<section class="pt-4 pt-lg-5">
+		<div class="container">
+			<!-- Title -->
+			<div class="row mb-4">
+				<div class="col-12 text-center">
+					<h1 class="fs-2 mb-0">Chính Sách Bảo Mật</h1>
+					<!-- Image -->
+					<img src="https://booking.webestica.com/assets/images/about/03.jpg"
+						 class="h-lg-400px rounded-3 mt-4" alt="">
+				</div>
+			</div>
+
+			<!-- Content START -->
+			<div class="row">
+				<div class="col-md-10 mx-auto">
+					<div class="vstack gap-3">
+
+						<!-- Bắt đầu thẻ -->
+						<div class="card p-0 bg-transparent">
+							<!-- Tiêu đề thẻ -->
+							<div class="card-header border-bottom bg-transparent px-0">
+								<h4 class="card-title mb-0">Chính Sách Bảo Mật</h4>
+							</div>
+
+							<!-- Nội dung thẻ -->
+							<div class="card-body px-0">
+								<p>Chúng tôi cam kết bảo vệ quyền riêng tư và bảo mật thông tin của người dùng khi
+									sử dụng nền tảng Pet-Finder. Chính sách này giải thích cách chúng tôi thu thập,
+									sử dụng và bảo vệ dữ liệu cá nhân của bạn.</p>
+								<p>Chúng tôi thu thập thông tin như tên, địa chỉ email, số điện thoại và các chi
+									tiết liên quan đến thú cưng mà bạn muốn nhận nuôi hoặc tặng lại. Thông tin này
+									chỉ được sử dụng cho mục đích quản lý tài khoản và tạo điều kiện cho quá trình
+									nhận nuôi hoặc tặng lại thú cưng diễn ra suôn sẻ.</p>
+								<ul class="list-group list-group-borderless mb-2">
+									<li class="list-group-item d-flex">
+										<i class="bi bi-check-circle-fill me-2"></i>Chúng tôi không chia sẻ thông
+										tin cá nhân của bạn với bên thứ ba nếu không có sự đồng ý của bạn, ngoại trừ
+										những trường hợp bắt buộc bởi pháp luật.
+									</li>
+									<li class="list-group-item d-flex">
+										<i class="bi bi-check-circle-fill me-2"></i>Dữ liệu của bạn được lưu trữ an
+										toàn và chỉ những nhân viên có thẩm quyền mới được truy cập.
+									</li>
+									<li class="list-group-item d-flex">
+										<i class="bi bi-check-circle-fill me-2"></i>Bạn có quyền yêu cầu chúng tôi
+										chỉnh sửa hoặc xóa thông tin cá nhân của mình bất cứ lúc nào.
+									</li>
+									<li class="list-group-item d-flex">
+										<i class="bi bi-x-circle-fill me-2"></i>Bất kỳ vi phạm nào về chính sách bảo
+										mật có thể dẫn đến việc tài khoản của bạn bị tạm ngưng hoặc xóa vĩnh viễn.
+									</li>
+								</ul>
+								<ul>
+									<li>Chúng tôi khuyến nghị bạn giữ mật khẩu tài khoản của mình an toàn và không
+										chia sẻ với bất kỳ ai.</li>
+									<li>Nếu phát hiện bất kỳ hành vi bất thường nào, vui lòng thông báo cho chúng
+										tôi ngay lập tức.</li>
+									<li><strong>Chúng tôi luôn sẵn sàng hỗ trợ bạn trong việc bảo vệ quyền riêng tư
+										và bảo mật dữ liệu cá nhân.</strong></li>
+									<li>Chính sách bảo mật này có thể thay đổi theo thời gian và chúng tôi sẽ thông
+										báo cho bạn nếu có bất kỳ thay đổi nào quan trọng.</li>
+								</ul>
+								<div class="bg-danger bg-opacity-10 rounded-2 p-3">
+									<p class="text-danger mb-0">Chúng tôi không chịu trách nhiệm đối với những rủi
+										ro liên quan đến việc chia sẻ thông tin cá nhân của bạn với người khác trên
+										nền tảng này. Hãy luôn cảnh giác và bảo vệ thông tin của mình.</p>
+								</div>
+							</div>
+						</div>
+						<!-- Kết thúc thẻ -->
+
+						<!-- Bắt đầu thẻ -->
+						<div class="card bg-transparent p-0">
+							<!-- Tiêu đề thẻ -->
+							<div class="card-header border-bottom bg-transparent px-0">
+								<h4 class="card-title mb-0">Chính Sách Đảm Bảo Quyền Lợi Thú Cưng</h4>
+							</div>
+
+							<!-- Nội dung thẻ -->
+							<div class="card-body px-0">
+								<p>Nền tảng "Pet-Finder" luôn đặt quyền lợi và phúc lợi của thú cưng lên hàng đầu.
+									Chính sách dưới đây được thiết lập để bảo vệ thú cưng và đảm bảo rằng quá trình
+									nhận nuôi diễn ra thuận lợi và an toàn cho cả hai bên.</p>
+
+								<div class="bg-light rounded-2 p-3 mb-3">
+									<p class="mb-0"><strong>Cam Kết Của Người Nhận Nuôi:</strong> Người nhận nuôi
+										cần đảm bảo rằng mình đã suy nghĩ kỹ và có đủ điều kiện chăm sóc thú cưng
+										một cách lâu dài. Việc nhận nuôi không chỉ là trách nhiệm mà còn là một cam
+										kết yêu thương trọn đời.</p>
+								</div>
+
+								<ul class="mb-4">
+									<li>Người nhận nuôi cần tuân thủ các yêu cầu và điều kiện về môi trường sống và
+										chăm sóc mà nền tảng đề ra.</li>
+									<li>Thú cưng cần được đảm bảo về sức khỏe, dinh dưỡng và không gian sống phù
+										hợp. Nếu không, nền tảng có quyền từ chối hoặc hủy bỏ quá trình nhận nuôi.
+									</li>
+									<li>Người nhận nuôi phải chịu trách nhiệm về mọi chi phí phát sinh liên quan đến
+										chăm sóc thú cưng sau khi nhận nuôi.</li>
+									<li>Trong trường hợp không thể tiếp tục chăm sóc thú cưng, người nhận nuôi cần
+										thông báo sớm cho nền tảng để tìm giải pháp phù hợp, tránh tình trạng bỏ rơi
+										thú cưng.</li>
+								</ul>
+
+								<div class="bg-warning bg-opacity-10 rounded-2 p-3">
+									<p class="text-warning mb-0">Lưu ý: Nền tảng "Pet-Finder" có quyền kiểm tra định
+										kỳ về tình trạng của thú cưng sau khi được nhận nuôi để đảm bảo rằng chúng
+										được chăm sóc tốt. Việc không tuân thủ các điều khoản trên có thể dẫn đến
+										việc thu hồi thú cưng.</p>
+								</div>
+							</div>
+						</div>
+						<!-- Kết thúc thẻ -->
+
+						<!-- Card item START -->
+						<div class="card bg-transparent p-0">
+							<!-- Card header -->
+							<div class="card-header border-bottom bg-transparent px-0">
+								<h4 class="card-title mb-0">Chính Sách Thay Đổi Ngày Nhận Thú Cưng</h4>
+							</div>
+
+							<!-- Card body -->
+							<div class="card-body px-0">
+								<p>Chúng tôi hiểu rằng trong quá trình nhận nuôi thú cưng, có thể xảy ra những thay
+									đổi ngoài ý muốn. Pet-Finder luôn cố gắng linh hoạt trong việc hỗ trợ bạn thay
+									đổi ngày nhận thú cưng, nhưng cũng có những quy định cụ thể để đảm bảo quyền lợi
+									cho cả bên nhận nuôi và bên trao tặng.</p>
+								<ul class="mb-0">
+									<li>Thời gian thay đổi phải được thông báo trước ít nhất 24 giờ kể từ ngày hẹn
+										nhận ban đầu.</li>
+									<li>Việc thay đổi ngày nhận có thể bị hạn chế nếu thú cưng đã được chuẩn bị sẵn
+										sàng và không thể giữ lâu hơn.</li>
+									<li>Trong trường hợp thú cưng đã được chuyển giao hoặc vận chuyển, yêu cầu thay
+										đổi ngày nhận sẽ không được chấp nhận.</li>
+									<li>Pet-Finder cam kết sẽ cố gắng sắp xếp ngày nhận mới phù hợp nhất cho bạn.
+									</li>
+									<li>Vui lòng liên hệ với chúng tôi ngay khi bạn cần thay đổi để đảm bảo quyền
+										lợi tốt nhất cho thú cưng và các bên liên quan.</li>
+									<li><i>Lưu ý: Mọi thay đổi đều phải được xác nhận bởi cả hai bên trước khi có
+										hiệu lực.</i></li>
+									<li>Chúng tôi khuyến khích bạn chuẩn bị tốt nhất trước ngày nhận để tránh phải
+										thay đổi không cần thiết.</li>
+								</ul>
+							</div>
+						</div>
+						<!-- Card item END -->
+
+						<!-- Card item START -->
+						<div class="card bg-transparent p-0">
+							<!-- Card header -->
+							<div class="card-header border-bottom bg-transparent px-0">
+								<h4 class="card-title mb-0">Chính Sách Quyên Góp</h4>
+							</div>
+							<!-- Card body -->
+							<div class="card-body px-0">
+								<p>Chúng tôi rất cảm kích sự hỗ trợ của bạn thông qua việc quyên góp cho các hoạt động của nền tảng Pet-Finder. Chính sách dưới đây cung cấp thông tin về cách chúng tôi tiếp nhận và quản lý các khoản quyên góp của bạn.</p>
+								<ul class="mb-4">
+									<li>Quyên góp có thể được thực hiện qua nhiều hình thức, bao gồm donate, vật phẩm, hoặc các dịch vụ hỗ trợ.</li>
+									<li>Tất cả các khoản quyên góp đều được sử dụng để hỗ trợ các hoạt động của nền tảng, bao gồm chăm sóc và tìm kiếm nhà mới cho thú cưng.</li>
+									<li>Chúng tôi cam kết minh bạch trong việc sử dụng các khoản quyên góp và sẽ cung cấp thông tin chi tiết về cách các khoản quyên góp được sử dụng khi có yêu cầu.</li>
+									<li>Chúng tôi khuyến khích bạn giữ lại biên lai hoặc chứng từ liên quan đến các khoản quyên góp để đảm bảo rằng bạn có thông tin đầy đủ về giao dịch của mình.</li>
+									<li>Trong trường hợp bạn muốn thực hiện quyên góp vật phẩm, xin vui lòng liên hệ với chúng tôi trước để đảm bảo rằng chúng tôi có thể tiếp nhận và xử lý vật phẩm của bạn.</li>
+									<li><strong>Chúng tôi rất trân trọng sự đóng góp của bạn và xin cảm ơn vì sự hỗ trợ quý báu của bạn trong việc bảo vệ và chăm sóc thú cưng.</strong></li>
+								</ul>
+							</div>
+						</div>
+						<!-- Card item END -->
+
+
+						<!-- Card item START -->
+						<div class="card bg-transparent p-0">
+							<!-- Card header -->
+							<div class="card-header border-bottom bg-transparent px-0">
+								<h4 class="card-title mb-0">Yêu Cầu Đặc Biệt</h4>
+							</div>
+
+							<!-- Card body -->
+							<div class="card-body px-0">
+								<p>Chúng tôi hiểu rằng mỗi thú cưng đều có những nhu cầu và yêu cầu riêng biệt. Để
+									đảm bảo rằng mọi thú cưng đều tìm được một ngôi nhà phù hợp, chúng tôi khuyến
+									khích người dùng nêu rõ các yêu cầu đặc biệt về thú cưng của mình trong hồ sơ.
+								</p>
+								<ul class="mb-0">
+									<li>Vui lòng cung cấp thông tin về các điều kiện chăm sóc đặc biệt, nếu có, để
+										người nhận nuôi có thể chuẩn bị tốt nhất.</li>
+									<li>Hãy đảm bảo rằng thông tin sức khỏe của thú cưng được cập nhật đầy đủ và
+										chính xác.</li>
+									<li><strong>Chúng tôi cũng đề nghị cung cấp thông tin về bất kỳ yêu cầu dinh
+										dưỡng đặc biệt nào của thú cưng.</strong></li>
+									<li>Thú cưng cần môi trường sống như thế nào? Ví dụ: cần không gian rộng rãi,
+										cần sống trong nhà, hay cần không gian yên tĩnh.</li>
+									<li>Nếu có bất kỳ yêu cầu đặc biệt nào khác, như không gian ngoài trời hay cần
+										có người chăm sóc thường xuyên, hãy ghi rõ trong hồ sơ.</li>
+									<li><i>Điều này sẽ giúp thú cưng của bạn tìm được một ngôi nhà mới phù hợp nhất,
+										đồng thời giúp người nhận nuôi có sự chuẩn bị tốt nhất.</i></li>
+									<li>Xin cảm ơn vì đã cung cấp thông tin chi tiết. Điều này sẽ góp phần vào sự
+										thành công của việc nhận nuôi thú cưng trên nền tảng Pet-Finder.</li>
+								</ul>
+							</div>
+						</div>
+						<!-- Card item END -->
+
+
+					</div>
+				</div>
+			</div>
+			<!-- Content END -->
+
+		</div>
+	</section>
+	<!-- =======================
+Main banner END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer th:insert="~{fragments/viewers/_footer :: footer}"></footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top">
+	<svg xmlns="http://www.w3.org/2000/svg" height="20" width="12" viewBox="0 0 384 512">
+		<!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+		<path fill="#ffffff"
+			  d="M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z">
+		</path>
+	</svg>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../js/tiny-slider.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../js/functions.js"></script>
+
+</body>
+
+</html>
